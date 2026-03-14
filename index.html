@@ -1,0 +1,4175 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>游戏公司经理人（增强版）- 市场调研/广告投放/24周考核</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { 
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  min-height: 100vh;
+  padding: 16px;
+}
+#main { max-width: 1400px; margin: 0 auto; }
+h1 { text-align: center; font-size: 24px; color: white; margin-bottom: 8px; }
+.subtitle { text-align: center; color: rgba(255,255,255,0.9); font-size: 14px; margin-bottom: 16px; }
+.header-card {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 12px; padding: 20px; margin-bottom: 16px;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-left {
+  flex: 1;
+}
+.credits-btn {
+  background: rgba(255,255,255,0.2);
+  border: 2px solid rgba(255,255,255,0.4);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.credits-btn:hover {
+  background: rgba(255,255,255,0.3);
+  border-color: rgba(255,255,255,0.6);
+  transform: scale(1.05);
+}
+.credits-btn:active {
+  transform: scale(0.98);
+}
+.credits-modal {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.credits-modal-avatar {
+  font-size: 72px;
+  margin-bottom: 16px;
+  animation: creditsBounce 2s ease-in-out infinite;
+}
+@keyframes creditsBounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-8px) rotate(5deg); }
+  75% { transform: translateY(-8px) rotate(-5deg); }
+}
+.credits-modal-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 24px;
+}
+.credits-modal-item {
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.credits-modal-label {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 4px;
+}
+.credits-modal-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fbbf24;
+}
+.credits-modal-wechat {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #07c160;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 8px;
+}
+.credits-modal-close {
+  margin-top: 20px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.credits-modal-close:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+.dashboard { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+@media (max-width: 800px) { .dashboard { grid-template-columns: repeat(2, 1fr); } }
+.dash-card { background: white; border-radius: 10px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.dash-label { font-size: 13px; color: #6b7280; }
+.dash-value { font-size: 20px; font-weight: 700; margin-top: 4px; }
+.dash-value.indigo { color: #6366f1; }
+.dash-value.green { color: #10b981; }
+.dash-value.orange { color: #f59e0b; }
+.dash-value.blue { color: #3b82f6; }
+.dash-value.red { color: #ef4444; }
+
+/* 资金血条卡片 */
+.fund-card { background: white; border-radius: 10px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.fund-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.fund-title { font-size: 16px; font-weight: 600; color: #1f2937; display: flex; align-items: center; gap: 8px; }
+.fund-status { font-size: 13px; padding: 4px 12px; border-radius: 20px; font-weight: 500; }
+.fund-status.healthy { background: #dcfce7; color: #166534; }
+.fund-status.warning { background: #fef3c7; color: #92400e; }
+.fund-status.danger { background: #fee2e2; color: #991b1b; }
+.fund-bar-container { position: relative; height: 28px; background: #f3f4f6; border-radius: 14px; overflow: hidden; margin-bottom: 12px; }
+.fund-bar { height: 100%; border-radius: 14px; transition: width 0.5s ease-out, background 0.3s; }
+.fund-bar.healthy { background: linear-gradient(90deg, #10b981, #34d399); }
+.fund-bar.warning { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.fund-bar.danger { background: linear-gradient(90deg, #ef4444, #f87171); }
+.fund-bar-text { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 13px; font-weight: 600; color: #374151; text-shadow: 0 0 4px white; }
+.fund-details { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; text-align: center; }
+@media (max-width: 600px) { .fund-details { grid-template-columns: repeat(2, 1fr); } }
+.fund-detail-item { padding: 8px; background: #f9fafb; border-radius: 6px; }
+.fund-detail-label { font-size: 11px; color: #6b7280; margin-bottom: 2px; }
+.fund-detail-value { font-size: 14px; font-weight: 600; color: #1f2937; }
+
+/* 最后两个月考核卡片 */
+.final-assessment-card { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #f59e0b; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+.final-assessment-title { font-size: 18px; font-weight: 700; color: #92400e; margin-bottom: 12px; text-align: center; }
+.final-assessment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 600px) { .final-assessment-grid { grid-template-columns: repeat(2, 1fr); } }
+.final-assessment-item { background: rgba(255,255,255,0.6); padding: 10px; border-radius: 8px; text-align: center; }
+.final-assessment-label { font-size: 12px; color: #78350f; margin-bottom: 4px; }
+.final-assessment-values { display: flex; justify-content: center; gap: 8px; align-items: center; }
+.final-assessment-current { font-size: 16px; font-weight: 700; color: #1f2937; }
+.final-assessment-target { font-size: 12px; color: #6b7280; }
+.final-assessment-status { font-size: 11px; margin-top: 4px; padding: 2px 8px; border-radius: 4px; }
+.final-assessment-status.pass { background: #dcfce7; color: #166534; }
+.final-assessment-status.fail { background: #fee2e2; color: #991b1b; }
+
+.progress-card { background: white; border-radius: 10px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+.progress-bar { height: 12px; background: #e5e7eb; border-radius: 6px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #6366f1, #8b5cf6); border-radius: 6px; transition: width 0.3s; }
+
+.status-bar { display: flex; gap: 16px; align-items: center; margin-bottom: 16px; font-size: 14px; }
+.status-bar b { margin-right: 6px; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; border: 1px solid #d1d5db; background: #f9fafb; color: #374151; }
+.badge.green { background: #dcfce7; border-color: #86efac; color: #166534; }
+.badge.red { background: #fee2e2; border-color: #fca5a5; color: #991b1b; }
+.badge.blue { background: #dbeafe; border-color: #93c5fd; color: #1e40af; }
+.badge.orange { background: #fef3c7; border-color: #fcd34d; color: #92400e; }
+
+/* 达标成就卡片 */
+.achievement-card { background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); border: 2px solid #22c55e; border-radius: 12px; padding: 20px; margin-bottom: 16px; text-align: center; animation: achievementPop 0.5s ease-out; }
+@keyframes achievementPop { 0% { transform: scale(0.8); opacity: 0; } 50% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+.achievement-icon { font-size: 48px; margin-bottom: 8px; animation: bounce 1s ease-in-out infinite; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.achievement-title { font-size: 20px; font-weight: 700; color: #166534; margin-bottom: 8px; }
+.achievement-text { font-size: 14px; color: #15803d; }
+.achievement-stats { display: flex; justify-content: center; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+.achievement-stat { display: flex; align-items: center; gap: 4px; font-size: 13px; color: #166534; }
+.achievement-stat-icon { font-size: 16px; }
+
+.teams-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px; }
+@media (max-width: 900px) { .teams-grid { grid-template-columns: 1fr; } }
+.team-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.team-header { background: linear-gradient(135deg, #f1f5f9 0%, #f8fafc 100%); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; }
+.team-title { font-size: 16px; font-weight: 600; }
+.team-count { padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+.team-count.normal { background: #e5e7eb; color: #374151; }
+.team-count.warning { background: #fef3c7; color: #92400e; }
+.team-count.danger { background: #fee2e2; color: #991b1b; }
+.team-content { padding: 16px; }
+.leader-box { background: #f8fafc; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+.leader-name { font-weight: 600; font-size: 16px; }
+.leader-level { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 12px; margin-left: 6px; color: white; }
+.leader-ability { font-size: 13px; color: #6b7280; margin-left: 12px; }
+.leader-adv { display: flex; gap: 4px; flex-wrap: wrap; margin: 6px 0; }
+.adv-tag { padding: 2px 6px; border: 1px solid #e5e7eb; border-radius: 3px; font-size: 11px; color: #6b7280; }
+.leader-actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+
+.team-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; font-size: 13px; }
+.stat-item { display: flex; justify-content: space-between; }
+.stat-value.green { color: #10b981; font-weight: 600; }
+.stat-value.red { color: #ef4444; font-weight: 600; }
+.stat-value.orange { color: #f59e0b; font-weight: 600; }
+
+/* 部门产出指示器 */
+.team-output { margin-bottom: 12px; padding: 10px; background: #f0fdf4; border-radius: 8px; border: 1px solid #bbf7d0; }
+.team-output-title { font-size: 12px; color: #166534; font-weight: 600; margin-bottom: 6px; }
+.team-output-bars { display: flex; flex-direction: column; gap: 4px; }
+.output-bar-item { display: flex; align-items: center; gap: 8px; font-size: 11px; }
+.output-bar-label { width: 60px; color: #374151; }
+.output-bar-track { flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+.output-bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+.output-bar-fill.good { background: #10b981; }
+.output-bar-fill.medium { background: #f59e0b; }
+.output-bar-fill.poor { background: #ef4444; }
+.output-bar-value { width: 40px; text-align: right; font-weight: 600; }
+
+.staff-list { max-height: 150px; overflow-y: auto; border-top: 1px solid #e5e7eb; }
+.staff-item { display: flex; align-items: center; gap: 4px; padding: 6px 0; border-bottom: 1px solid #f3f4f6; font-size: 12px; }
+.staff-avatar { font-size: 18px; width: 24px; text-align: center; }
+.staff-name { font-weight: 600; min-width: 50px; }
+.staff-level { padding: 1px 4px; border-radius: 2px; font-size: 10px; color: white; }
+.staff-workload { display: flex; align-items: center; gap: 2px; margin-left: auto; }
+.staff-sat { min-width: 40px; text-align: right; }
+.staff-loyalty { min-width: 35px; text-align: right; font-size: 11px; }
+
+.btn { padding: 6px 14px; border: none; border-radius: 6px; font-size: 13px; cursor: pointer; transition: all 0.2s; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn.primary { background: #6366f1; color: white; }
+.btn.primary:hover:not(:disabled) { background: #4f46e5; }
+.btn.outline { background: white; border: 1px solid #d1d5db; color: #374151; }
+.btn.outline:hover:not(:disabled) { background: #f9fafb; }
+.btn.sm { padding: 4px 10px; font-size: 12px; }
+.btn.xs { padding: 2px 6px; font-size: 11px; min-width: 20px; }
+.btn.recruit { width: 100%; margin-bottom: 12px; }
+.btn.fire { color: #ef4444; padding: 2px 6px; font-size: 11px; }
+.btn.train { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
+.btn.train:hover:not(:disabled) { background: #bfdbfe; }
+
+/* 工作量调整按钮增强样式 */
+.btn.workload-btn { 
+  min-width: 24px; 
+  height: 24px; 
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+.btn.workload-btn:hover:not(:disabled) {
+  transform: scale(1.1);
+}
+.btn.workload-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+.btn.workload-minus { 
+  background: linear-gradient(135deg, #fef3c7, #fde68a); 
+  border: 1px solid #f59e0b;
+  color: #92400e;
+}
+.btn.workload-minus:hover:not(:disabled) { 
+  background: linear-gradient(135deg, #fde68a, #fcd34d);
+}
+.btn.workload-plus { 
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe); 
+  border: 1px solid #3b82f6;
+  color: #1e40af;
+}
+.btn.workload-plus:hover:not(:disabled) { 
+  background: linear-gradient(135deg, #bfdbfe, #93c5fd);
+}
+
+/* 工作量数值显示 */
+.workload-value {
+  min-width: 45px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 12px;
+  color: #374151;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+.workload-value.changed {
+  animation: workloadPulse 0.3s ease;
+}
+@keyframes workloadPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); background: #fef3c7; }
+  100% { transform: scale(1); }
+}
+
+/* 员工项目高亮效果 */
+.staff-item:hover {
+  background: #f0f9ff;
+}
+.staff-item.adjusting {
+  animation: staffHighlight 0.5s ease;
+}
+@keyframes staffHighlight {
+  0% { background: #fef3c7; }
+  100% { background: transparent; }
+}
+
+/* 工作量快捷调整提示 */
+.workload-hint {
+  font-size: 10px;
+  color: #6b7280;
+  text-align: center;
+  padding: 4px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+/* 员工状态指示器 */
+.staff-status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+.staff-status-indicator.good { background: #10b981; }
+.staff-status-indicator.warning { background: #f59e0b; }
+.staff-status-indicator.danger { background: #ef4444; }
+
+/* 消息提示 Toast */
+.toast-message {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(30, 41, 59, 0.95);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  z-index: 5000;
+  animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+@keyframes toastOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px; }
+@media (max-width: 900px) { .features-grid { grid-template-columns: 1fr; } }
+.feature-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.feature-header { padding: 12px 16px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; gap: 8px; }
+.feature-title { font-size: 16px; font-weight: 600; }
+.feature-content { padding: 16px; }
+
+/* 市场调研效果展示 */
+.research-effect { margin-top: 12px; padding: 12px; background: #eff6ff; border-radius: 8px; border: 1px solid #bfdbfe; }
+.research-effect-title { font-size: 13px; font-weight: 600; color: #1e40af; margin-bottom: 8px; }
+.research-effect-item { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 12px; }
+.research-effect-icon { font-size: 16px; }
+.research-effect-text { color: #1e40af; }
+.research-effect-value { font-weight: 600; color: #1d4ed8; margin-left: auto; }
+
+.test-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
+.test-btn { display: flex; flex-direction: column; align-items: center; padding: 12px; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 8px; cursor: pointer; transition: all 0.2s; position: relative; }
+.test-btn:hover:not(:disabled) { background: #f1f5f9; border-color: #6366f1; }
+.test-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.test-btn.has-bonus::after { content: '✓'; position: absolute; top: 4px; right: 4px; background: #22c55e; color: white; width: 16px; height: 16px; border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center; }
+.test-icon { font-size: 24px; margin-bottom: 4px; }
+.test-name { font-size: 13px; font-weight: 500; }
+.test-cost { font-size: 11px; color: #6b7280; }
+.test-result { background: #f8fafc; border-radius: 6px; padding: 10px; font-size: 13px; }
+.test-result-title { font-weight: 500; margin-bottom: 4px; }
+.test-result-insight { font-size: 12px; color: #6b7280; }
+
+/* 广告投放 */
+.strategy-label { font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+.strategy-btns { display: flex; gap: 8px; margin-bottom: 8px; }
+.strategy-btn { flex: 1; padding: 8px; border-radius: 6px; font-size: 13px; cursor: pointer; transition: all 0.2s; }
+.strategy-btn.active { background: #6366f1; color: white; }
+.strategy-btn:not(.active) { background: #f1f5f9; border: 1px solid #e5e7eb; }
+.strategy-hint { font-size: 12px; color: #6b7280; margin-bottom: 12px; }
+.channel-item { display: flex; align-items: center; gap: 8px; padding: 8px; background: #f8fafc; border-radius: 6px; margin-bottom: 6px; font-size: 13px; }
+.channel-icon { font-size: 18px; }
+.channel-name { flex: 1; font-weight: 500; }
+.channel-toggle { padding: 4px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; }
+.channel-toggle.on { background: #6366f1; color: white; }
+.channel-toggle.off { background: #e5e7eb; color: #6b7280; }
+.channel-budget { display: flex; align-items: center; gap: 4px; font-size: 12px; }
+.channel-budget input { width: 70px; padding: 2px 4px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 12px; }
+.ad-preview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; padding: 10px; background: #eff6ff; border-radius: 6px; text-align: center; }
+.preview-item .label { font-size: 11px; color: #6b7280; }
+.preview-item .value { font-size: 16px; font-weight: 700; }
+.preview-item .value.blue { color: #3b82f6; }
+.preview-item .value.green { color: #10b981; }
+.preview-item .value.orange { color: #f59e0b; }
+
+.action-card { background: white; border-radius: 10px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center; }
+.action-card .btn { margin: 0 6px; }
+
+/* 推进下周大按钮 */
+.next-week-btn {
+  font-size: 20px !important;
+  padding: 16px 48px !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%) !important;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+  transition: all 0.3s ease !important;
+  animation: btnPulse 2s ease-in-out infinite;
+}
+.next-week-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+}
+@keyframes btnPulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4); }
+  50% { box-shadow: 0 4px 30px rgba(99, 102, 241, 0.6); }
+}
+
+.project-select-card { background: white; border-radius: 10px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.project-select-title { text-align: center; font-size: 18px; font-weight: 600; margin-bottom: 8px; color: #1f2937; }
+.project-select-desc { text-align: center; font-size: 14px; color: #6b7280; margin-bottom: 20px; }
+.project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 700px) { .project-grid { grid-template-columns: repeat(2, 1fr); } }
+.project-btn { display: flex; flex-direction: column; align-items: center; padding: 16px; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 2px solid #e5e7eb; border-radius: 10px; cursor: pointer; transition: all 0.3s; }
+.project-btn:hover { border-color: #6366f1; background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2); }
+.project-btn-icon { font-size: 32px; margin-bottom: 8px; }
+.project-btn-name { font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px; }
+.project-btn-desc { font-size: 12px; color: #6b7280; text-align: center; }
+
+.standards-card { background: white; border-radius: 10px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center; font-size: 14px; }
+.standards-card span { margin: 0 8px; }
+.keynum { font-weight: 700; }
+.keynum.indigo { color: #6366f1; }
+.keynum.green { color: #10b981; }
+.keynum.orange { color: #f59e0b; }
+.keynum.blue { color: #3b82f6; }
+.keynum.purple { color: #8b5cf6; }
+
+.chart-card { background: white; border-radius: 10px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.tabs { display: flex; gap: 4px; margin-bottom: 16px; border-bottom: 1px solid #e5e7eb; }
+.tab-btn { padding: 8px 16px; border: none; background: none; font-size: 14px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tab-btn.active { border-bottom-color: #6366f1; color: #6366f1; font-weight: 500; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+#chartDiv { height: 380px; width: 100%; }
+
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th, .data-table td { padding: 8px 6px; text-align: center; border-bottom: 1px solid #e5e7eb; }
+.data-table th { background: #f1f5f9; font-weight: 500; position: sticky; top: 0; }
+.data-table tr:hover { background: #f9fafb; }
+.data-table .red { color: #ef4444; }
+.data-table .green { color: #10b981; }
+.table-wrap { max-height: 350px; overflow-y: auto; }
+
+.market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 700px) { .market-grid { grid-template-columns: 1fr; } }
+.market-section h4 { font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+.test-history-item { background: #f8fafc; border-radius: 6px; padding: 10px; margin-bottom: 8px; }
+.test-history-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
+.ad-stat-item { background: #f8fafc; border-radius: 6px; padding: 10px; margin-bottom: 8px; }
+.ad-stat-label { font-size: 13px; color: #6b7280; }
+.ad-stat-value { font-size: 18px; font-weight: 700; }
+
+/* 诊断建议 - 部门问题详情 */
+.diagnose-card { background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+.diagnose-title { color: #991b1b; font-weight: 500; margin-bottom: 12px; }
+.diagnose-dept { background: rgba(255,255,255,0.6); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
+.diagnose-dept-title { font-weight: 600; color: #991b1b; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.diagnose-dept-icon { font-size: 18px; }
+.diagnose-dept-problems { list-style: disc; padding-left: 20px; }
+.diagnose-dept-problems li { color: #b91c1c; font-size: 13px; margin-bottom: 4px; }
+.diagnose-dept-solutions { margin-top: 8px; padding: 8px; background: #f0fdf4; border-radius: 6px; }
+.diagnose-dept-solutions-title { font-size: 12px; font-weight: 600; color: #166534; margin-bottom: 4px; }
+.diagnose-dept-solutions-list { list-style: none; padding: 0; }
+.diagnose-dept-solutions-list li { font-size: 12px; color: #15803d; margin-bottom: 2px; }
+
+.log-card { background: white; border-radius: 10px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.log-title { font-weight: 500; margin-bottom: 8px; }
+.log-content { max-height: 120px; overflow-y: auto; font-size: 13px; color: #6b7280; }
+
+.modal-mask { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
+.modal-mask.show { display: flex; }
+.modal-box { background: white; border-radius: 12px; padding: 24px; max-width: 900px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.modal-title { font-size: 20px; font-weight: 600; text-align: center; margin-bottom: 12px; }
+.modal-subtitle { text-align: center; font-size: 14px; color: #6b7280; margin-bottom: 16px; }
+
+.candidate-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+@media (max-width: 800px) { .candidate-grid { grid-template-columns: repeat(2, 1fr); } }
+.candidate-card { background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; text-align: center; }
+.candidate-avatar { font-size: 32px; margin-bottom: 8px; }
+.candidate-name { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+.candidate-level { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; color: white; margin-bottom: 8px; }
+.candidate-ability { font-size: 14px; margin-bottom: 4px; }
+.candidate-adv { margin: 8px 0; }
+.candidate-cost { font-size: 16px; font-weight: 600; color: #f59e0b; margin-bottom: 8px; }
+.candidate-error { font-size: 12px; color: #ef4444; margin-top: 4px; }
+
+.recruit-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.recruit-btn { padding: 20px; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 8px; cursor: pointer; text-align: center; }
+.recruit-btn:hover:not(:disabled) { background: #f1f5f9; border-color: #6366f1; }
+.recruit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.recruit-cost { font-size: 18px; font-weight: 600; }
+.recruit-type { font-size: 12px; color: #6b7280; }
+.recruit-hint { text-align: center; font-size: 12px; color: #6b7280; margin-top: 12px; }
+
+.result-box { text-align: center; }
+.result-avatar { font-size: 64px; margin-bottom: 16px; }
+.result-name { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+.result-level { display: inline-block; padding: 4px 12px; border-radius: 4px; font-size: 14px; color: white; margin-left: 8px; }
+.result-info { color: #6b7280; margin-top: 8px; }
+
+.red { color: #ef4444; }
+.green { color: #10b981; }
+
+/* 新手引导遮罩 */
+.guide-mask { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); display: none; align-items: center; justify-content: center; z-index: 2000; }
+.guide-mask.show { display: flex; }
+.guide-box { background: white; border-radius: 16px; padding: 32px; max-width: 600px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.4); animation: guidePopIn 0.3s ease-out; }
+@keyframes guidePopIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.guide-icon { font-size: 64px; margin-bottom: 16px; }
+.guide-title { font-size: 24px; font-weight: 700; color: #1f2937; margin-bottom: 12px; }
+.guide-text { font-size: 15px; color: #6b7280; line-height: 1.6; margin-bottom: 24px; }
+.guide-highlight { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 16px; border-radius: 10px; margin-bottom: 24px; border: 2px dashed #f59e0b; }
+.guide-highlight-title { font-size: 14px; font-weight: 600; color: #92400e; margin-bottom: 8px; }
+.guide-highlight-text { font-size: 13px; color: #78350f; }
+.guide-btn { padding: 12px 32px; font-size: 16px; font-weight: 600; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+.guide-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4); }
+
+/* 周推进动画遮罩 */
+.week-progress-mask { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.9); display: none; align-items: center; justify-content: center; z-index: 3000; }
+.week-progress-mask.show { display: flex; }
+.week-progress-box { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); border-radius: 20px; padding: 40px; max-width: 500px; width: 90%; text-align: center; box-shadow: 0 25px 80px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
+.week-progress-header { font-size: 20px; color: white; margin-bottom: 24px; font-weight: 600; }
+.week-progress-week { font-size: 48px; font-weight: 700; background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px; }
+.week-progress-label { font-size: 14px; color: #94a3b8; margin-bottom: 32px; }
+.week-progress-bar-container { background: rgba(255,255,255,0.1); border-radius: 10px; height: 16px; overflow: hidden; margin-bottom: 16px; }
+.week-progress-bar { height: 100%; background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899); border-radius: 10px; width: 0%; transition: width 0.1s linear; }
+.week-progress-steps { display: flex; justify-content: space-between; margin-bottom: 24px; padding: 0 10px; }
+.week-progress-step { display: flex; flex-direction: column; align-items: center; opacity: 0.4; transition: all 0.3s; }
+.week-progress-step.active { opacity: 1; }
+.week-progress-step-icon { font-size: 24px; margin-bottom: 4px; }
+.week-progress-step-text { font-size: 11px; color: #94a3b8; }
+.week-progress-status { font-size: 14px; color: #e2e8f0; min-height: 24px; }
+.week-progress-status.typing::after { content: '|'; animation: blink 0.8s infinite; }
+@keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+.week-result-box { margin-top: 24px; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); display: none; }
+.week-result-box.show { display: block; animation: fadeIn 0.3s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.week-result-title { font-size: 16px; color: white; font-weight: 600; margin-bottom: 16px; }
+.week-result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.week-result-item { display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.05); border-radius: 6px; }
+.week-result-label { font-size: 13px; color: #94a3b8; }
+.week-result-value { font-size: 13px; font-weight: 600; color: #e2e8f0; }
+.week-result-value.good { color: #4ade80; }
+.week-result-value.bad { color: #f87171; }
+.week-result-btn { margin-top: 20px; padding: 12px 32px; font-size: 15px; font-weight: 600; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+.week-result-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4); }
+
+.week-achievement { margin-top: 16px; padding: 16px; background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(74, 222, 128, 0.2) 100%); border: 2px solid #22c55e; border-radius: 12px; display: none; }
+.week-achievement.show { display: block; animation: achievementPop 0.5s ease-out; }
+.week-achievement-icon { font-size: 40px; margin-bottom: 8px; }
+.week-achievement-text { font-size: 16px; font-weight: 600; color: #4ade80; }
+
+/* 月度会议弹窗 */
+.meeting-modal { background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%); border-radius: 16px; padding: 30px; max-width: 700px; width: 95%; max-height: 85vh; overflow-y: auto; }
+.meeting-header { text-align: center; margin-bottom: 20px; }
+.meeting-month { font-size: 28px; font-weight: 700; color: white; }
+.meeting-title { font-size: 16px; color: #94a3b8; margin-top: 6px; }
+.meeting-section { background: rgba(255,255,255,0.08); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+.meeting-section-title { font-size: 15px; font-weight: 600; color: #fbbf24; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.meeting-dept-item { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; margin-bottom: 8px; }
+.meeting-dept-name { font-weight: 600; color: #e2e8f0; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+.meeting-dept-status { font-size: 12px; padding: 2px 8px; border-radius: 4px; }
+.meeting-dept-status.good { background: #22c55e; color: white; }
+.meeting-dept-status.warning { background: #f59e0b; color: white; }
+.meeting-dept-status.poor { background: #ef4444; color: white; }
+.meeting-dept-detail { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+.meeting-problems { list-style: none; padding: 0; }
+.meeting-problems li { color: #fca5a5; font-size: 13px; margin-bottom: 6px; padding-left: 20px; position: relative; }
+.meeting-problems li::before { content: '⚠'; position: absolute; left: 0; }
+.meeting-suggestions { list-style: none; padding: 0; }
+.meeting-suggestions li { color: #86efac; font-size: 13px; margin-bottom: 6px; padding-left: 20px; position: relative; }
+.meeting-suggestions li::before { content: '💡'; position: absolute; left: 0; }
+.meeting-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+.meeting-stat-item { background: rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; text-align: center; }
+.meeting-stat-label { font-size: 11px; color: #94a3b8; }
+.meeting-stat-value { font-size: 18px; font-weight: 700; color: white; margin-top: 4px; }
+.meeting-stat-value.good { color: #4ade80; }
+.meeting-stat-value.bad { color: #f87171; }
+.meeting-btn { margin-top: 16px; padding: 12px 32px; font-size: 15px; font-weight: 600; background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%); color: #1f2937; border: none; border-radius: 8px; cursor: pointer; width: 100%; }
+
+/* 离职处理弹窗 */
+.resign-modal { background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%); border-radius: 16px; padding: 30px; max-width: 500px; width: 95%; }
+.resign-header { text-align: center; margin-bottom: 20px; }
+.resign-avatar { font-size: 64px; margin-bottom: 12px; }
+.resign-name { font-size: 24px; font-weight: 700; color: white; }
+.resign-warning { background: rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; margin: 16px 0; text-align: center; color: #fca5a5; }
+.resign-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+.resign-btn { padding: 14px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; }
+.resign-btn.accept { background: #fca5a5; color: #7f1d1d; }
+.resign-btn.keep { background: #86efac; color: #166534; }
+.resign-cost { font-size: 12px; color: #fcd34d; margin-top: 4px; }
+
+/* 培训反馈提示 */
+.training-feedback { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border: 1px solid #3b82f6; border-radius: 8px; padding: 12px; margin-top: 10px; text-align: center; }
+.training-feedback-title { font-size: 14px; font-weight: 600; color: #1e40af; margin-bottom: 6px; }
+.training-feedback-content { font-size: 13px; color: #1e40af; }
+
+/* 成就系统样式 */
+.achievement-banner {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fcd34d 100%);
+  border: 3px solid #f59e0b;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 16px;
+  text-align: center;
+  animation: achievementBannerPop 0.6s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+.achievement-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: achievementShine 2s ease-in-out;
+}
+@keyframes achievementBannerPop {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes achievementShine {
+  0% { transform: translateX(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) rotate(45deg); }
+}
+.achievement-banner-icon { font-size: 56px; margin-bottom: 12px; animation: achievementIconBounce 1s ease-in-out infinite; }
+@keyframes achievementIconBounce {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.1) rotate(5deg); }
+}
+.achievement-banner-title { font-size: 22px; font-weight: 700; color: #92400e; margin-bottom: 8px; }
+.achievement-banner-desc { font-size: 14px; color: #78350f; }
+.achievement-banner-reward { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; background: #92400e; color: #fef3c7; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; }
+
+/* 成就列表卡片 */
+.achievements-card { background: white; border-radius: 10px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.achievements-title { font-size: 16px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.achievements-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+@media (max-width: 800px) { .achievements-grid { grid-template-columns: repeat(2, 1fr); } }
+.achievement-item { background: #f8fafc; border-radius: 8px; padding: 12px; text-align: center; transition: all 0.3s; border: 2px solid transparent; }
+.achievement-item.unlocked { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-color: #f59e0b; }
+.achievement-item.locked { opacity: 0.6; }
+.achievement-item-icon { font-size: 28px; margin-bottom: 4px; }
+.achievement-item-name { font-size: 12px; font-weight: 600; color: #1f2937; }
+.achievement-item.unlocked .achievement-item-name { color: #92400e; }
+
+/* 随机事件样式 */
+.random-event-card {
+  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  color: white;
+  animation: eventSlideIn 0.5s ease-out;
+}
+@keyframes eventSlideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.random-event-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.random-event-icon { font-size: 40px; }
+.random-event-title { font-size: 18px; font-weight: 700; }
+.random-event-content { font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
+.random-event-effect { background: rgba(255,255,255,0.2); border-radius: 8px; padding: 10px; font-size: 13px; }
+.random-event-effect-label { font-size: 11px; opacity: 0.8; margin-bottom: 4px; }
+.random-event-effect-value { font-weight: 600; }
+
+/* 员工个性标签 */
+.personality-tag {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 500;
+  margin-left: 4px;
+}
+.personality-tag.optimist { background: #dcfce7; color: #166534; }
+.personality-tag.realist { background: #dbeafe; color: #1e40af; }
+.personality-tag.pessimist { background: #fee2e2; color: #991b1b; }
+.personality-tag.creative { background: #fef3c7; color: #92400e; }
+.personality-tag.hardworker { background: #e0e7ff; color: #3730a3; }
+.personality-tag.social { background: #fce7f3; color: #9d174d; }
+
+/* 每日小贴士 */
+.daily-tip-card {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border: 2px solid #22c55e;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.daily-tip-icon { font-size: 24px; }
+.daily-tip-content { flex: 1; }
+.daily-tip-title { font-size: 13px; font-weight: 600; color: #166534; margin-bottom: 4px; }
+.daily-tip-text { font-size: 13px; color: #15803d; line-height: 1.5; }
+
+/* 市场测试动画遮罩 */
+.market-test-mask { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.92); display: none; align-items: center; justify-content: center; z-index: 3500; }
+.market-test-mask.show { display: flex; }
+.market-test-box { background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%); border-radius: 20px; padding: 40px; max-width: 550px; width: 90%; text-align: center; box-shadow: 0 25px 80px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
+.market-test-icon { font-size: 64px; margin-bottom: 16px; animation: marketTestPulse 1.5s ease-in-out infinite; }
+@keyframes marketTestPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.8; } }
+.market-test-title { font-size: 22px; font-weight: 700; color: white; margin-bottom: 8px; }
+.market-test-subtitle { font-size: 14px; color: #94a3b8; margin-bottom: 24px; }
+.market-test-progress { background: rgba(255,255,255,0.1); border-radius: 10px; height: 12px; overflow: hidden; margin-bottom: 16px; }
+.market-test-progress-bar { height: 100%; background: linear-gradient(90deg, #10b981, #34d399, #6ee7b7); border-radius: 10px; width: 0%; transition: width 0.15s linear; }
+.market-test-steps { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+.market-test-step { display: flex; align-items: center; gap: 12px; padding: 10px 16px; background: rgba(255,255,255,0.05); border-radius: 8px; opacity: 0.4; transition: all 0.3s; }
+.market-test-step.active { opacity: 1; background: rgba(255,255,255,0.1); }
+.market-test-step.done { opacity: 1; }
+.market-test-step.done .market-test-step-icon { color: #4ade80; }
+.market-test-step-icon { font-size: 18px; width: 24px; }
+.market-test-step-text { font-size: 14px; color: #e2e8f0; flex: 1; text-align: left; }
+.market-test-step-status { font-size: 12px; color: #6b7280; }
+.market-test-step.done .market-test-step-status { color: #4ade80; }
+.market-test-result { display: none; }
+.market-test-result.show { display: block; animation: fadeIn 0.3s ease-out; }
+.market-test-result-title { font-size: 16px; color: #fbbf24; font-weight: 600; margin-bottom: 12px; }
+.market-test-result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.market-test-result-item { background: rgba(255,255,255,0.08); border-radius: 8px; padding: 12px; text-align: center; }
+.market-test-result-label { font-size: 12px; color: #94a3b8; margin-bottom: 4px; }
+.market-test-result-value { font-size: 18px; font-weight: 700; color: #4ade80; }
+.market-test-result-btn { margin-top: 16px; padding: 12px 32px; font-size: 15px; font-weight: 600; background: linear-gradient(135deg, #10b981 0%, #34d399 100%); color: white; border: none; border-radius: 8px; cursor: pointer; }
+.market-test-step { display: flex; align-items: center; gap: 12px; padding: 10px 16px; background: rgba(255,255,255,0.05); border-radius: 8px; opacity: 0.4; transition: all 0.3s; margin-bottom: 6px; }
+.market-test-step.active { opacity: 1; background: rgba(255,255,255,0.15); }
+.market-test-step.done { opacity: 1; background: rgba(16, 185, 129, 0.2); }
+.market-test-step-icon { font-size: 18px; width: 28px; }
+.market-test-step-text { font-size: 14px; color: #e2e8f0; flex: 1; text-align: left; }
+.market-test-step-status { font-size: 12px; color: #6b7280; }
+
+/* HR部门样式 */
+.hr-card { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #f59e0b; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+.hr-card-title { font-size: 16px; font-weight: 700; color: #92400e; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.hr-staff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
+.hr-staff-item { background: rgba(255,255,255,0.6); border-radius: 8px; padding: 12px; text-align: center; }
+.hr-staff-avatar { font-size: 32px; margin-bottom: 4px; }
+.hr-staff-name { font-weight: 600; color: #1f2937; }
+.hr-staff-role { font-size: 12px; color: #6b7280; }
+.hr-report-btn { background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%); color: #1f2937; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+
+/* 离职动向报告 */
+.resign-report-card { background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); border: 2px solid #ef4444; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+.resign-report-title { font-size: 16px; font-weight: 700; color: #991b1b; margin-bottom: 12px; }
+.resign-report-item { background: rgba(255,255,255,0.7); border-radius: 8px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+.resign-risk-badge { padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+.resign-risk-high { background: #ef4444; color: white; }
+.resign-risk-medium { background: #f59e0b; color: white; }
+.resign-risk-low { background: #10b981; color: white; }
+
+/* 员工谈话按钮 */
+.talk-btn-inline { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; padding: 2px 6px; border-radius: 4px; font-size: 11px; cursor: pointer; margin-left: 4px; }
+.talk-btn-inline:hover { background: #bfdbfe; }
+.talk-btn-inline:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* HR员工网格 */
+.hr-staff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+.hr-staff-item { background: rgba(255,255,255,0.6); border-radius: 8px; padding: 10px; text-align: center; }
+.hr-staff-avatar { font-size: 28px; margin-bottom: 4px; }
+.hr-staff-name { font-weight: 600; color: #1f2937; font-size: 13px; }
+.hr-staff-role { font-size: 11px; color: #6b7280; }
+
+/* 员工谈话弹窗 */
+.talk-modal { background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%); border-radius: 16px; padding: 24px; max-width: 450px; }
+.talk-header { text-align: center; margin-bottom: 20px; }
+.talk-avatar { font-size: 56px; margin-bottom: 8px; }
+.talk-name { font-size: 22px; font-weight: 700; color: white; margin-bottom: 4px; }
+.talk-mood { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 14px; margin-bottom: 16px; }
+.talk-mood-title { font-size: 13px; color: #94a3b8; margin-bottom: 8px; }
+.talk-mood-content { font-size: 14px; color: #e2e8f0; line-height: 1.6; }
+.talk-feedback { background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 10px; padding: 14px; margin-bottom: 16px; }
+.talk-feedback-title { font-size: 13px; color: #fbbf24; margin-bottom: 8px; }
+.talk-feedback-content { font-size: 14px; color: #fef3c7; font-style: italic; line-height: 1.6; }
+.talk-options { display: flex; flex-direction: column; gap: 10px; }
+.talk-btn { padding: 14px; border-radius: 10px; border: none; cursor: pointer; text-align: left; transition: all 0.2s; }
+.talk-btn:hover { transform: translateY(-2px); }
+.talk-btn-comfort { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); color: #1e40af; }
+.talk-btn-accept { background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); color: #166534; }
+.talk-btn-ignore { background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%); color: #991b1b; }
+.talk-btn-desc { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+
+/* 人事部门领导标识 */
+.hr-leader-badge { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 1px solid #f59e0b; border-radius: 4px; padding: 2px 6px; font-size: 10px; color: #92400e; margin-left: 4px; }
+
+/* PM部门样式 */
+.pm-card { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border: 2px solid #3b82f6; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+.pm-card-title { font-size: 16px; font-weight: 700; color: #1e40af; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.pm-leader-badge { background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%); border: 1px solid #1e40af; border-radius: 4px; padding: 2px 6px; font-size: 10px; color: white; margin-left: 4px; }
+.pm-staff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+.pm-staff-item { background: rgba(255,255,255,0.6); border-radius: 8px; padding: 10px; text-align: center; }
+.pm-staff-avatar { font-size: 28px; margin-bottom: 4px; }
+.pm-staff-name { font-weight: 600; color: #1f2937; font-size: 13px; }
+.pm-staff-role { font-size: 11px; color: #6b7280; }
+.pm-report-btn { background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%); color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; }
+.pm-report-btn:hover { background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%); }
+.pm-report-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+</style>
+</head>
+<body>
+<div id="main">
+  <div class="header-card">
+    <div class="header-left">
+      <h1>🎮 游戏公司经理人（增强版）</h1>
+      <div class="subtitle">自由分配工作量 / 24周考核 / 市场调研 / 广告投放</div>
+    </div>
+    <button class="credits-btn" onclick="showCredits()">
+      <span>👤</span>
+      <span>制作人员</span>
+    </button>
+  </div>
+
+  <div class="fund-card" id="fundCard"></div>
+  <div class="dashboard" id="dashboard"></div>
+  
+  <!-- 最后两个月考核卡片 -->
+  <div class="final-assessment-card" id="finalAssessmentCard" style="display:none"></div>
+  
+  <div class="progress-card">
+    <div class="progress-header">
+      <span>项目进度 (<span id="weekNum">0</span>/24周)</span>
+      <span id="progressPercent">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+
+  <div class="achievement-card" id="achievementCard" style="display:none"></div>
+  
+  <!-- 成就解锁横幅 -->
+  <div id="achievementBanner" style="display:none"></div>
+  
+  <!-- 随机事件卡片 -->
+  <div id="randomEventCard"></div>
+  
+  <!-- 每日小贴士 -->
+  <div id="dailyTipCard"></div>
+  
+  <!-- 成就列表 -->
+  <div id="achievementsList"></div>
+  
+  <div class="status-bar" id="statusBar"></div>
+  <div class="teams-grid" id="teamsGrid"></div>
+  <div class="features-grid" id="featuresGrid"></div>
+  <div class="project-select-card" id="projectSelectCard" style="display:none">
+    <div class="project-select-title">🎯 选择你要开发的游戏类型</div>
+    <div class="project-select-desc">不同类型的游戏有不同的考核标准，请根据团队优势慎重选择</div>
+    <div class="project-grid" id="projectGrid"></div>
+  </div>
+  <div class="action-card" id="actionCard"></div>
+  <div class="standards-card" id="standardsCard"></div>
+  <div class="chart-card" id="chartCard" style="display:none">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('chart')">📈 趋势图表</button>
+      <button class="tab-btn" onclick="switchTab('table')">📊 数据表格</button>
+      <button class="tab-btn" onclick="switchTab('market')">🔍 市场分析</button>
+    </div>
+    <div class="tab-content active" id="tabChart"><div id="chartDiv"></div></div>
+    <div class="tab-content" id="tabTable"><div class="table-wrap"><table class="data-table" id="dataTable"></table></div></div>
+    <div class="tab-content" id="tabMarket"><div class="market-grid" id="marketGrid"></div></div>
+  </div>
+  <div class="diagnose-card" id="diagnoseCard" style="display:none"></div>
+  <div class="log-card">
+    <div class="log-title">📋 操作日志</div>
+    <div class="log-content" id="logContent"></div>
+  </div>
+</div>
+
+<div class="modal-mask" id="modalMask"><div class="modal-box" id="modalBox"></div></div>
+<div class="guide-mask" id="guideMask"><div class="guide-box" id="guideBox"></div></div>
+<div class="market-test-mask" id="marketTestMask">
+  <div class="market-test-box">
+    <div class="market-test-icon" id="marketTestIcon">🔍</div>
+    <div class="market-test-title" id="marketTestTitle">市场数据测试中</div>
+    <div class="market-test-subtitle" id="marketTestSubtitle">正在收集和分析市场数据...</div>
+    <div class="market-test-progress"><div class="market-test-progress-bar" id="marketTestProgressBar"></div></div>
+    <div class="market-test-steps" id="marketTestSteps">
+      <div class="market-test-step" data-step="0"><span class="market-test-step-icon">📡</span><span class="market-test-step-text">数据采集</span><span class="market-test-step-status">等待中</span></div>
+      <div class="market-test-step" data-step="1"><span class="market-test-step-icon">🔄</span><span class="market-test-step-text">数据清洗</span><span class="market-test-step-status">等待中</span></div>
+      <div class="market-test-step" data-step="2"><span class="market-test-step-icon">📊</span><span class="market-test-step-text">模型分析</span><span class="market-test-step-status">等待中</span></div>
+      <div class="market-test-step" data-step="3"><span class="market-test-step-icon">✅</span><span class="market-test-step-text">生成报告</span><span class="market-test-step-status">等待中</span></div>
+    </div>
+    <div class="market-test-result" id="marketTestResult">
+      <div class="market-test-result-title">📊 测试完成</div>
+      <div class="market-test-result-grid" id="marketTestResultGrid"></div>
+      <button class="market-test-result-btn" onclick="closeMarketTest()">查看详情</button>
+    </div>
+  </div>
+</div>
+<div class="week-progress-mask" id="weekProgressMask">
+  <div class="week-progress-box">
+    <div class="week-progress-header">策略推演中</div>
+    <div class="week-progress-week" id="progressWeekNum">第 1 周</div>
+    <div class="week-progress-label">正在进行本周运营模拟...</div>
+    <div class="week-progress-bar-container"><div class="week-progress-bar" id="weekProgressBar"></div></div>
+    <div class="week-progress-steps" id="progressSteps">
+      <div class="week-progress-step" data-step="0"><div class="week-progress-step-icon">👥</div><div class="week-progress-step-text">团队工作</div></div>
+      <div class="week-progress-step" data-step="1"><div class="week-progress-step-icon">🎯</div><div class="week-progress-step-text">项目进度</div></div>
+      <div class="week-progress-step" data-step="2"><div class="week-progress-step-icon">📈</div><div class="week-progress-step-text">市场表现</div></div>
+      <div class="week-progress-step" data-step="3"><div class="week-progress-step-icon">💰</div><div class="week-progress-step-text">收益结算</div></div>
+    </div>
+    <div class="week-progress-status typing" id="progressStatus">正在计算团队产出...</div>
+    <div class="week-result-box" id="weekResultBox">
+      <div class="week-result-title">📊 本周结算结果</div>
+      <div class="week-result-grid" id="weekResultGrid"></div>
+      <div class="week-achievement" id="weekAchievement">
+        <div class="week-achievement-icon">🏆</div>
+        <div class="week-achievement-text">所有指标达标！继续保持！</div>
+      </div>
+      <button class="week-result-btn" onclick="closeWeekProgress()">查看详情</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.staticfile.org/echarts/5.4.3/echarts.min.js"></script>
+<script>
+// ====== 常量 ======
+const INIT_MONEY = 5000000;
+const LEADER_COST = {S:120000, A:80000, B:50000, C:30000};
+const LEADER_SELECT_BUDGET = 720000; // 增加预算以支持6个部门领导
+const MONTH_BUDGET_RECRUIT = 300000;
+const MONTH_BUDGET_TRANSFER = 50000;
+const TRAINING_COST = 15000;
+
+const STAFF_LEVELS = [
+  {level:"S", effect:1.7, color:"#e60"},
+  {level:"A", effect:1.3, color:"#39f"},
+  {level:"B", effect:1.0, color:"#0b3"},
+  {level:"C", effect:0.7, color:"#888"}
+];
+
+const STAFF_PERSONALITIES = [
+  {name:"忠诚稳定", loyaltyMod:15, pressureMod:0.5},
+  {name:"积极进取", loyaltyMod:5, pressureMod:1.5},
+  {name:"敏感脆弱", loyaltyMod:-5, pressureMod:2.0},
+  {name:"沉稳踏实", loyaltyMod:10, pressureMod:0.8},
+  {name:"野心勃勃", loyaltyMod:-10, pressureMod:1.8},
+  {name:"随遇而安", loyaltyMod:8, pressureMod:0.6}
+];
+
+const TEAMS = [
+  {name:"美术", base:20, icon:"🎨"},
+  {name:"程序", base:30, icon:"💻"},
+  {name:"发行", base:10, icon:"📢"},
+  {name:"策划", base:10, icon:"📝"},
+  {name:"人事", base:3, icon:"👥"},
+  {name:"PM", base:2, icon:"📋"}
+];
+
+const EMP_LIMIT = [40,40,20,20,10,5];
+
+const PROJECT_TYPES = [
+  {name:"休闲", icon:"🎮", desc:"轻度休闲，适合大众用户", color:"#10b981"},
+  {name:"重度", icon:"⚔️", desc:"硬核玩法，核心向游戏", color:"#ef4444"},
+  {name:"卡牌", icon:"🃏", desc:"策略收集，养成玩法", color:"#8b5cf6"},
+  {name:"模拟", icon:"🏛️", desc:"模拟经营，沙盒玩法", color:"#f59e0b"},
+  {name:"策划型", icon:"🎯", desc:"策略为主，烧脑玩法", color:"#3b82f6"},
+  {name:"SLG", icon:"🏰", desc:"战略游戏，长线运营", color:"#6366f1"}
+];
+
+const TYPE_STANDARDS = {
+  "休闲":   { D1:0.28, ROI:0.85, BuyCost:35000, PayUser:350, Quality:5.5 },
+  "重度":   { D1:0.22, ROI:1.1, BuyCost:55000, PayUser:900, Quality:6.8 },
+  "卡牌":   { D1:0.24, ROI:1.2, BuyCost:60000, PayUser:1100, Quality:7.2 },
+  "模拟":   { D1:0.26, ROI:1.0, BuyCost:45000, PayUser:750, Quality:6.5 },
+  "策划型": { D1:0.27, ROI:1.15, BuyCost:50000, PayUser:850, Quality:7.5 },
+  "SLG":    { D1:0.20, ROI:1.35, BuyCost:70000, PayUser:1300, Quality:7.8 }
+};
+
+const LEADER_LEVELS = [
+  {level:"S", ability:1.5, color:"#e60"},
+  {level:"A", ability:1.2, color:"#39f"},
+  {level:"B", ability:1.0, color:"#0b3"},
+  {level:"C", ability:0.8, color:"#888"}
+];
+
+const LEADER_ADV = [
+  "善于团队建设","技术过硬","极具创新力","熟悉行业流程","沟通能力强",
+  "管理细致","抗压能力强","有丰富人脉","善于激励下属","注重效率"
+];
+
+const LEADER_NAMES_POOL = [
+  "李明","王强","周欣","赵云","陈伟","孙静","吴磊","郑爽","马超","刘海",
+  "林雪","杜鹏","韩磊","杨帆","贾琳","宋涛","蒋燕","胡斌","高飞","杨雪",
+  "许凯","田甜","邵华","曹磊","段超","冯静","袁泉","罗浩","潘婷","杜娟"
+];
+
+let STAFF_NAMES_POOL = [
+  "赵伟","钱敏","孙磊","李娜","周强","吴洋","郑燕","王凯","冯静","陈涛",
+  "褚琳","卫华","蒋飞","沈雪","韩鹏","杨帆","朱晨","秦悦","许斌","何丽",
+  "吕超","施明","张妍","孔雪","曹磊","严俊","华丽","金鑫","魏爽","陶然",
+  "姜楠","戚欣","谢宇","邹文","喻林","柏青","水灵","窦林","章敏","云飞",
+  "苏杭","潘婷","葛亮","范琳","彭勇","郎琪","鲁燕","韦杰","昌明","马超",
+  "苗雪","凤霞","花蕾","方圆","俞静","任诚","袁泉","柳青","酆华","鲍欣"
+];
+
+const AVATAR_MALE = ["👨‍💼","👨‍💻","👨‍🎨","👨‍🔬","👨‍🔧","👨‍🍳","👨‍🚀","👨‍🎤","👨‍🎓","👨‍🏫"];
+const AVATAR_FEMALE = ["👩‍💼","👩‍💻","👩‍🎨","👩‍🔬","👩‍🔧","👩‍🍳","👩‍🚀","👩‍🎤","👩‍🎓","👩‍🏫"];
+
+const WEEKS = 24;
+const WEEKS_PER_MONTH = 4;
+const MONTHS = ["一月", "二月", "三月", "四月", "五月", "六月"];
+
+const MARKET_TEST_TYPES = [
+  {id:"audience", name:"用户画像测试", icon:"👥", cost:120000, desc:"分析目标用户群体特征", effectDesc:"提升次日留存3%，优化产品方向"},
+  {id:"competitor", name:"竞品分析", icon:"📊", cost:80000, desc:"调研竞争对手产品", effectDesc:"了解市场定位，优化竞争策略"},
+  {id:"trend", name:"市场趋势分析", icon:"📈", cost:150000, desc:"了解当前市场流行趋势", effectDesc:"提升付费用户转化率12%"},
+  {id:"pricing", name:"定价策略测试", icon:"💰", cost:100000, desc:"测试用户付费意愿", effectDesc:"提升付费用户12%，优化定价"}
+];
+
+const AD_CHANNELS = [
+  {id:"social", name:"社交媒体", icon:"📱", baseCost:5000, efficiency:0.85, reach:10000, active:true, budget:10000},
+  {id:"appstore", name:"应用商店", icon:"🏪", baseCost:8000, efficiency:0.9, reach:8000, active:false, budget:0},
+  {id:"video", name:"视频平台", icon:"🎬", baseCost:12000, efficiency:0.75, reach:15000, active:false, budget:0},
+  {id:"search", name:"搜索引擎", icon:"🔍", baseCost:6000, efficiency:0.88, reach:12000, active:false, budget:0},
+  {id:"influencer", name:"网红营销", icon:"⭐", baseCost:15000, efficiency:0.7, reach:20000, active:false, budget:0}
+];
+
+
+// ====== 全局变量 ======
+let money, teams, logTxt, running, project, history, diagnoseArr;
+let projectTypeIdx = 0;
+let teamMorale = [60,60,60,60,60,60];
+let transferBudget, recruitBudget, leaderBudget;
+let leaders = [];
+let leaderActionTimes = [1,1,1,1,1,1];
+let leaderEncourageTimes = [1,1,1,1,1,1];
+let leaderPressureFlag = [false,false,false,false,false,false];
+let leaderEncourageFlag = [false,false,false,false,false,false];
+let leaderSelecting = true;
+let leaderSelectIdx = 0;
+let leaderCandidates = [];
+let staffNamesUsed = [];
+let adChannels = [];
+let adStrategy = 'balanced';
+let marketTests = [];
+let chartInstance = null;
+let currentTab = 'chart';
+let weekResultData = null;
+let teamOutputs = null;
+let lastMonth = -1;
+let hasDoneMarketResearch = {audience:false, competitor:false, trend:false, pricing:false};
+let resignationQueue = [];
+let trainingBonus = [0, 0, 0, 0, 0, 0];
+
+// 市场测试月度使用记录
+let monthlyMarketTestsUsed = {audience:false, competitor:false, trend:false, pricing:false};
+let currentMonth = 0;
+
+// HR系统
+let hrDepartment = null; // {hrbp: {...}, hrs: [{...}, {...}]}
+let hrReports = []; // HR半月报告记录
+let pendingResignations = []; // 待处理的离职动向列表
+
+// 成就系统
+let achievements = {
+  firstWeek: { id: 'firstWeek', name: '初出茅庐', icon: '🌟', desc: '完成第一周工作', unlocked: false },
+  quarterProgress: { id: 'quarterProgress', name: '四分之一', icon: '🎯', desc: '项目进度达到25%', unlocked: false },
+  halfProgress: { id: 'halfProgress', name: '中流砥柱', icon: '🏆', desc: '项目进度达到50%', unlocked: false },
+  nearComplete: { id: 'nearComplete', name: '胜利在望', icon: '🚀', desc: '项目进度达到75%', unlocked: false },
+  projectComplete: { id: 'projectComplete', name: '游戏大师', icon: '👑', desc: '项目完成上线', unlocked: false },
+  richCompany: { id: 'richCompany', name: '财源广进', icon: '💰', desc: '资金超过初始150%', unlocked: false },
+  teamBuilder: { id: 'teamBuilder', name: '团队建设者', icon: '👥', desc: '团队人数超过20人', unlocked: false },
+  qualityMaster: { id: 'qualityMaster', name: '品质保证', icon: '💎', desc: '连续4周质量达标', unlocked: false },
+  roiKing: { id: 'roiKing', name: '投资回报王', icon: '📈', desc: 'ROI超过150%', unlocked: false },
+  retentionMaster: { id: 'retentionMaster', name: '留存专家', icon: '❤️', desc: '次日留存超过50%', unlocked: false },
+  noResign: { id: 'noResign', name: '和谐团队', icon: '🤝', desc: '连续8周无人离职', unlocked: false },
+  marketGuru: { id: 'marketGuru', name: '市场大师', icon: '📊', desc: '完成所有市场调研', unlocked: false }
+};
+let unlockedAchievementsThisWeek = [];
+let consecutiveQualityWeeks = 0;
+let consecutiveNoResignWeeks = 0;
+
+// 随机事件系统
+const RANDOM_EVENTS = [
+  {
+    id: 'bonus',
+    name: '意外奖金',
+    icon: '🎁',
+    type: 'positive',
+    content: '公司获得了一笔意外的政府创新补贴！',
+    effect: { money: 15000 },
+    effectText: '资金 +15,000'
+  },
+  {
+    id: 'viral',
+    name: '病毒式传播',
+    icon: '🔥',
+    type: 'positive',
+    content: '你的游戏视频在社交平台爆火，带来了大量自然流量！',
+    effect: { download: 5000, payUser: 50 },
+    effectText: '下载量 +5,000，付费用户 +50'
+  },
+  {
+    id: 'investor',
+    name: '投资人青睐',
+    icon: '💼',
+    type: 'positive',
+    content: '一位投资人对你的项目很感兴趣，决定追加投资！',
+    effect: { money: 25000 },
+    effectText: '资金 +25,000'
+  },
+  {
+    id: 'techBreakthrough',
+    name: '技术突破',
+    icon: '⚡',
+    type: 'positive',
+    content: '程序团队突破了一个技术难题，开发效率提升！',
+    effect: { quality: 3 },
+    effectText: '研发质量 +3'
+  },
+  {
+    id: 'award',
+    name: '行业认可',
+    icon: '🏅',
+    type: 'positive',
+    content: '你的游戏获得了一个小型行业奖项，知名度提升！',
+    effect: { download: 3000 },
+    effectText: '下载量 +3,000'
+  },
+  {
+    id: 'teamBonding',
+    name: '团队建设',
+    icon: '🎉',
+    type: 'positive',
+    content: '员工自发组织的团建活动效果很好，士气提升！',
+    effect: { morale: 10 },
+    effectText: '全员士气 +10'
+  },
+  {
+    id: 'serverIssue',
+    name: '服务器故障',
+    icon: '🔧',
+    type: 'negative',
+    content: '服务器出现短暂故障，部分用户受到影响...',
+    effect: { money: -8000, d1: -0.02 },
+    effectText: '资金 -8,000，留存 -2%'
+  },
+  {
+    id: 'badReview',
+    name: '差评风波',
+    icon: '😠',
+    type: 'negative',
+    content: '几个知名主播给了差评，需要紧急公关...',
+    effect: { download: -2000, payUser: -20 },
+    effectText: '下载量 -2,000，付费用户 -20'
+  },
+  {
+    id: 'competitor',
+    name: '竞品出击',
+    icon: '⚔️',
+    type: 'negative',
+    content: '竞争对手发布了一款类似游戏，分流了部分用户...',
+    effect: { download: -1500 },
+    effectText: '下载量 -1,500'
+  },
+  {
+    id: 'marketChange',
+    name: '市场变化',
+    icon: '📉',
+    type: 'negative',
+    content: '市场环境变化，获客成本暂时上升...',
+    effect: { adCost: 1.2 },
+    effectText: '广告成本 +20%（本周）'
+  },
+  {
+    id: 'bugReport',
+    name: '严重Bug',
+    icon: '🐛',
+    type: 'negative',
+    content: '用户报告了一个严重Bug，需要紧急修复！',
+    effect: { quality: -2, money: -5000 },
+    effectText: '质量 -2，资金 -5,000'
+  },
+  {
+    id: 'employeeSick',
+    name: '员工生病',
+    icon: '🤒',
+    type: 'neutral',
+    content: '有几位员工请了病假，本周工作效率受到轻微影响...',
+    effect: { efficiency: 0.9 },
+    effectText: '本周效率 -10%'
+  },
+  {
+    id: 'industryNews',
+    name: '行业新闻',
+    icon: '📰',
+    type: 'neutral',
+    content: '游戏行业整体增长，你的游戏也沾了光~',
+    effect: { download: 1000 },
+    effectText: '下载量 +1,000'
+  },
+  {
+    id: 'holiday',
+    name: '节日效应',
+    icon: '🎄',
+    type: 'positive',
+    content: '节假日带来更多活跃用户！',
+    effect: { download: 2000, payUser: 30 },
+    effectText: '下载量 +2,000，付费用户 +30'
+  }
+];
+let currentRandomEvent = null;
+
+// 每日小贴士
+const DAILY_TIPS = [
+  { title: '工作量管理', text: '合理分配员工工作量，保持适度压力可提高产出，但过度压榨会降低士气和忠诚度。' },
+  { title: '团队建设', text: '定期与员工沟通，了解他们的需求。忠诚度高的员工更稳定，产出也更高。' },
+  { title: '市场调研', text: '在项目早期进行市场调研，可以帮助你更好地了解用户需求，优化产品设计。' },
+  { title: '广告投放', text: '选择合适的广告渠道很重要。不同渠道有不同的成本和效果，要根据目标用户选择。' },
+  { title: '质量控制', text: '不要只追求进度，研发质量同样重要。高质量的产品更容易获得用户好评。' },
+  { title: '团队士气', text: '团队士气直接影响产出效率。合理安排工作量、及时处理离职动向可以保持高士气。' },
+  { title: '资金管理', text: '注意资金流动，避免在项目后期资金枯竭。招聘和培训都需要资金支持。' },
+  { title: '领导力', text: '为每个团队配备合适的领导，领导的专长会为团队带来额外加成。' },
+  { title: '绩效考核', text: '24周后会进行最终考核，关注各项指标是否达到目标。' },
+  { title: '员工培训', text: '培训可以提升员工能力，但成本不低。优先培训核心员工和领导。' }
+];
+let currentTipIndex = 0;
+
+// 员工个性类型
+const PERSONALITY_TYPES = [
+  { type: 'optimist', name: '乐观派', phrases: ['今天也要加油！', '项目一定会成功的！', '我觉得前景很光明~'] },
+  { type: 'realist', name: '实干派', phrases: ['按计划执行吧。', '结果会说明一切。', '专注做好本职工作。'] },
+  { type: 'pessimist', name: '谨慎派', phrases: ['我有点担心...', '风险还是存在的。', '我们要做好准备。'] },
+  { type: 'creative', name: '创意派', phrases: ['我有个新想法！', '不如试试这样？', '创新才能脱颖而出！'] },
+  { type: 'hardworker', name: '努力派', phrases: ['加班也没问题！', '多付出才能多收获。', '我会全力以赴的。'] },
+  { type: 'social', name: '社交派', phrases: ['团队氛围真好！', '和大家一起工作很开心~', '沟通是成功的关键！'] }
+];
+let lastHRReportWeek = -1; // 上次HR报告的周数
+
+// PM系统
+let pmDepartment = null; // {leader: {...}, pms: [{...}, {...}]}
+let pmReports = []; // PM半月报告记录
+let lastPMReportWeek = -1; // 上次PM报告的周数
+let pmBonuses = { efficiency: 0, coordination: 0 }; // PM增益
+let pendingPMDecisions = []; // 待处理的PM决策
+
+// 员工谈话系统
+let talkCooldowns = {}; // 员工谈话冷却 {staffId: weekNumber}
+
+// ====== 工具函数 ======
+function shuffleArray(arr) {
+  let a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function generateLeaderCandidates(dept, avoidAbility = []) {
+  // 领导等级概率分布：S级非常稀缺
+  // S: 5%, A: 20%, B: 40%, C: 35%
+  const levelProbs = [
+    {level: "S", prob: 0.05},
+    {level: "A", prob: 0.20},
+    {level: "B", prob: 0.40},
+    {level: "C", prob: 0.35}
+  ];
+  
+  let candidates = [];
+  let usedAbility = avoidAbility.slice();
+  let namePool = shuffleArray(LEADER_NAMES_POOL);
+  
+  for (let i = 0; i < 5; i++) {
+    // 按概率选择等级
+    let r = Math.random();
+    let cumulative = 0;
+    let selectedLevel = LEADER_LEVELS[3]; // 默认C级
+    
+    for (let lp of levelProbs) {
+      cumulative += lp.prob;
+      if (r < cumulative) {
+        selectedLevel = LEADER_LEVELS.find(l => l.level === lp.level);
+        break;
+      }
+    }
+    
+    // 如果该能力值已被使用，选择其他可用的
+    let availableLevels = LEADER_LEVELS.filter(lv => !usedAbility.includes(lv.ability));
+    if (availableLevels.length > 0 && !availableLevels.includes(selectedLevel)) {
+      // 按概率从可用等级中重新选择
+      let availableProbs = levelProbs.filter(lp => availableLevels.some(al => al.level === lp.level));
+      let r2 = Math.random();
+      let cumulative2 = 0;
+      for (let lp of availableProbs) {
+        cumulative2 += lp.prob;
+        if (r2 < cumulative2) {
+          selectedLevel = availableLevels.find(al => al.level === lp.level);
+          break;
+        }
+      }
+      if (!selectedLevel || !availableLevels.includes(selectedLevel)) {
+        selectedLevel = availableLevels[Math.floor(Math.random() * availableLevels.length)];
+      }
+    }
+    
+    usedAbility.push(selectedLevel.ability);
+    
+    let advs = [];
+    let advPool = LEADER_ADV.slice();
+    for (let j = 0; j < 2; j++) advs.push(advPool.splice(Math.floor(Math.random() * advPool.length), 1)[0]);
+    
+    candidates.push({
+      name: namePool[i], level: selectedLevel.level, ability: selectedLevel.ability, color: selectedLevel.color,
+      dept: dept, morale: 0, adv: advs, cost: LEADER_COST[selectedLevel.level]
+    });
+  }
+  return candidates;
+}
+
+function getUniqueStaffName() {
+  let pool = STAFF_NAMES_POOL.filter(n => !staffNamesUsed.includes(n));
+  if (pool.length === 0) {
+    let base = ["安","白","蔡","丁","杜","范","高","郭","贾","江","金","孔","雷","梁","廖","林","罗","马","孟","倪","彭","秦","邱","石","孙","唐","田","王","吴","谢","杨","于","余","张","周"];
+    let given = ["涛","伟","刚","磊","鹏","斌","凯","静","莉","琳","婷","雪","颖","燕","敏","丹","萍","倩","悦","蕾","妍","楠","琪","璐","洁","佳","欣","宁","媛","凡","佳","宇"];
+    for (let i = 0; i < 30; i++) STAFF_NAMES_POOL.push(base[Math.floor(Math.random() * base.length)] + given[Math.floor(Math.random() * given.length)]);
+    pool = STAFF_NAMES_POOL.filter(n => !staffNamesUsed.includes(n));
+  }
+  let name = pool[Math.floor(Math.random() * pool.length)];
+  staffNamesUsed.push(name);
+  return name;
+}
+
+function getStaffLevelByCost(leader, cost) {
+  // 员工等级概率分布：S级非常稀缺
+  // 成本越低，S/A级概率越低
+  let probSets = {
+    5000:  {S: 0.005, A: 0.04,  B: 0.25,  C: 0.705},  // 低成本：S几乎不可能
+    10000: {S: 0.02,  A: 0.10,  B: 0.35,  C: 0.53},   // 中等成本：S很稀有
+    20000: {S: 0.06,  A: 0.20,  B: 0.40,  C: 0.34},   // 高成本：S较少
+    50000: {S: 0.12,  A: 0.30,  B: 0.38,  C: 0.20}    // 最高成本：S较少但仍稀缺
+  };
+  let prob = Object.assign({}, probSets[cost] || probSets[10000]);
+  // 领导加成：优秀领导略微提升高级员工概率
+  if (leader) {
+    if (leader.level === "S") { prob.S += 0.02; prob.A += 0.03; prob.C -= 0.03; }
+    else if (leader.level === "A") { prob.S += 0.01; prob.A += 0.02; prob.C -= 0.02; }
+    else if (leader.level === "B") { prob.A += 0.01; prob.B += 0.01; prob.C -= 0.01; }
+  }
+  // 确保概率不出现负数
+  prob.C = Math.max(0, prob.C);
+  let r = Math.random(), sum = 0, lvIdx = 0, lvArr = ["S","A","B","C"];
+  for (let i = 0; i < 4; i++) { sum += prob[lvArr[i]]; if (r < sum) { lvIdx = i; break; } }
+  return STAFF_LEVELS[lvIdx];
+}
+
+function recruitStaff(teamIdx, cost) {
+  let leader = leaders[teamIdx];
+  let gender = Math.random() < 0.5 ? "male" : "female";
+  let avatar = gender === "male" ? AVATAR_MALE[Math.floor(Math.random() * AVATAR_MALE.length)] : AVATAR_FEMALE[Math.floor(Math.random() * AVATAR_FEMALE.length)];
+  let lv = getStaffLevelByCost(leader, cost);
+  let name = getUniqueStaffName();
+  // 添加忠诚度系统
+  let personality = STAFF_PERSONALITIES[Math.floor(Math.random() * STAFF_PERSONALITIES.length)];
+  let baseLoyalty = 70 + (lv.level === 'S' ? 10 : lv.level === 'A' ? 5 : lv.level === 'B' ? 0 : -5);
+  let loyalty = Math.min(100, Math.max(30, baseLoyalty + personality.loyaltyMod + Math.floor(Math.random() * 10)));
+  // 添加个性类型用于显示
+  let personalityType = getRandomPersonality();
+  return { teamIdx, name, level: lv.level, effect: lv.effect, color: lv.color, avatar, gender, workMonths: 0, workload: 1, id: Math.random().toString(36).substr(2, 9), personality, loyalty, hasResignWarning: false, personalityType };
+}
+
+function calcTeamMorale(teamIdx) {
+  const base = 60;
+  let leader = leaders[teamIdx];
+  let leaderBonus = leader ? (leader.level === "S" ? 10 : leader.level === "A" ? 6 : leader.level === "B" ? 3 : 0) : 0;
+  let avgAbility = teams[teamIdx].length ? teams[teamIdx].reduce((sum, s) => sum + s.effect, 0) / teams[teamIdx].length : 0;
+  let staffBonus = avgAbility * 10;
+  let leaderMorale = leader ? leader.morale || 0 : 0;
+  let morale = base + leaderBonus + staffBonus + leaderMorale;
+  if (adStrategy === 'aggressive') morale -= 5;
+  else if (adStrategy === 'conservative') morale += 2;
+  return Math.max(0, Math.min(100, morale));
+}
+
+function refreshAllMorale() {
+  for (let i = 0; i < 4; i++) teamMorale[i] = calcTeamMorale(i);
+}
+
+function calcStaffSaturation(staff) { return staff.workload / staff.effect * 100; }
+
+function calcAdEffect() {
+  let activeChannels = adChannels.filter(c => c.active && c.budget > 0);
+  if (activeChannels.length === 0) return { efficiency: 0.5, reach: 0, cost: 0 };
+  let totalBudget = activeChannels.reduce((sum, c) => sum + c.budget, 0);
+  let weightedEfficiency = activeChannels.reduce((sum, c) => sum + c.efficiency * (c.budget / totalBudget), 0);
+  let totalReach = activeChannels.reduce((sum, c) => sum + c.reach * (c.budget / c.baseCost), 0);
+  let efficiencyMod = adStrategy === 'aggressive' ? 1.2 : adStrategy === 'conservative' ? 0.9 : 1;
+  return { efficiency: weightedEfficiency * efficiencyMod, reach: Math.floor(totalReach), cost: totalBudget };
+}
+
+function addLog(txt) { logTxt = txt + "<br>" + logTxt; document.getElementById("logContent").innerHTML = logTxt; }
+
+// 显示临时提示消息
+function showToast(message, duration = 3000) {
+  // 移除已有的toast
+  let existingToast = document.querySelector('.toast-message');
+  if (existingToast) existingToast.remove();
+  
+  let toast = document.createElement('div');
+  toast.className = 'toast-message';
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  
+  setTimeout(() => {
+    if (toast.parentNode) toast.remove();
+  }, duration);
+}
+
+// ====== 成就系统 ======
+function checkAchievements() {
+  unlockedAchievementsThisWeek = [];
+  let progress = history.length > 0 ? history[history.length - 1].progress : 0;
+  let totalStaff = teams.flat().length;
+  
+  // 检查各项成就
+  if (history.length === 1 && !achievements.firstWeek.unlocked) {
+    unlockAchievement('firstWeek');
+  }
+  if (progress >= 25 && !achievements.quarterProgress.unlocked) {
+    unlockAchievement('quarterProgress');
+  }
+  if (progress >= 50 && !achievements.halfProgress.unlocked) {
+    unlockAchievement('halfProgress');
+  }
+  if (progress >= 75 && !achievements.nearComplete.unlocked) {
+    unlockAchievement('nearComplete');
+  }
+  if (progress >= 100 && !achievements.projectComplete.unlocked) {
+    unlockAchievement('projectComplete');
+  }
+  if (money > INIT_MONEY * 1.5 && !achievements.richCompany.unlocked) {
+    unlockAchievement('richCompany');
+  }
+  if (totalStaff > 20 && !achievements.teamBuilder.unlocked) {
+    unlockAchievement('teamBuilder');
+  }
+  if (weekResultData && weekResultData.roi >= 1.5 && !achievements.roiKing.unlocked) {
+    unlockAchievement('roiKing');
+  }
+  if (weekResultData && weekResultData.d1 >= 0.5 && !achievements.retentionMaster.unlocked) {
+    unlockAchievement('retentionMaster');
+  }
+  if (consecutiveQualityWeeks >= 4 && !achievements.qualityMaster.unlocked) {
+    unlockAchievement('qualityMaster');
+  }
+  if (consecutiveNoResignWeeks >= 8 && !achievements.noResign.unlocked) {
+    unlockAchievement('noResign');
+  }
+  if (hasDoneMarketResearch.audience && hasDoneMarketResearch.competitor && 
+      hasDoneMarketResearch.trend && hasDoneMarketResearch.pricing && !achievements.marketGuru.unlocked) {
+    unlockAchievement('marketGuru');
+  }
+}
+
+function unlockAchievement(id) {
+  if (achievements[id] && !achievements[id].unlocked) {
+    achievements[id].unlocked = true;
+    unlockedAchievementsThisWeek.push(achievements[id]);
+    addLog(`🏆 成就解锁：${achievements[id].name}`);
+  }
+}
+
+function getAchievementBanner() {
+  if (unlockedAchievementsThisWeek.length === 0) return '';
+  let a = unlockedAchievementsThisWeek[0];
+  return `
+    <div class="achievement-banner">
+      <div class="achievement-banner-icon">${a.icon}</div>
+      <div class="achievement-banner-title">成就解锁！</div>
+      <div class="achievement-banner-desc">${a.name} - ${a.desc}</div>
+      <div class="achievement-banner-reward">
+        <span>🎖️</span>
+        <span>恭喜获得此成就！</span>
+      </div>
+    </div>
+  `;
+}
+
+function getAchievementsCard() {
+  let items = Object.values(achievements).map(a => `
+    <div class="achievement-item ${a.unlocked ? 'unlocked' : 'locked'}">
+      <div class="achievement-item-icon">${a.unlocked ? a.icon : '🔒'}</div>
+      <div class="achievement-item-name">${a.name}</div>
+    </div>
+  `).join('');
+  return `
+    <div class="achievements-card">
+      <div class="achievements-title">🏆 成就 (${Object.values(achievements).filter(a => a.unlocked).length}/${Object.values(achievements).length})</div>
+      <div class="achievements-grid">${items}</div>
+    </div>
+  `;
+}
+
+// ====== 随机事件系统 ======
+function triggerRandomEvent() {
+  // 30%概率触发随机事件
+  if (Math.random() > 0.3) {
+    currentRandomEvent = null;
+    return null;
+  }
+  
+  // 选择事件类型权重
+  let weights = { positive: 40, neutral: 30, negative: 30 };
+  let rand = Math.random() * 100;
+  let type;
+  if (rand < weights.positive) type = 'positive';
+  else if (rand < weights.positive + weights.neutral) type = 'neutral';
+  else type = 'negative';
+  
+  let candidates = RANDOM_EVENTS.filter(e => e.type === type);
+  currentRandomEvent = candidates[Math.floor(Math.random() * candidates.length)];
+  return currentRandomEvent;
+}
+
+function applyRandomEventEffect(event) {
+  if (!event || !event.effect) return;
+  
+  let effect = event.effect;
+  if (effect.money) {
+    money = Math.max(0, money + effect.money);
+    addLog(`📊 随机事件「${event.name}」：${effect.money > 0 ? '+' : ''}${effect.money.toLocaleString()} 资金`);
+  }
+  // 其他效果在calculateWeekData中处理
+}
+
+function getRandomEventCard() {
+  if (!currentRandomEvent) return '';
+  let e = currentRandomEvent;
+  let typeColor = e.type === 'positive' ? '#22c55e' : e.type === 'negative' ? '#ef4444' : '#6b7280';
+  return `
+    <div class="random-event-card" style="background: linear-gradient(135deg, ${e.type === 'positive' ? '#22c55e, #16a34a' : e.type === 'negative' ? '#ef4444, #dc2626' : '#6366f1, #4f46e5'});">
+      <div class="random-event-header">
+        <div class="random-event-icon">${e.icon}</div>
+        <div class="random-event-title">${e.name}</div>
+      </div>
+      <div class="random-event-content">${e.content}</div>
+      <div class="random-event-effect">
+        <div class="random-event-effect-label">效果</div>
+        <div class="random-event-effect-value">${e.effectText}</div>
+      </div>
+    </div>
+  `;
+}
+
+// ====== 每日小贴士 ======
+function getDailyTip() {
+  let tip = DAILY_TIPS[currentTipIndex];
+  currentTipIndex = (currentTipIndex + 1) % DAILY_TIPS.length;
+  return `
+    <div class="daily-tip-card">
+      <div class="daily-tip-icon">💡</div>
+      <div class="daily-tip-content">
+        <div class="daily-tip-title">${tip.title}</div>
+        <div class="daily-tip-text">${tip.text}</div>
+      </div>
+    </div>
+  `;
+}
+
+// ====== 员工个性系统 ======
+function getRandomPersonality() {
+  return PERSONALITY_TYPES[Math.floor(Math.random() * PERSONALITY_TYPES.length)];
+}
+
+function getPersonalityPhrase(personalityType) {
+  let p = PERSONALITY_TYPES.find(pt => pt.type === personalityType);
+  if (!p) return '';
+  return p.phrases[Math.floor(Math.random() * p.phrases.length)];
+}
+
+// 显示制作人员弹窗
+function showCredits() {
+  let modalHtml = `
+    <div class="modal-mask show" id="creditsModalMask" onclick="closeCreditsModal(event)">
+      <div class="credits-modal" onclick="event.stopPropagation()">
+        <div class="credits-modal-avatar">🎮</div>
+        <div class="credits-modal-title">游戏公司经理人</div>
+        <div class="credits-modal-item">
+          <div class="credits-modal-label">游戏制作人</div>
+          <div class="credits-modal-value">zane song</div>
+        </div>
+        <div class="credits-modal-item">
+          <div class="credits-modal-label">联系微信</div>
+          <div class="credits-modal-wechat">
+            <span>💬</span>
+            <span>dtcszy</span>
+          </div>
+        </div>
+        <div style="margin-top: 16px; font-size: 13px; color: #94a3b8;">
+          感谢您体验本游戏！欢迎反馈建议~
+        </div>
+        <button class="credits-modal-close" onclick="closeCreditsModal()">关闭</button>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', modalHtml);
+}
+
+function closeCreditsModal(event) {
+  if (event && event.target !== event.currentTarget) return;
+  let modal = document.getElementById('creditsModalMask');
+  if (modal) modal.remove();
+}
+
+function getFundStatus() {
+  let percent = (money / INIT_MONEY) * 100;
+  if (percent > 50) return { status: 'healthy', text: '资金充足', class: 'healthy' };
+  if (percent > 25) return { status: 'warning', text: '资金紧张', class: 'warning' };
+  return { status: 'danger', text: '资金告急', class: 'danger' };
+}
+
+// ====== 渲染函数 ======
+function render() {
+  let fundStatus = getFundStatus();
+  let fundPercent = Math.max(0, Math.min(100, (money / INIT_MONEY) * 100));
+  document.getElementById("fundCard").innerHTML = `
+    <div class="fund-header"><div class="fund-title"><span>💰</span> 项目资金</div><div class="fund-status ${fundStatus.class}">${fundStatus.text}</div></div>
+    <div class="fund-bar-container"><div class="fund-bar ${fundStatus.status}" style="width:${fundPercent}%"></div><div class="fund-bar-text">¥${money.toLocaleString()} / ¥${INIT_MONEY.toLocaleString()}</div></div>
+    <div class="fund-details">
+      <div class="fund-detail-item"><div class="fund-detail-label">初始资金</div><div class="fund-detail-value">¥${INIT_MONEY.toLocaleString()}</div></div>
+      <div class="fund-detail-item"><div class="fund-detail-label">已消耗</div><div class="fund-detail-value">¥${(INIT_MONEY - money).toLocaleString()}</div></div>
+      <div class="fund-detail-item"><div class="fund-detail-label">消耗比例</div><div class="fund-detail-value">${(100 - fundPercent).toFixed(2)}%</div></div>
+      <div class="fund-detail-item"><div class="fund-detail-label">本周广告</div><div class="fund-detail-value">¥${calcAdEffect().cost.toLocaleString()}</div></div>
+    </div>`;
+
+  document.getElementById("dashboard").innerHTML = `
+    <div class="dash-card"><div class="dash-label">本月调岗额度</div><div class="dash-value indigo">¥${transferBudget.toLocaleString()}</div></div>
+    <div class="dash-card"><div class="dash-label">本月招聘额度</div><div class="dash-value green">¥${recruitBudget.toLocaleString()}</div></div>
+    <div class="dash-card"><div class="dash-label">领导招聘额度</div><div class="dash-value orange">¥${leaderBudget.toLocaleString()}</div></div>
+    <div class="dash-card"><div class="dash-label">本周广告预算</div><div class="dash-value blue">¥${calcAdEffect().cost.toLocaleString()}</div></div>`;
+
+  document.getElementById("weekNum").textContent = history.length;
+  document.getElementById("progressPercent").textContent = (project ? project.progress.toFixed(2) : "0.00") + "%";
+  document.getElementById("progressFill").style.width = (history.length / WEEKS * 100) + "%";
+
+  renderFinalAssessment();
+  renderAchievementCard();
+  
+  // 显示成就解锁横幅
+  let bannerHtml = getAchievementBanner();
+  if (bannerHtml) {
+    document.getElementById("achievementBanner").innerHTML = bannerHtml;
+    document.getElementById("achievementBanner").style.display = 'block';
+  } else {
+    document.getElementById("achievementBanner").style.display = 'none';
+  }
+  
+  // 显示随机事件卡片
+  let eventHtml = getRandomEventCard();
+  document.getElementById("randomEventCard").innerHTML = eventHtml;
+  
+  // 显示每日小贴士
+  if (history.length > 0 && history.length < WEEKS) {
+    document.getElementById("dailyTipCard").innerHTML = getDailyTip();
+  } else {
+    document.getElementById("dailyTipCard").innerHTML = '';
+  }
+  
+  // 显示成就列表（在游戏进行中显示）
+  if (history.length > 0) {
+    document.getElementById("achievementsList").innerHTML = getAchievementsCard();
+  } else {
+    document.getElementById("achievementsList").innerHTML = '';
+  }
+  
+  document.getElementById("statusBar").innerHTML = `<div><b>时间：</b><span class="badge ${history.length >= 20 ? 'orange' : ''}">${history.length < WEEKS ? MONTHS[Math.floor(history.length / 4)] + "第" + (history.length % 4 + 1) + "周" : "已结束"}</span></div>`;
+  renderTeams();
+  renderFeatures();
+  
+  if (!project && !leaderSelecting && leaders.every(l => l)) {
+    document.getElementById("projectSelectCard").style.display = "block";
+    document.getElementById("projectGrid").innerHTML = PROJECT_TYPES.map((pt, idx) => {
+      let std = TYPE_STANDARDS[pt.name];
+      return `<button class="project-btn" onclick="selectProject(${idx})">
+        <div class="project-btn-icon">${pt.icon}</div>
+        <div class="project-btn-name">${pt.name}</div>
+        <div class="project-btn-desc">${pt.desc}</div>
+        <div style="font-size:10px;color:#6b7280;margin-top:6px;">留存≥${(std.D1*100).toFixed(0)}% | ROI≥${std.ROI.toFixed(2)}</div>
+      </button>`;
+    }).join('');
+  } else {
+    document.getElementById("projectSelectCard").style.display = "none";
+  }
+
+  let actionHtml = "";
+  if (project && running) {
+    actionHtml = `<button class="btn primary next-week-btn" onclick="startWeekProgress()">🚀 推进到下周</button>`;
+  }
+  document.getElementById("actionCard").innerHTML = actionHtml;
+
+  let std = TYPE_STANDARDS[PROJECT_TYPES[projectTypeIdx].name];
+  document.getElementById("standardsCard").innerHTML = `
+    <span style="font-weight:500">本轮考核标准（${PROJECT_TYPES[projectTypeIdx].name}）：</span>
+    <span>次日留存≥<span class="keynum indigo">${(std.D1 * 100).toFixed(2)}%</span></span>
+    <span>ROI≥<span class="keynum green">${std.ROI.toFixed(2)}</span></span>
+    <span>买量成本≤<span class="keynum orange">¥${std.BuyCost.toLocaleString()}</span></span>
+    <span>付费用户≥<span class="keynum blue">${std.PayUser}</span></span>
+    <span>研发质量≥<span class="keynum purple">${std.Quality.toFixed(2)}</span></span>`;
+
+  if (history.length > 0) {
+    document.getElementById("chartCard").style.display = "block";
+    renderChart();
+    renderTable();
+    renderMarket();
+  } else {
+    document.getElementById("chartCard").style.display = "none";
+  }
+
+  renderDiagnose();
+  document.getElementById("logContent").innerHTML = logTxt;
+}
+
+function renderFinalAssessment() {
+  if (history.length < 16) {
+    document.getElementById("finalAssessmentCard").style.display = "none";
+    return;
+  }
+  
+  document.getElementById("finalAssessmentCard").style.display = "block";
+  let std = TYPE_STANDARDS[PROJECT_TYPES[projectTypeIdx].name];
+  
+  // 计算最近8周的平均值
+  let recentWeeks = history.slice(-Math.min(history.length, 8));
+  let avgProgress = recentWeeks.reduce((s, h) => s + h.progress, 0) / recentWeeks.length;
+  let avgQuality = recentWeeks.reduce((s, h) => s + h.quality, 0) / recentWeeks.length;
+  let avgROI = recentWeeks.reduce((s, h) => s + h.roi, 0) / recentWeeks.length;
+  let avgD1 = recentWeeks.reduce((s, h) => s + h.d1, 0) / recentWeeks.length;
+  
+  let weeksLeft = WEEKS - history.length;
+  document.getElementById("finalAssessmentCard").innerHTML = `
+    <div class="final-assessment-title">⚠️ 最终考核期 · 剩余 ${weeksLeft} 周</div>
+    <div style="text-align:center;font-size:13px;color:#92400e;margin-bottom:12px;">最终成绩将取最后8周平均值</div>
+    <div class="final-assessment-grid">
+      <div class="final-assessment-item">
+        <div class="final-assessment-label">进度</div>
+        <div class="final-assessment-values">
+          <span class="final-assessment-current">${avgProgress.toFixed(2)}%</span>
+          <span class="final-assessment-target">/ 100%</span>
+        </div>
+        <div class="final-assessment-status ${avgProgress >= 100 ? 'pass' : 'fail'}">${avgProgress >= 100 ? '达标' : '未达标'}</div>
+      </div>
+      <div class="final-assessment-item">
+        <div class="final-assessment-label">研发质量</div>
+        <div class="final-assessment-values">
+          <span class="final-assessment-current">${avgQuality.toFixed(2)}</span>
+          <span class="final-assessment-target">/ ${std.Quality.toFixed(2)}</span>
+        </div>
+        <div class="final-assessment-status ${avgQuality >= std.Quality ? 'pass' : 'fail'}">${avgQuality >= std.Quality ? '达标' : '未达标'}</div>
+      </div>
+      <div class="final-assessment-item">
+        <div class="final-assessment-label">ROI</div>
+        <div class="final-assessment-values">
+          <span class="final-assessment-current">${avgROI.toFixed(2)}</span>
+          <span class="final-assessment-target">/ ${std.ROI.toFixed(2)}</span>
+        </div>
+        <div class="final-assessment-status ${avgROI >= std.ROI ? 'pass' : 'fail'}">${avgROI >= std.ROI ? '达标' : '未达标'}</div>
+      </div>
+      <div class="final-assessment-item">
+        <div class="final-assessment-label">次日留存</div>
+        <div class="final-assessment-values">
+          <span class="final-assessment-current">${(avgD1 * 100).toFixed(2)}%</span>
+          <span class="final-assessment-target">/ ${(std.D1 * 100).toFixed(2)}%</span>
+        </div>
+        <div class="final-assessment-status ${avgD1 >= std.D1 ? 'pass' : 'fail'}">${avgD1 >= std.D1 ? '达标' : '未达标'}</div>
+      </div>
+    </div>`;
+}
+
+function renderAchievementCard() {
+  if (history.length === 0) { document.getElementById("achievementCard").style.display = "none"; return; }
+  let last = history[history.length - 1];
+  let std = TYPE_STANDARDS[PROJECT_TYPES[projectTypeIdx].name];
+  let allPassed = last.progress >= last.planProgress && last.quality >= std.Quality && last.roi >= std.ROI && last.buyCost <= std.BuyCost && last.payUser >= std.PayUser && last.d1 >= std.D1;
+  if (allPassed) {
+    document.getElementById("achievementCard").style.display = "block";
+    document.getElementById("achievementCard").innerHTML = `
+      <div class="achievement-icon">🏆</div>
+      <div class="achievement-title">恭喜！本周所有指标达标！</div>
+      <div class="achievement-text">你的游戏项目表现优秀，继续保持这个势头！</div>
+      <div class="achievement-stats">
+        <div class="achievement-stat"><span class="achievement-stat-icon">📈</span>进度 ${last.progress.toFixed(2)}%</div>
+        <div class="achievement-stat"><span class="achievement-stat-icon">⭐</span>质量 ${last.quality.toFixed(2)}</div>
+        <div class="achievement-stat"><span class="achievement-stat-icon">💰</span>ROI ${last.roi.toFixed(2)}</div>
+        <div class="achievement-stat"><span class="achievement-stat-icon">👥</span>留存 ${(last.d1 * 100).toFixed(2)}%</div>
+      </div>`;
+  } else {
+    document.getElementById("achievementCard").style.display = "none";
+  }
+}
+
+function renderTeams() {
+  let html = "";
+  for (let i = 0; i < TEAMS.length; i++) {
+    // 跳过人事部门（索引4）和PM部门（索引5），由专门卡片渲染
+    if (i === 4 || i === 5) continue;
+    
+    let t = TEAMS[i];
+    let morale = teamMorale[i];
+    let leader = leaders[i];
+    let currentNum = teams[i].length;
+    let sat = t.base === 0 || currentNum === 0 ? 0 : t.base / currentNum * 100;
+    let satClass = sat >= 100 ? 'green' : sat >= 80 ? 'orange' : 'red';
+    let countClass = currentNum > EMP_LIMIT[i] ? 'danger' : currentNum > EMP_LIMIT[i] * 0.8 ? 'warning' : 'normal';
+    let output = teamOutputs ? teamOutputs[i] : null;
+
+    html += `<div class="team-card">
+      <div class="team-header"><div class="team-title">${t.icon} ${t.name}团队</div><div class="team-count ${countClass}">${currentNum}/${EMP_LIMIT[i]}人</div></div>
+      <div class="team-content">
+        <div class="leader-box">
+          ${leader ? `
+            <div><span class="leader-name" style="color:${leader.color}">${leader.name}</span><span class="leader-level" style="background:${leader.color}">${leader.level}</span><span class="leader-ability">能力: ${leader.ability.toFixed(2)}</span></div>
+            <div class="leader-adv">${leader.adv.map(a => `<span class="adv-tag">${a}</span>`).join('')}</div>
+            <div class="leader-actions">
+              <button class="btn sm outline" onclick="praiseLeader(${i})" ${!running || leaderActionTimes[i] <= 0 ? 'disabled' : ''}>施压 (${leaderActionTimes[i]})</button>
+              <button class="btn sm outline" onclick="encourageLeader(${i})" ${!running || leaderEncourageTimes[i] <= 0 ? 'disabled' : ''}>鼓励 (${leaderEncourageTimes[i]})</button>
+              <button class="btn sm train" onclick="trainTeam(${i})" ${!running || money < TRAINING_COST ? 'disabled' : ''}>培训 ¥${TRAINING_COST.toLocaleString()}</button>
+              ${history.length < 16 ? `<button class="btn sm outline" onclick="showChangeLeaderModal(${i})" ${!running ? 'disabled' : ''}>更换负责人</button>` : ''}
+            </div>
+          ` : '<span class="red">[未确定]</span>'}
+        </div>
+        <div class="team-stats">
+          <div class="stat-item">工作饱和度: <span class="stat-value ${satClass}">${sat.toFixed(2)}%</span></div>
+          <div class="stat-item">部门士气: <span class="stat-value ${morale >= 60 ? 'green' : 'red'}">${morale.toFixed(2)}</span></div>
+        </div>
+        ${output ? renderTeamOutput(output, i) : ''}
+        ${teams[i].length < EMP_LIMIT[i] && running && !leaderSelecting ? `<button class="btn primary recruit" onclick="showRecruitModal(${i})">招聘员工</button>` : ''}
+        <div class="staff-list">
+          ${teams[i].map((s, idx) => {
+            let empSat = calcStaffSaturation(s);
+            let satColor = empSat >= 120 ? 'red' : empSat <= 80 ? '#888' : 'orange';
+            let loyaltyColor = s.loyalty >= 70 ? '#10b981' : s.loyalty >= 50 ? '#f59e0b' : '#ef4444';
+            let canTalk = running && (!talkCooldowns[s.id] || history.length - talkCooldowns[s.id] >= 2);
+            let workloadColor = s.workload > 1.3 ? '#ef4444' : s.workload > 1.1 ? '#f59e0b' : s.workload < 0.8 ? '#3b82f6' : '#374151';
+            // 个性标签
+            let personalityTag = s.personalityType ? `<span class="personality-tag ${s.personalityType.type}">${s.personalityType.name}</span>` : '';
+            return `<div class="staff-item" id="staff-${i}-${idx}">
+              <span class="staff-avatar">${s.avatar}</span>
+              <span class="staff-name" style="color:${s.color}">${s.name}</span>
+              <span class="staff-level" style="background:${s.color}">${s.level}</span>
+              ${personalityTag}
+              <div class="staff-workload">
+                <button class="btn workload-btn workload-minus" onclick="adjustWorkload(${i},${idx},-0.1)" ${!running ? 'disabled' : ''}>−</button>
+                <span class="workload-value" id="workload-${i}-${idx}" style="color:${workloadColor}">${s.workload.toFixed(2)}</span>
+                <button class="btn workload-btn workload-plus" onclick="adjustWorkload(${i},${idx},0.1)" ${!running ? 'disabled' : ''}>+</button>
+              </div>
+              <span class="staff-sat" style="color:${satColor}">${empSat.toFixed(0)}%</span>
+              <span class="staff-loyalty" style="min-width:35px;color:${loyaltyColor}">❤${s.loyalty.toFixed(0)}</span>
+              <button class="talk-btn-inline" onclick="talkToStaff(${i},${idx})" ${!canTalk ? 'disabled' : ''}>💬</button>
+              <button class="btn fire" onclick="fireStaff(${i},'${s.id}')" ${!running ? 'disabled' : ''}>✕</button>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>`;
+  }
+  document.getElementById("teamsGrid").innerHTML = html;
+}
+
+function renderTeamOutput(output, teamIdx) {
+  let std = TYPE_STANDARDS[PROJECT_TYPES[projectTypeIdx].name];
+  let items = [
+    { label: "效率", value: output.efficiency, good: output.efficiency >= 0.8, unit: "" },
+    { label: "产出", value: output.output, good: output.output >= 0.7, unit: "" }
+  ];
+  return `<div class="team-output">
+    <div class="team-output-title">📊 本周产出分析</div>
+    <div class="team-output-bars">
+      ${items.map(item => `
+        <div class="output-bar-item">
+          <span class="output-bar-label">${item.label}</span>
+          <div class="output-bar-track"><div class="output-bar-fill ${item.good ? 'good' : 'medium'}" style="width:${Math.min(item.value * 100, 100)}%"></div></div>
+          <span class="output-bar-value" style="color:${item.good ? '#10b981' : '#f59e0b'}">${(item.value * 100).toFixed(0)}%</span>
+        </div>
+      `).join('')}
+    </div>
+  </div>`;
+}
+
+function renderFeatures() {
+  if (!running) { document.getElementById("featuresGrid").innerHTML = ""; return; }
+  
+  let std = TYPE_STANDARDS[PROJECT_TYPES[projectTypeIdx].name];
+  
+  document.getElementById("featuresGrid").innerHTML = `
+    <div class="feature-card">
+      <div class="feature-header"><span class="feature-title">📊 市场数据测试</span>${marketTests.length > 0 ? `<span class="badge blue">${marketTests.length}次</span>` : ''}</div>
+      <div class="feature-content">
+        <div class="test-grid">
+          ${MARKET_TEST_TYPES.map(t => `
+            <button class="test-btn ${hasDoneMarketResearch[t.id] ? 'has-bonus' : ''} ${monthlyMarketTestsUsed[t.id] ? 'disabled' : ''}" onclick="doMarketTest('${t.id}')" ${money < t.cost || monthlyMarketTestsUsed[t.id] ? 'disabled' : ''}>
+              <span class="test-icon">${t.icon}</span>
+              <span class="test-name">${t.name}</span>
+              <span class="test-cost">¥${t.cost.toLocaleString()}</span>
+              ${monthlyMarketTestsUsed[t.id] ? '<span style="font-size:10px;color:#ef4444;">本月已用</span>' : ''}
+            </button>
+          `).join('')}
+        </div>
+        <div class="research-effect">
+          <div class="research-effect-title">🎯 市场调研效果</div>
+          ${MARKET_TEST_TYPES.map(t => `
+            <div class="research-effect-item">
+              <span class="research-effect-icon">${t.icon}</span>
+              <span class="research-effect-text">${t.name}:</span>
+              <span class="research-effect-value">${t.effectDesc}</span>
+            </div>
+          `).join('')}
+        </div>
+        ${marketTests.length > 0 ? `
+          <div class="test-result">
+            <div class="test-result-title">最新: ${marketTests[marketTests.length - 1].testType} <span class="badge ${marketTests[marketTests.length - 1].score >= 80 ? 'green' : ''}">${marketTests[marketTests.length - 1].score.toFixed(2)}分</span></div>
+            <div class="test-result-insight">${marketTests[marketTests.length - 1].recommendations[0]}</div>
+          </div>
+        ` : ''}
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-header"><span class="feature-title">📱 广告投放控制</span><span class="badge ${adStrategy === 'aggressive' ? 'red' : adStrategy === 'conservative' ? '' : 'blue'}">${adStrategy === 'aggressive' ? '激进' : adStrategy === 'conservative' ? '保守' : '平衡'}</span></div>
+      <div class="feature-content">
+        <div class="strategy-label">投放策略</div>
+        <div class="strategy-btns">
+          <button class="strategy-btn ${adStrategy === 'aggressive' ? 'active' : ''}" onclick="setAdStrategy('aggressive')">🔥 激进</button>
+          <button class="strategy-btn ${adStrategy === 'balanced' ? 'active' : ''}" onclick="setAdStrategy('balanced')">⚖️ 平衡</button>
+          <button class="strategy-btn ${adStrategy === 'conservative' ? 'active' : ''}" onclick="setAdStrategy('conservative')">🛡️ 保守</button>
+        </div>
+        <div class="strategy-hint">${adStrategy === 'aggressive' ? '激进策略：高投入高回报，但压力大' : adStrategy === 'balanced' ? '平衡策略：稳健发展' : '保守策略：低成本运营，发展较慢'}</div>
+        <div>
+          ${adChannels.map(c => `
+            <div class="channel-item">
+              <span class="channel-icon">${c.icon}</span>
+              <span class="channel-name">${c.name}</span>
+              <button class="channel-toggle ${c.active ? 'on' : 'off'}" onclick="toggleChannel('${c.id}')">${c.active ? '启用' : '关闭'}</button>
+              ${c.active ? `<div class="channel-budget"><span>预算:</span><input type="number" value="${c.budget}" onchange="setChannelBudget('${c.id}', this.value)" min="0" step="1000"></div>` : ''}
+            </div>
+          `).join('')}
+        </div>
+        <div class="ad-preview">
+          <div class="preview-item"><div class="label">效率</div><div class="value blue">${(calcAdEffect().efficiency * 100).toFixed(2)}%</div></div>
+          <div class="preview-item"><div class="label">预估触达</div><div class="value green">${calcAdEffect().reach.toLocaleString()}</div></div>
+          <div class="preview-item"><div class="label">周预算</div><div class="value orange">¥${calcAdEffect().cost.toLocaleString()}</div></div>
+        </div>
+      </div>
+    </div>
+    ${renderHRCard()}
+    ${renderPMCard()}`;
+}
+
+// 渲染HR部门卡片
+function renderHRCard() {
+  if (!hrDepartment) {
+    // 未建立HR部门（应该不会发生，因为游戏开始时会根据人事领导自动建立）
+    return `
+      <div class="hr-card">
+        <div class="hr-card-title">👥 人力资源部门</div>
+        <div style="text-align: center; padding: 20px;">
+          <div style="font-size: 48px; margin-bottom: 12px;">🏢</div>
+          <div style="color: #92400e; margin-bottom: 12px;">尚未建立HR部门</div>
+          <div style="font-size: 13px; color: #6b7280; margin-bottom: 16px;">HR部门可监控员工离职动向，每半月生成报告</div>
+          <button class="hr-report-btn" onclick="initHRDepartment()" ${money < 100000 ? 'disabled' : ''}>建立HR部门 (¥100,000)</button>
+        </div>
+      </div>`;
+  }
+  
+  // 已建立HR部门
+  let canReport = lastHRReportWeek !== Math.floor(history.length / 2);
+  let totalStaff = teams.slice(0, 4).reduce((sum, t) => sum + t.length, 0);
+  let hrbpLevel = hrDepartment.hrbp.level || 'A';
+  let hrbpAbility = hrDepartment.hrbp.ability || 1.2;
+  
+  return `
+    <div class="hr-card">
+      <div class="hr-card-title">👥 人力资源部门<span class="hr-leader-badge">人事总监</span></div>
+      <div class="hr-staff-grid">
+        <div class="hr-staff-item" style="background: rgba(251, 191, 36, 0.2); border: 1px solid rgba(251, 191, 36, 0.4);">
+          <div class="hr-staff-avatar">${hrDepartment.hrbp.avatar}</div>
+          <div class="hr-staff-name">${hrDepartment.hrbp.name}</div>
+          <div class="hr-staff-role">人事总监 (${hrbpLevel}级)</div>
+          <div style="font-size: 11px; color: #92400e; margin-top: 4px;">能力: ${hrbpAbility.toFixed(2)}</div>
+        </div>
+        ${hrDepartment.hrs.map(hr => `
+          <div class="hr-staff-item">
+            <div class="hr-staff-avatar">${hr.avatar}</div>
+            <div class="hr-staff-name">${hr.name}</div>
+            <div class="hr-staff-role">HR专员</div>
+          </div>
+        `).join('')}
+      </div>
+      <div style="font-size: 13px; color: #6b7280; margin-bottom: 12px;">
+        监控员工: ${totalStaff}人 | 本周: ${history.length + 1}/24
+      </div>
+      <button class="hr-report-btn" onclick="generateHRReport()" ${!canReport || !running ? 'disabled' : ''}>
+        ${canReport ? '📊 生成半月报告' : '✓ 本半月已报告'}
+      </button>
+      ${hrReports.length > 0 ? `
+        <div style="margin-top: 12px; padding: 10px; background: rgba(255,255,255,0.5); border-radius: 6px; font-size: 12px;">
+          <div style="font-weight: 600; color: #92400e; margin-bottom: 6px;">最近报告 (第${hrReports[hrReports.length - 1].week + 1}周)</div>
+          <div style="color: #6b7280;">
+            高风险: <span style="color: #ef4444; font-weight: 600;">${hrReports[hrReports.length - 1].highRisk}</span> | 
+            中风险: <span style="color: #f59e0b; font-weight: 600;">${hrReports[hrReports.length - 1].mediumRisk}</span>
+          </div>
+        </div>
+      ` : ''}
+    </div>`;
+}
+
+// 渲染PM部门卡片
+function renderPMCard() {
+  if (!pmDepartment) {
+    // 未建立PM部门（应该不会发生，因为游戏开始时会根据PM领导自动建立）
+    return `
+      <div class="pm-card">
+        <div class="pm-card-title">📋 项目管理部门</div>
+        <div style="text-align: center; padding: 20px;">
+          <div style="font-size: 48px; margin-bottom: 12px;">📊</div>
+          <div style="color: #1e40af; margin-bottom: 12px;">尚未建立PM部门</div>
+          <div style="font-size: 13px; color: #6b7280; margin-bottom: 16px;">PM部门可协调各部门工作，每半月生成项目报告</div>
+        </div>
+      </div>`;
+  }
+  
+  // 已建立PM部门
+  let canReport = lastPMReportWeek !== Math.floor(history.length / 2);
+  let pmLeaderLevel = pmDepartment.leader.level || 'A';
+  let pmLeaderAbility = pmDepartment.leader.ability || 1.2;
+  let efficiencyBonus = pmBonuses.efficiency || 0;
+  let coordinationBonus = pmBonuses.coordination || 0;
+  
+  return `
+    <div class="pm-card">
+      <div class="pm-card-title">📋 项目管理部门<span class="pm-leader-badge">项目总监</span></div>
+      <div class="pm-staff-grid">
+        <div class="pm-staff-item" style="background: rgba(59, 130, 246, 0.2); border: 1px solid rgba(59, 130, 246, 0.4);">
+          <div class="pm-staff-avatar">${pmDepartment.leader.avatar}</div>
+          <div class="pm-staff-name">${pmDepartment.leader.name}</div>
+          <div class="pm-staff-role">项目总监 (${pmLeaderLevel}级)</div>
+          <div style="font-size: 11px; color: #1e40af; margin-top: 4px;">能力: ${pmLeaderAbility.toFixed(2)}</div>
+        </div>
+        ${pmDepartment.pms.map(pm => `
+          <div class="pm-staff-item">
+            <div class="pm-staff-avatar">${pm.avatar}</div>
+            <div class="pm-staff-name">${pm.name}</div>
+            <div class="pm-staff-role">PM专员</div>
+          </div>
+        `).join('')}
+      </div>
+      <div style="font-size: 13px; color: #6b7280; margin-bottom: 8px;">
+        项目增益: 效率+${efficiencyBonus}% | 协调+${coordinationBonus}%
+      </div>
+      <div style="font-size: 12px; color: #6b7280; margin-bottom: 12px;">
+        本周: ${history.length + 1}/24
+      </div>
+      <button class="pm-report-btn" onclick="generatePMReport()" ${!canReport || !running ? 'disabled' : ''}>
+        ${canReport ? '📊 生成半月报告' : '✓ 本半月已报告'}
+      </button>
+      ${pmReports.length > 0 ? `
+        <div style="margin-top: 12px; padding: 10px; background: rgba(255,255,255,0.5); border-radius: 6px; font-size: 12px;">
+          <div style="font-weight: 600; color: #1e40af; margin-bottom: 6px;">最近报告 (第${pmReports[pmReports.length - 1].week + 1}周)</div>
+          <div style="color: #6b7280;">
+            发现问题: <span style="color: #ef4444; font-weight: 600;">${pmReports[pmReports.length - 1].issueCount}</span>项 |
+            已解决: <span style="color: #10b981; font-weight: 600;">${pmReports[pmReports.length - 1].highSeverity}</span>项
+          </div>
+        </div>
+      ` : ''}
+    </div>`;
+}
+
+function renderDiagnose() {
+  if (diagnoseArr.length === 0 || !teamOutputs) { document.getElementById("diagnoseCard").style.display = "none"; return; }
+  
+  let std = TYPE_STANDARDS[PROJECT_TYPES[projectTypeIdx].name];
+  let html = `<div class="diagnose-title">🔍 项目问题诊断与改进建议</div>`;
+  
+  for (let i = 0; i < TEAMS.length; i++) {
+    // 跳过人事部门（索引4）和PM部门（索引5）
+    if (i === 4 || i === 5) continue;
+    
+    let output = teamOutputs[i];
+    let problems = [];
+    let solutions = [];
+    
+    if (output.efficiency < 0.6) {
+      problems.push("团队效率过低，产出不足");
+      solutions.push("考虑招聘更高等级员工或培训现有员工");
+    }
+    if (output.efficiency >= 0.6 && output.efficiency < 0.8) {
+      problems.push("团队效率一般，有提升空间");
+      solutions.push("可通过施压/鼓励或培训提升效率");
+    }
+    if (teams[i].length < TEAMS[i].base * 0.8) {
+      problems.push(`人手不足（${teams[i].length}/${TEAMS[i].base}人）`);
+      solutions.push("招聘更多员工分担工作");
+    }
+    if (teamMorale[i] < 50) {
+      problems.push("士气低落，影响产出质量");
+      solutions.push("鼓励领导、控制工作量或进行团队建设");
+    }
+    
+    // 根据部门类型给出特定建议
+    if (i === 0 && output.output < 0.7) { // 美术
+      problems.push("美术产出影响游戏品质和留存");
+      solutions.push("增加美术人手或培训提升技能");
+    }
+    if (i === 1 && output.output < 0.7) { // 程序
+      problems.push("程序产出影响开发进度和稳定性");
+      solutions.push("招聘高级程序员或减少工作量压力");
+    }
+    if (i === 2 && output.output < 0.7) { // 发行
+      problems.push("发行产出影响买量成本和ROI");
+      solutions.push("增加广告投放预算或优化投放策略");
+    }
+    if (i === 3 && output.output < 0.7) { // 策划
+      problems.push("策划产出影响游戏设计和付费转化");
+      solutions.push("进行定价策略测试或鼓励策划创新");
+    }
+    
+    if (problems.length > 0) {
+      html += `<div class="diagnose-dept">
+        <div class="diagnose-dept-title"><span class="diagnose-dept-icon">${TEAMS[i].icon}</span>${TEAMS[i].name}部门</div>
+        <ul class="diagnose-dept-problems">${problems.map(p => `<li>${p}</li>`).join('')}</ul>
+        <div class="diagnose-dept-solutions">
+          <div class="diagnose-dept-solutions-title">💡 改进建议</div>
+          <ul class="diagnose-dept-solutions-list">${solutions.map(s => `<li>• ${s}</li>`).join('')}</ul>
+        </div>
+      </div>`;
+    }
+  }
+  
+  document.getElementById("diagnoseCard").innerHTML = html;
+  document.getElementById("diagnoseCard").style.display = "block";
+}
+
+function renderChart() {
+  if (!document.getElementById("chartDiv")) return;
+  if (!chartInstance) chartInstance = echarts.init(document.getElementById("chartDiv"));
+  let xAxis = history.map((_, i) => `${Math.floor(i / 4) + 1}月W${i % 4 + 1}`);
+  chartInstance.setOption({
+    tooltip: { trigger: 'axis', backgroundColor: 'rgba(255,255,255,0.95)', borderColor: '#ddd', borderWidth: 1, textStyle: { color: '#333' } },
+    legend: { data: ['计划进度', '实际进度', '研发质量', 'ROI', '次日留存'], bottom: 0 },
+    grid: { left: '3%', right: '4%', bottom: '12%', top: '8%', containLabel: true },
+    xAxis: { type: 'category', data: xAxis, axisLabel: { fontSize: 11 } },
+    yAxis: [
+      { type: 'value', name: '%', min: 0, max: 110, position: 'left' },
+      { type: 'value', name: '分', min: 0, max: 10, position: 'right' }
+    ],
+    series: [
+      { name: '计划进度', type: 'line', data: history.map(h => h.planProgress.toFixed(2)), yAxisIndex: 0, smooth: true, lineStyle: { color: '#888', width: 2 }, itemStyle: { color: '#888' }, symbol: 'circle', symbolSize: 6 },
+      { name: '实际进度', type: 'line', data: history.map(h => h.progress.toFixed(2)), yAxisIndex: 0, smooth: true, lineStyle: { color: '#10b981', width: 3 }, itemStyle: { color: '#10b981' }, symbol: 'circle', symbolSize: 6 },
+      { name: '研发质量', type: 'line', data: history.map(h => h.quality.toFixed(2)), yAxisIndex: 1, smooth: true, lineStyle: { color: '#3b82f6', width: 2 }, itemStyle: { color: '#3b82f6' }, symbol: 'diamond', symbolSize: 6 },
+      { name: 'ROI', type: 'line', data: history.map(h => h.roi.toFixed(2)), yAxisIndex: 1, smooth: true, lineStyle: { color: '#f59e0b', width: 2 }, itemStyle: { color: '#f59e0b' }, symbol: 'triangle', symbolSize: 6 },
+      { name: '次日留存', type: 'line', data: history.map(h => (h.d1 * 100).toFixed(2)), yAxisIndex: 0, smooth: true, lineStyle: { color: '#ef4444', width: 2 }, itemStyle: { color: '#ef4444' }, symbol: 'rect', symbolSize: 6 }
+    ]
+  });
+}
+
+function renderTable() {
+  let std = TYPE_STANDARDS[PROJECT_TYPES[projectTypeIdx].name];
+  document.getElementById("dataTable").innerHTML = `
+    <thead><tr><th>周</th><th>计划</th><th>实际</th><th>质量</th><th>下载</th><th>买量成本</th><th>付费用户</th><th>广告投放</th><th>收益</th><th>ROI</th><th>留存</th></tr></thead>
+    <tbody>
+      ${history.map((h, i) => `<tr>
+        <td>${Math.floor(i / 4) + 1}月W${i % 4 + 1}</td>
+        <td>${h.planProgress.toFixed(2)}%</td>
+        <td class="${h.progress >= h.planProgress ? 'green' : 'red'}">${h.progress.toFixed(2)}%</td>
+        <td class="${h.quality >= std.Quality ? 'green' : 'red'}">${h.quality.toFixed(2)}</td>
+        <td>${h.download.toLocaleString()}</td>
+        <td class="${h.buyCost <= std.BuyCost ? 'green' : 'red'}">¥${h.buyCost.toLocaleString()}</td>
+        <td class="${h.payUser >= std.PayUser ? 'green' : 'red'}">${h.payUser}</td>
+        <td>¥${h.adBudget.toLocaleString()}</td>
+        <td>¥${h.revenue.toLocaleString()}</td>
+        <td class="${h.roi >= std.ROI ? 'green' : 'red'}">${h.roi.toFixed(2)}</td>
+        <td class="${h.d1 >= std.D1 ? 'green' : 'red'}">${(h.d1 * 100).toFixed(2)}%</td>
+      </tr>`).join('')}
+    </tbody>`;
+}
+
+function renderMarket() {
+  document.getElementById("marketGrid").innerHTML = `
+    <div class="market-section">
+      <h4>调研历史</h4>
+      ${marketTests.length > 0 ? marketTests.map(t => `
+        <div class="test-history-item">
+          <div class="test-history-header"><span style="font-weight:500">${t.testType}</span><span class="badge ${t.score >= 80 ? 'green' : ''}">${t.score.toFixed(2)}分</span></div>
+          <div style="font-size:12px;color:#6b7280">${t.insights.slice(0, 2).map(i => `• ${i}`).join('<br>')}</div>
+        </div>
+      `).join('') : '<div style="font-size:13px;color:#6b7280">暂无调研数据</div>'}
+    </div>
+    <div class="market-section">
+      <h4>广告效果统计</h4>
+      <div class="ad-stat-item"><div class="ad-stat-label">总投放预算</div><div class="ad-stat-value orange">¥${history.reduce((s, h) => s + h.adBudget, 0).toLocaleString()}</div></div>
+      <div class="ad-stat-item"><div class="ad-stat-label">平均周投放</div><div class="ad-stat-value blue">¥${(history.length > 0 ? history.reduce((s, h) => s + h.adBudget, 0) / history.length : 0).toFixed(2)}</div></div>
+      <div class="ad-stat-item"><div class="ad-stat-label">当前策略</div><div class="ad-stat-value indigo">${adStrategy === 'aggressive' ? '🔥 激进' : adStrategy === 'conservative' ? '🛡️ 保守' : '⚖️ 平衡'}</div></div>
+    </div>`;
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.tab-btn[onclick="switchTab('${tab}')"]`).classList.add('active');
+  document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+  if (tab === 'chart') setTimeout(() => chartInstance && chartInstance.resize(), 100);
+}
+
+// ====== 新手引导 ======
+function showGuide(step) {
+  const guides = {
+    welcome: { icon: "🎮", title: "欢迎来到游戏公司经理人！", text: "你将扮演一家游戏公司的经理，带领团队在24周内完成一款游戏的开发与运营。", btn: "开始游戏" },
+    leader: { icon: "👔", title: "第一步：选择部门领导", text: "为六个部门（美术、程序、发行、策划、人事、PM）各选择一位领导。领导的等级和能力会直接影响团队效率。", btn: "明白了" },
+    project: { icon: "🎯", title: "第二步：选择游戏类型", text: "不同类型有不同的考核标准，请根据团队优势选择。最终成绩取最后8周平均值！", btn: "开始选择" }
+  };
+  const guide = guides[step];
+  document.getElementById("guideMask").classList.add("show");
+  document.getElementById("guideBox").innerHTML = `
+    <div class="guide-icon">${guide.icon}</div>
+    <div class="guide-title">${guide.title}</div>
+    <div class="guide-text">${guide.text}</div>
+    <button class="guide-btn" onclick="closeGuide('${step}')">${guide.btn}</button>`;
+}
+
+function closeGuide(step) {
+  document.getElementById("guideMask").classList.remove("show");
+  if (step === 'welcome') showGuide('leader');
+  else if (step === 'leader') showLeaderSelect();
+  else if (step === 'project') { document.getElementById("projectSelectCard").style.display = "block"; render(); }
+}
+
+// ====== 月度会议 ======
+function showMonthlyMeeting(monthNum) {
+  let std = TYPE_STANDARDS[PROJECT_TYPES[projectTypeIdx].name];
+  let monthHistory = history.filter((h, i) => Math.floor(i / 4) === monthNum);
+  
+  // 重置本月市场测试限制
+  if (currentMonth !== monthNum) {
+    currentMonth = monthNum;
+    monthlyMarketTestsUsed = {audience:false, competitor:false, trend:false, pricing:false};
+  }
+  
+  // 计算各部门表现
+  let deptStats = [];
+  for (let i = 0; i < 4; i++) {
+    let output = teamOutputs ? teamOutputs[i] : { efficiency: 0.5, output: 0.5 };
+    let status = output.efficiency >= 0.8 ? 'good' : output.efficiency >= 0.6 ? 'warning' : 'poor';
+    let problems = [];
+    if (output.efficiency < 0.6) problems.push("效率严重不足");
+    if (teams[i].length < TEAMS[i].base * 0.8) problems.push("人手短缺");
+    if (teamMorale[i] < 50) problems.push("士气低落");
+    deptStats.push({ efficiency: output.efficiency, status, problems });
+  }
+  
+  // 市场分析
+  let marketInsight = hasDoneMarketResearch.trend ? 
+    "市场趋势分析已完成，建议针对用户偏好进行产品优化。" : 
+    "尚未进行市场趋势分析，建议尽快了解市场动向。";
+  
+  // 竞品分析
+  let competitorInsight = hasDoneMarketResearch.competitor ?
+    "竞品分析已完成，可参考竞品优势改进产品。" :
+    "尚未进行竞品分析，建议了解竞争对手动态。";
+  
+  // 计算月度平均值
+  let avgProgress = monthHistory.length > 0 ? monthHistory.reduce((s, h) => s + h.progress, 0) / monthHistory.length : 0;
+  let avgQuality = monthHistory.length > 0 ? monthHistory.reduce((s, h) => s + h.quality, 0) / monthHistory.length : 0;
+  let avgROI = monthHistory.length > 0 ? monthHistory.reduce((s, h) => s + h.roi, 0) / monthHistory.length : 0;
+  let avgD1 = monthHistory.length > 0 ? monthHistory.reduce((s, h) => s + h.d1, 0) / monthHistory.length : 0;
+  
+  // 收集所有问题
+  let allProblems = [];
+  let allSuggestions = [];
+  
+  if (avgProgress < (monthNum + 1) * 4.17) { allProblems.push("项目进度落后于计划"); allSuggestions.push("增加工作量或招聘更多人手"); }
+  if (avgQuality < std.Quality) { allProblems.push("研发质量未达标"); allSuggestions.push("培训员工或鼓励团队提升品质"); }
+  if (avgROI < std.ROI) { allProblems.push("ROI不达标"); allSuggestions.push("优化广告投放策略或进行市场调研"); }
+  if (avgD1 < std.D1) { allProblems.push("次日留存不达标"); allSuggestions.push("进行用户画像测试优化产品设计"); }
+  if (!hasDoneMarketResearch.audience) { allSuggestions.push("建议进行用户画像测试了解目标用户"); }
+  if (!hasDoneMarketResearch.pricing) { allSuggestions.push("建议进行定价策略测试优化付费转化"); }
+  
+  // 分析离职动向
+  pendingResignations = [];
+  for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < teams[i].length; j++) {
+      let staff = teams[i][j];
+      let risk = calculateResignRisk(staff, i);
+      
+      if (risk.level !== 'low') {
+        pendingResignations.push({
+          teamIdx: i,
+          staffIdx: j,
+          staff: staff,
+          risk: risk
+        });
+      }
+    }
+  }
+  
+  // 按风险排序
+  pendingResignations.sort((a, b) => b.risk.score - a.risk.score);
+  
+  // HR部门汇报
+  let hrReport = hrDepartment ? `
+    <div class="meeting-section">
+      <div class="meeting-section-title">👥 HR部门汇报</div>
+      <div style="font-size:13px;color:#e2e8f0;margin-bottom:8px;">
+        监控员工总数: ${teams.slice(0,4).reduce((s,t) => s+t.length, 0)}人
+      </div>
+      ${pendingResignations.length > 0 ? `
+        <div style="font-size:13px;color:#fbbf24;margin-bottom:8px;">⚠️ 发现 ${pendingResignations.length} 名员工存在离职风险</div>
+        <div style="max-height:120px;overflow-y:auto;">
+          ${pendingResignations.slice(0,5).map(e => `
+            <div style="display:flex;justify-content:space-between;padding:6px;background:rgba(255,255,255,0.05);border-radius:4px;margin-bottom:4px;">
+              <span style="color:#e2e8f0;">${e.staff.avatar} ${e.staff.name} (${TEAMS[e.teamIdx].name})</span>
+              <span class="resign-risk-badge resign-risk-${e.risk.level}" style="font-size:11px;">${e.risk.level === 'high' ? '高风险' : '中风险'}</span>
+            </div>
+          `).join('')}
+        </div>
+      ` : '<div style="color:#4ade80;">✅ 员工队伍稳定，无离职风险</div>'}
+    </div>
+  ` : '';
+  
+  document.getElementById("modalMask").classList.add("show");
+  document.getElementById("modalBox").className = "meeting-modal";
+  document.getElementById("modalBox").innerHTML = `
+    <div class="meeting-header">
+      <div class="meeting-month">📅 ${MONTHS[monthNum]}度总结会议</div>
+      <div class="meeting-title">项目进度检讨与策略讨论</div>
+    </div>
+    
+    <div class="meeting-section">
+      <div class="meeting-section-title">📊 部门汇报</div>
+      ${TEAMS.slice(0, 4).map((t, i) => `
+        <div class="meeting-dept-item">
+          <div class="meeting-dept-name">${t.icon} ${t.name}<span class="meeting-dept-status ${deptStats[i].status}">${deptStats[i].status === 'good' ? '良好' : deptStats[i].status === 'warning' ? '一般' : '需改进'}</span></div>
+          <div class="meeting-dept-detail">效率: ${(deptStats[i].efficiency * 100).toFixed(0)}% | 人数: ${teams[i].length}/${TEAMS[i].base} | 士气: ${teamMorale[i].toFixed(0)}</div>
+          ${deptStats[i].problems.length > 0 ? `<div style="color:#f87171;font-size:12px;margin-top:4px;">问题: ${deptStats[i].problems.join(', ')}</div>` : ''}
+        </div>
+      `).join('')}
+    </div>
+    
+    <div class="meeting-section">
+      <div class="meeting-section-title">📈 项目进度</div>
+      <div class="meeting-stats">
+        <div class="meeting-stat-item"><div class="meeting-stat-label">平均进度</div><div class="meeting-stat-value ${avgProgress >= (monthNum + 1) * 4.17 ? 'good' : 'bad'}">${avgProgress.toFixed(1)}%</div></div>
+        <div class="meeting-stat-item"><div class="meeting-stat-label">平均质量</div><div class="meeting-stat-value ${avgQuality >= std.Quality ? 'good' : 'bad'}">${avgQuality.toFixed(2)}</div></div>
+        <div class="meeting-stat-item"><div class="meeting-stat-label">平均ROI</div><div class="meeting-stat-value ${avgROI >= std.ROI ? 'good' : 'bad'}">${avgROI.toFixed(2)}</div></div>
+      </div>
+    </div>
+    
+    ${hrReport}
+    
+    <div class="meeting-section">
+      <div class="meeting-section-title">🔍 市场分析</div>
+      <div style="font-size:13px;color:#e2e8f0;">${marketInsight}</div>
+      <div style="font-size:13px;color:#e2e8f0;margin-top:6px;">${competitorInsight}</div>
+    </div>
+    
+    ${allProblems.length > 0 ? `
+    <div class="meeting-section">
+      <div class="meeting-section-title">⚠️ 发现的问题</div>
+      <ul class="meeting-problems">${allProblems.map(p => `<li>${p}</li>`).join('')}</ul>
+    </div>` : ''}
+    
+    ${allSuggestions.length > 0 ? `
+    <div class="meeting-section">
+      <div class="meeting-section-title">💡 改进建议</div>
+      <ul class="meeting-suggestions">${allSuggestions.map(s => `<li>${s}</li>`).join('')}</ul>
+    </div>` : ''}
+    
+    ${pendingResignations.length > 0 ? `
+      <button class="meeting-btn" onclick="showResignActionModal()">处理离职动向 (${pendingResignations.length}人)</button>
+    ` : `
+      <button class="meeting-btn" onclick="closeMeeting()">确认并继续</button>
+    `}
+  `;
+}
+
+function showResignActionModal() {
+  if (pendingResignations.length === 0) {
+    closeMeeting();
+    return;
+  }
+  
+  // 显示所有待处理员工的列表
+  document.getElementById("modalBox").innerHTML = `
+    <div class="resign-modal" style="max-width: 600px;">
+      <div class="resign-header">
+        <div class="resign-avatar" style="font-size: 48px;">📋</div>
+        <div class="resign-name">月末离职意向处理</div>
+        <div style="color:#fca5a5;font-size:14px;margin-top:8px;">共 ${pendingResignations.length} 名员工有离职意向</div>
+      </div>
+      
+      <div style="max-height: 350px; overflow-y: auto; margin: 16px 0;">
+        ${pendingResignations.map((emp, idx) => `
+          <div class="resign-employee-card" id="resign-card-${idx}" style="background: rgba(255,255,255,0.1); border-radius: 10px; padding: 12px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.2);">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+              <span style="font-size: 32px;">${emp.staff.avatar}</span>
+              <div style="flex: 1;">
+                <div style="font-size: 16px; font-weight: 600; color: white;">${emp.staff.name}</div>
+                <div style="font-size: 12px; color: #94a3b8;">${TEAMS[emp.teamIdx].name}部门 · ${emp.staff.level}级</div>
+              </div>
+              <span class="resign-risk-badge resign-risk-${emp.risk.level}" style="font-size: 12px; padding: 4px 10px;">
+                ${emp.risk.level === 'high' ? '高风险' : '中风险'}
+              </span>
+            </div>
+            <div style="font-size: 12px; color: #fca5a5; margin-bottom: 8px;">
+              ⚠️ ${emp.risk.reasons.join('、')}
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #e2e8f0;">
+              <span>忠诚度: <span style="color: ${emp.staff.loyalty < 50 ? '#ef4444' : '#f59e0b'}; font-weight: 600;">${emp.staff.loyalty}%</span></span>
+              <span style="color: #6b7280;">|</span>
+              <span>能力: ${emp.staff.effect.toFixed(2)}</span>
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 10px;">
+              <button onclick="handleResignAction('raise', ${idx})" style="flex: 1; padding: 8px; border-radius: 6px; border: none; background: linear-gradient(135deg, #22c55e, #4ade80); color: white; font-weight: 600; cursor: pointer; font-size: 12px;">
+                💰 提薪安抚 (¥${(8000 + emp.staff.effect * 2000).toLocaleString()})
+              </button>
+              <button onclick="handleResignAction('accept', ${idx})" style="flex: 1; padding: 8px; border-radius: 6px; border: none; background: rgba(239, 68, 68, 0.3); color: #fca5a5; font-weight: 600; cursor: pointer; font-size: 12px;">
+                同意离职 (¥${(5000 + emp.staff.effect * 3000).toLocaleString()})
+              </button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      
+      <div style="display: flex; gap: 10px;">
+        <button onclick="handleAllResign('raise')" style="flex: 1; padding: 12px; border-radius: 8px; border: none; background: linear-gradient(135deg, #22c55e, #4ade80); color: white; font-weight: 600; cursor: pointer;">
+          💰 全部提薪安抚
+        </button>
+        <button onclick="closeMeeting()" style="flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #6b7280; background: transparent; color: #94a3b8; cursor: pointer;">
+          暂不处理
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function handleResignAction(action, idx) {
+  if (idx >= pendingResignations.length) {
+    // 处理完毕
+    showResignActionModal();
+    return;
+  }
+  
+  let emp = pendingResignations[idx];
+  
+  switch(action) {
+    case 'raise':
+      // 提薪安抚
+      let raiseCost = 8000 + Math.floor(emp.staff.effect * 2000);
+      if (money >= raiseCost) {
+        money -= raiseCost;
+        emp.staff.loyalty = Math.min(100, emp.staff.loyalty + 25);
+        emp.staff.hasResignWarning = true;
+        addLog(`💰 对${emp.staff.name}提薪安抚，忠诚度+25`);
+        // 从列表中移除
+        pendingResignations.splice(idx, 1);
+        // 更新后续索引
+        for (let i = idx; i < pendingResignations.length; i++) {
+          if (pendingResignations[i].teamIdx === emp.teamIdx && pendingResignations[i].staffIdx > emp.staffIdx) {
+            pendingResignations[i].staffIdx--;
+          }
+        }
+      } else {
+        alert("资金不足！");
+        return;
+      }
+      break;
+      
+    case 'accept':
+      // 同意离职
+      let compens = 5000 + Math.floor(emp.staff.effect * 3000);
+      money -= compens;
+      teams[emp.teamIdx].splice(emp.staffIdx, 1);
+      addLog(`😢 ${emp.staff.name}离职，支付赔偿金¥${compens.toLocaleString()}`);
+      pendingResignations.splice(idx, 1);
+      // 更新后续索引
+      for (let i = idx; i < pendingResignations.length; i++) {
+        if (pendingResignations[i].teamIdx === emp.teamIdx && pendingResignations[i].staffIdx > emp.staffIdx) {
+          pendingResignations[i].staffIdx--;
+        }
+      }
+      break;
+  }
+  
+  render();
+  
+  // 更新界面或关闭
+  if (pendingResignations.length > 0) {
+    showResignActionModal();
+  } else {
+    closeMeeting();
+  }
+}
+
+// 批量处理所有离职意向
+function handleAllResign(action) {
+  if (action === 'raise') {
+    // 计算总费用
+    let totalCost = pendingResignations.reduce((sum, emp) => sum + 8000 + Math.floor(emp.staff.effect * 2000), 0);
+    if (money < totalCost) {
+      alert(`资金不足！需要 ¥${totalCost.toLocaleString()}`);
+      return;
+    }
+    
+    // 执行提薪
+    let processedCount = 0;
+    for (let emp of pendingResignations) {
+      let raiseCost = 8000 + Math.floor(emp.staff.effect * 2000);
+      money -= raiseCost;
+      emp.staff.loyalty = Math.min(100, emp.staff.loyalty + 25);
+      emp.staff.hasResignWarning = true;
+      processedCount++;
+    }
+    addLog(`💰 批量提薪安抚 ${processedCount} 名员工，共花费 ¥${totalCost.toLocaleString()}`);
+    pendingResignations = [];
+  }
+  
+  render();
+  closeMeeting();
+}
+
+function closeMeeting() {
+  document.getElementById("modalMask").classList.remove("show");
+  document.getElementById("modalBox").className = "modal-box";
+}
+
+// ====== 周推进动画 ======
+function startWeekProgress() {
+  if (!project) return;
+  calculateWeekData();
+  document.getElementById("weekProgressMask").classList.add("show");
+  document.getElementById("weekProgressBar").style.width = "0%";
+  document.getElementById("weekResultBox").classList.remove("show");
+  document.getElementById("weekAchievement").classList.remove("show");
+  document.querySelectorAll('.week-progress-step').forEach(s => s.classList.remove('active'));
+  document.getElementById("progressStatus").classList.add('typing');
+  document.getElementById("progressWeekNum").textContent = `第 ${history.length + 1} 周`;
+  animateWeekProgress();
+}
+
+function animateWeekProgress() {
+  const progressBar = document.getElementById("weekProgressBar");
+  const statusText = document.getElementById("progressStatus");
+  const steps = document.querySelectorAll('.week-progress-step');
+  const statusMessages = ["正在计算团队产出...", "美术团队正在进行设计工作", "程序团队正在编写代码", "发行团队正在进行市场推广", "策划团队正在优化玩法", "正在评估项目进度...", "正在计算市场表现...", "正在统计用户数据...", "正在结算收益...", "本周结算完成！"];
+  let progress = 0, statusIndex = 0, stepIndex = 0;
+  const interval = setInterval(() => {
+    progress += 2;
+    progressBar.style.width = progress + "%";
+    if (progress % 10 === 0 && statusIndex < statusMessages.length) { statusText.textContent = statusMessages[statusIndex]; statusIndex++; }
+    if (progress >= 25 && stepIndex === 0) { steps[0].classList.add('active'); stepIndex = 1; }
+    else if (progress >= 50 && stepIndex === 1) { steps[1].classList.add('active'); stepIndex = 2; }
+    else if (progress >= 75 && stepIndex === 2) { steps[2].classList.add('active'); stepIndex = 3; }
+    else if (progress >= 95 && stepIndex === 3) { steps[3].classList.add('active'); }
+    if (progress >= 100) { clearInterval(interval); statusText.classList.remove('typing'); setTimeout(showWeekResult, 300); }
+  }, 50);
+}
+
+function showWeekResult() {
+  const resultBox = document.getElementById("weekResultBox");
+  const resultGrid = document.getElementById("weekResultGrid");
+  const achievement = document.getElementById("weekAchievement");
+  let std = TYPE_STANDARDS[PROJECT_TYPES[projectTypeIdx].name];
+  let allPassed = weekResultData.progress >= weekResultData.planProgress && weekResultData.quality >= std.Quality && weekResultData.roi >= std.ROI && weekResultData.buyCost <= std.BuyCost && weekResultData.payUser >= std.PayUser && weekResultData.d1 >= std.D1;
+  
+  resultGrid.innerHTML = `
+    <div class="week-result-item"><span class="week-result-label">项目进度</span><span class="week-result-value ${weekResultData.progress >= weekResultData.planProgress ? 'good' : 'bad'}">${weekResultData.progress.toFixed(2)}%</span></div>
+    <div class="week-result-item"><span class="week-result-label">研发质量</span><span class="week-result-value ${weekResultData.quality >= std.Quality ? 'good' : 'bad'}">${weekResultData.quality.toFixed(2)}</span></div>
+    <div class="week-result-item"><span class="week-result-label">下载量</span><span class="week-result-value">${weekResultData.download.toLocaleString()}</span></div>
+    <div class="week-result-item"><span class="week-result-label">付费用户</span><span class="week-result-value ${weekResultData.payUser >= std.PayUser ? 'good' : 'bad'}">${weekResultData.payUser}</span></div>
+    <div class="week-result-item"><span class="week-result-label">ROI</span><span class="week-result-value ${weekResultData.roi >= std.ROI ? 'good' : 'bad'}">${weekResultData.roi.toFixed(2)}</span></div>
+    <div class="week-result-item"><span class="week-result-label">次日留存</span><span class="week-result-value ${weekResultData.d1 >= std.D1 ? 'good' : 'bad'}">${(weekResultData.d1 * 100).toFixed(2)}%</span></div>`;
+  
+  if (allPassed) achievement.classList.add('show');
+  resultBox.classList.add('show');
+}
+
+function closeWeekProgress() {
+  document.getElementById("weekProgressMask").classList.remove("show");
+  document.getElementById("progressStatus").classList.add('typing');
+  
+  // 触发随机事件（在应用周数据前）
+  triggerRandomEvent();
+  if (currentRandomEvent) {
+    applyRandomEventEffect(currentRandomEvent);
+  }
+  
+  applyWeekData();
+  
+  // 检查成就
+  checkAchievements();
+  
+  // 检查是否需要召开月度会议
+  let currentMonth = Math.floor(history.length / 4);
+  if (history.length % 4 === 0 && currentMonth > 0 && currentMonth < 6) {
+    setTimeout(() => showMonthlyMeeting(currentMonth - 1), 300);
+  }
+  
+  render();
+}
+
+// ====== 核心计算 ======
+function calculateWeekData() {
+  let planInc = 100 / WEEKS;
+  let newPlanProgress = Math.min(100, (history.length + 1) * planInc);
+  
+  // 团队效率计算
+  let ratios = [], avgEffects = [], leaderBonus = [], effs = [];
+  for (let i = 0; i < 4; i++) {
+    ratios[i] = teams[i].reduce((sum, s) => sum + s.workload, 0) / TEAMS[i].base;
+    avgEffects[i] = teams[i].length > 0 ? teams[i].reduce((sum, s) => sum + s.effect, 0) / teams[i].length : 1;
+    leaderBonus[i] = leaders[i] ? leaders[i].ability : 1;
+    effs[i] = avgEffects[i] * leaderBonus[i] * Math.min(ratios[i], 1.5) * (teams[i].length / TEAMS[i].base);
+  }
+  
+  let pressureBonus = leaderPressureFlag.map(f => f ? 1.05 : 1).reduce((a, b) => a * b, 1);
+  let encourageBonus = leaderEncourageFlag.map(f => f ? 1.08 : 1).reduce((a, b) => a * b, 1);
+  let latestMarketTest = marketTests.length > 0 ? marketTests[marketTests.length - 1] : null;
+  let marketTestBonus = latestMarketTest ? 1 + (latestMarketTest.score / 800) : 1;
+  let adEffect = calcAdEffect();
+  
+  // PM部门增益
+  let pmEfficiencyBonus = 1 + (pmBonuses.efficiency || 0) / 100;
+  let pmCoordinationBonus = 1 + (pmBonuses.coordination || 0) / 100;
+  
+  // 进度计算
+  let baseProgress = 2.5;
+  let progInc = (baseProgress + effs[0] * 0.4 + effs[1] * 0.45 + effs[2] * 0.25 + effs[3] * 0.35 + (Math.random() - 0.5) * 0.6) * pressureBonus * marketTestBonus * pmEfficiencyBonus * pmCoordinationBonus;
+  progInc = Math.min(progInc, 6.5);
+  
+  // 质量计算
+  let baseQuality = 0.04;
+  let qualInc = (baseQuality + effs[0] * 0.018 + effs[1] * 0.018 + effs[3] * 0.025 + (Math.random() - 0.5) * 0.06) * encourageBonus * pmCoordinationBonus;
+  qualInc = Math.max(0.02, Math.min(qualInc, 0.35));
+  
+  let newProgress = Math.min(100, project.progress + progInc);
+  let newQuality = Math.min(10, project.quality + qualInc);
+  let progressRate = Math.min(1, newProgress / (newPlanProgress || 1));
+  
+  // 下载数量
+  let baseDownload = 2000 + Math.floor(Math.random() * 2000);
+  baseDownload += Math.floor(effs[0] * 600 + effs[1] * 500 + effs[2] * 1200 + effs[3] * 400);
+  baseDownload = Math.floor(baseDownload * progressRate);
+  baseDownload += Math.floor(adEffect.reach * adEffect.efficiency * 0.5);
+  
+  // 买量成本
+  let costBase = 1.8 - Math.min(effs[2] * 0.15, 0.5);
+  let buyCost = Math.floor(baseDownload * costBase * (0.9 + Math.random() * 0.3));
+  buyCost = Math.floor(buyCost * (1 - adEffect.efficiency * 0.12));
+  buyCost = Math.max(10000, buyCost);
+  
+  // 付费用户
+  let conversionRate = 0.02 + effs[0] * 0.004 + effs[1] * 0.003 + effs[3] * 0.005;
+  conversionRate = Math.min(0.08, conversionRate);
+  let payUser = Math.floor(baseDownload * conversionRate);
+  if (hasDoneMarketResearch.pricing) payUser = Math.floor(payUser * 1.12);
+  
+  // 广告成本与收益
+  let adCost = Math.floor(effs[2] * 150 + Math.random() * 1500 + adEffect.cost);
+  let avgRevenue = payUser * 15 + baseDownload * 0.5;
+  let revenue = Math.floor(avgRevenue * progressRate);
+  revenue = Math.floor(revenue * (0.8 + adEffect.efficiency * 0.25));
+  
+  // ROI
+  let roi = revenue / (buyCost + adCost + 1);
+  
+  // 次日留存
+  let d1 = 0.15 + effs[0] * 0.015 + effs[1] * 0.012 + effs[2] * 0.01 + effs[3] * 0.018 + newQuality * 0.02;
+  d1 += (Math.random() - 0.5) * 0.04;
+  if (hasDoneMarketResearch.audience) d1 += 0.025;
+  d1 = Math.max(0.12, Math.min(0.55, d1));
+  
+  // 记录各部门产出
+  teamOutputs = effs.map((eff, i) => ({
+    efficiency: Math.min(eff / 2, 1),
+    output: Math.min((eff * teamMorale[i] / 100), 1)
+  }));
+  
+  weekResultData = {
+    planProgress: newPlanProgress, progress: newProgress, quality: newQuality,
+    download: Math.floor(baseDownload), buyCost, payUser, adCost,
+    adBudget: adEffect.cost, revenue, roi, d1,
+    adEffectCost: adEffect.cost, progInc, qualInc,
+    teamEffs: effs
+  };
+}
+
+function applyWeekData() {
+  if (!weekResultData) return;
+  
+  project.planProgress = weekResultData.planProgress;
+  project.progress = weekResultData.progress;
+  project.quality = weekResultData.quality;
+  if (weekResultData.adEffectCost > 0) money -= weekResultData.adEffectCost;
+  
+  history.push({
+    planProgress: weekResultData.planProgress, progress: weekResultData.progress,
+    quality: weekResultData.quality, download: weekResultData.download,
+    buyCost: weekResultData.buyCost, payUser: weekResultData.payUser,
+    adCost: weekResultData.adCost, adBudget: weekResultData.adBudget,
+    revenue: weekResultData.revenue, roi: weekResultData.roi, d1: weekResultData.d1
+  });
+  
+  // 诊断
+  diagnoseArr = [];
+  let std = TYPE_STANDARDS[PROJECT_TYPES[projectTypeIdx].name];
+  let h = weekResultData;
+  if (h.progress < h.planProgress) diagnoseArr.push("进度落后于计划");
+  if (h.quality < std.Quality) diagnoseArr.push("研发质量偏低");
+  if (h.roi < std.ROI) diagnoseArr.push("ROI不达标");
+  if (h.buyCost > std.BuyCost) diagnoseArr.push("买量成本偏高");
+  if (h.payUser < std.PayUser) diagnoseArr.push("付费用户不达标");
+  if (h.d1 < std.D1) diagnoseArr.push("次日留存偏低");
+  
+  // 重置每周状态
+  transferBudget = MONTH_BUDGET_TRANSFER;
+  recruitBudget = MONTH_BUDGET_RECRUIT;
+  leaderActionTimes = [1, 1, 1, 1];
+  leaderEncourageTimes = [1, 1, 1, 1];
+  leaderPressureFlag = [false, false, false, false];
+  leaderEncourageFlag = [false, false, false, false];
+  
+  teams.forEach(t => t.forEach(s => s.workMonths++));
+  refreshAllMorale();
+  
+  // 最终考核判定（取最后8周平均）
+  if (history.length >= WEEKS) {
+    running = false;
+    let finalWeeks = history.slice(-8);
+    let avgProgress = finalWeeks.reduce((s, h) => s + h.progress, 0) / 8;
+    let avgQuality = finalWeeks.reduce((s, h) => s + h.quality, 0) / 8;
+    let avgROI = finalWeeks.reduce((s, h) => s + h.roi, 0) / 8;
+    let avgD1 = finalWeeks.reduce((s, h) => s + h.d1, 0) / 8;
+    let avgBuyCost = finalWeeks.reduce((s, h) => s + h.buyCost, 0) / 8;
+    let avgPayUser = finalWeeks.reduce((s, h) => s + h.payUser, 0) / 8;
+    
+    let ok = avgProgress >= 100 && avgQuality >= std.Quality && avgROI >= std.ROI && avgBuyCost <= std.BuyCost && avgPayUser >= std.PayUser && avgD1 >= std.D1;
+    addLog(ok ? `<span class="green" style="font-weight:bold">🎉 项目成功！最终考核平均达标！</span>` : `<span class="red" style="font-weight:bold">😢 项目失败，最终考核未达标。</span>`);
+  }
+  
+  // 检查员工忠诚度，收集离职意向（统一在月末会议后处理）
+  // 清空之前的离职意向
+  pendingResignations = [];
+  for (let i = 0; i < 4; i++) {
+    for (let j = teams[i].length - 1; j >= 0; j--) {
+      let staff = teams[i][j];
+      // 工作强度过高降低忠诚度
+      let workloadSat = calcStaffSaturation(staff);
+      if (workloadSat > 120) {
+        staff.loyalty = Math.max(20, staff.loyalty - 3);
+      }
+      // 如果忠诚度过低，加入离职意向列表
+      if (staff.loyalty < 60) {
+        let risk = calculateResignRisk(staff, i);
+        pendingResignations.push({
+          teamIdx: i,
+          staffIdx: j,
+          staff: staff,
+          risk: risk
+        });
+      }
+    }
+  }
+  // 按风险排序
+  pendingResignations.sort((a, b) => b.risk.score - a.risk.score);
+  
+  weekResultData = null;
+}
+
+// ====== 游戏逻辑 ======
+function showLeaderSelect() {
+  let avoid = leaders.slice(0, leaderSelectIdx).map(l => l ? l.ability : undefined).filter(x => x !== undefined);
+  leaderCandidates = generateLeaderCandidates(TEAMS[leaderSelectIdx].name, avoid);
+  renderLeaderSelect();
+}
+
+function renderLeaderSelect() {
+  document.getElementById("modalMask").classList.add("show");
+  document.getElementById("modalBox").className = "modal-box";
+  document.getElementById("modalBox").innerHTML = `
+    <div class="modal-title">请选择 <span style="color:#6366f1">${TEAMS[leaderSelectIdx].name}</span> 部门领导（5选1）</div>
+    <div class="modal-subtitle">公司当前资金：<span style="color:#6366f1;font-weight:600">¥${money.toLocaleString()}</span><br>本环节剩余预算：<span style="color:#10b981;font-weight:600">¥${leaderBudget.toLocaleString()}</span></div>
+    <div class="candidate-grid">
+      ${leaderCandidates.map((c, i) => `
+        <div class="candidate-card">
+          <div class="candidate-avatar">👔</div>
+          <div class="candidate-name" style="color:${c.color}">${c.name}</div>
+          <div class="candidate-level" style="background:${c.color}">${c.level}</div>
+          <div class="candidate-ability">能力：<span style="color:${c.color};font-weight:600">${c.ability.toFixed(2)}</span></div>
+          <div class="candidate-adv">${c.adv.map(a => `<span class="adv-tag">${a}</span>`).join('')}</div>
+          <div class="candidate-cost">¥${c.cost.toLocaleString()}</div>
+          <button class="btn primary" onclick="selectLeader(${i})" ${money < c.cost || leaderBudget < c.cost ? 'disabled' : ''}>录用</button>
+          ${money < c.cost || leaderBudget < c.cost ? `<div class="candidate-error">${money < c.cost ? '资金不足' : '超出预算'}</div>` : ''}
+        </div>
+      `).join('')}
+    </div>
+    <div style="text-align:center;margin-top:16px"><button class="btn outline" onclick="refreshLeaderCandidates()">花¥10,000刷新候选人</button></div>`;
+}
+
+function selectLeader(idx) {
+  let c = leaderCandidates[idx];
+  if (money < c.cost || leaderBudget < c.cost) return;
+  money -= c.cost;
+  leaderBudget -= c.cost;
+  leaders[leaderSelectIdx] = JSON.parse(JSON.stringify(c));
+  addLog(`招聘${TEAMS[leaderSelectIdx].name}部门领导${c.name}（${c.level}），花费¥${c.cost.toLocaleString()}`);
+  
+  if (leaderSelectIdx < 5) {
+    leaderSelectIdx++;
+    showLeaderSelect();
+  } else {
+    leaderSelecting = false;
+    document.getElementById("modalMask").classList.remove("show");
+    // 初始化员工
+    staffNamesUsed = [];
+    for (let i = 0; i < TEAMS.length; i++) {
+      teams[i] = [];
+      // 人事部门(4)和PM部门(5)不需要初始化普通员工
+      if (i < 4) {
+        for (let j = 0; j < TEAMS[i].base; j++) teams[i].push(recruitStaff(i, 10000));
+      }
+    }
+    // 根据人事领导自动建立HR部门
+    if (leaders[4]) {
+      initHRDepartmentFromLeader(leaders[4]);
+    }
+    // 根据PM领导自动建立PM部门
+    if (leaders[5]) {
+      initPMDepartmentFromLeader(leaders[5]);
+    }
+    refreshAllMorale();
+    render();
+    setTimeout(() => showGuide('project'), 300);
+  }
+  render();
+}
+
+function refreshLeaderCandidates() {
+  if (money < 10000 || leaderBudget < 10000) { alert("本月领导招聘额度或公司资金不足！"); return; }
+  money -= 10000;
+  leaderBudget -= 10000;
+  let avoid = leaders.slice(0, leaderSelectIdx).map(l => l ? l.ability : undefined).filter(x => x !== undefined);
+  leaderCandidates = generateLeaderCandidates(TEAMS[leaderSelectIdx].name, avoid);
+  renderLeaderSelect();
+  render();
+}
+
+function showRecruitModal(teamIdx) {
+  document.getElementById("modalMask").classList.add("show");
+  document.getElementById("modalBox").className = "modal-box";
+  document.getElementById("modalBox").innerHTML = `
+    <div class="modal-title">选择招聘价位 - ${TEAMS[teamIdx].name}团队</div>
+    <div class="modal-subtitle">公司资金：<span style="color:#6366f1;font-weight:600">¥${money.toLocaleString()}</span><br>本月招聘预算：<span style="color:#10b981;font-weight:600">¥${recruitBudget.toLocaleString()}</span></div>
+    <div class="recruit-grid">
+      ${[5000, 10000, 20000, 50000].map(cost => `
+        <button class="recruit-btn" onclick="doRecruit(${teamIdx}, ${cost})" ${money < cost || recruitBudget < cost ? 'disabled' : ''}>
+          <div class="recruit-cost">¥${cost.toLocaleString()}</div>
+          <div class="recruit-type">${cost === 5000 ? '普通招聘' : cost === 10000 ? '标准招聘' : cost === 20000 ? '优质招聘' : '精英招聘'}</div>
+        </button>
+      `).join('')}
+    </div>
+    <div class="recruit-hint">价格越高，招聘到高等级员工的概率越大</div>
+    <div style="text-align:center;margin-top:12px"><button class="btn outline" onclick="closeModal()">取消</button></div>`;
+}
+
+function doRecruit(teamIdx, cost) {
+  if (money < cost || recruitBudget < cost) return;
+  money -= cost;
+  recruitBudget -= cost;
+  let emp = recruitStaff(teamIdx, cost);
+  teams[teamIdx].push(emp);
+  refreshAllMorale();
+  addLog(`新员工[${emp.name}]（${emp.level}）入职${TEAMS[teamIdx].name}，花费¥${cost.toLocaleString()}`);
+  document.getElementById("modalBox").innerHTML = `
+    <div class="result-box">
+      <div class="result-avatar">${emp.avatar}</div>
+      <div class="result-name" style="color:${emp.color}">${emp.name}<span class="result-level" style="background:${emp.color}">${emp.level}</span></div>
+      <div class="result-info">性别：${emp.gender === 'male' ? '男' : '女'} | 能力：<span style="color:${emp.color};font-weight:600">${emp.effect.toFixed(2)}</span></div>
+      <div style="margin-top:16px"><button class="btn primary" onclick="closeModal()">确定</button></div>
+    </div>`;
+  render();
+}
+
+function closeModal() { document.getElementById("modalMask").classList.remove("show"); }
+
+function showResignModal(teamIdx, staffIdx) {
+  let staff = teams[teamIdx][staffIdx];
+  let compens = Math.floor(5000 + staff.effect * 3000);
+  let raiseCost = Math.floor(8000 + staff.effect * 2000);
+  document.getElementById("modalMask").classList.add("show");
+  document.getElementById("modalBox").innerHTML = `
+    <div class="resign-modal">
+      <div class="resign-header">
+        <div class="resign-avatar">${staff.avatar}</div>
+        <div class="resign-name">${staff.name} 提出离职</div>
+      </div>
+      <div class="resign-warning">
+        ⚠️ 员工忠诚度过低（${staff.loyalty.toFixed(0)}%），希望离开公司
+      </div>
+      <div style="color:#e2e8f0;font-size:14px;text-align:center;">
+        ${staff.name}（${staff.level}级）已在${TEAMS[teamIdx].name}部门工作${staff.workMonths}个月
+      </div>
+      <div class="resign-options">
+        <button class="resign-btn accept" onclick="acceptResign(${teamIdx}, ${staffIdx}, ${compens})">
+          同意离职
+          <div class="resign-cost">支付赔偿金 ¥${compens.toLocaleString()}</div>
+        </button>
+        <button class="resign-btn keep" onclick="keepStaff(${teamIdx}, ${staffIdx}, ${raiseCost})" ${money < raiseCost ? 'disabled style="opacity:0.5"' : ''}>
+          提薪安抚
+          <div class="resign-cost">花费 ¥${raiseCost.toLocaleString()}</div>
+        </button>
+      </div>
+    </div>`;
+}
+
+function acceptResign(teamIdx, staffIdx, compens) {
+  let staff = teams[teamIdx][staffIdx];
+  money -= compens;
+  teams[teamIdx].splice(staffIdx, 1);
+  addLog(`😢 ${staff.name}离职，支付赔偿金¥${compens.toLocaleString()}`);
+  document.getElementById("modalMask").classList.remove("show");
+  refreshAllMorale();
+  render();
+}
+
+function keepStaff(teamIdx, staffIdx, cost) {
+  let staff = teams[teamIdx][staffIdx];
+  money -= cost;
+  staff.loyalty = Math.min(100, staff.loyalty + 25);
+  staff.hasResignWarning = true; // 已警告过，下次直接离职
+  addLog(`💰 提薪安抚${staff.name}，忠诚度+25，花费¥${cost.toLocaleString()}`);
+  document.getElementById("modalMask").classList.remove("show");
+  render();
+}
+
+function showChangeLeaderModal(teamIdx) {
+  if (history.length >= 16) {
+    alert("考核期间（最后两个月）无法更换负责人！");
+    return;
+  }
+  leaderSelectIdx = teamIdx;
+  leaderCandidates = generateLeaderCandidates(TEAMS[teamIdx].name, leaders[teamIdx] ? [leaders[teamIdx].ability] : []);
+  document.getElementById("modalMask").classList.add("show");
+  renderChangeLeaderModal(teamIdx);
+}
+
+function renderChangeLeaderModal(teamIdx) {
+  let title = TEAMS[teamIdx].name;
+  document.getElementById("modalBox").innerHTML = `
+    <div class="modal-title">更换${title}部门负责人</div>
+    <div class="modal-subtitle" style="color:#ef4444;margin-bottom:12px;">⚠️ 更换负责人将导致部门员工忠诚度下降8~15点</div>
+    <div class="candidate-grid">
+      ${leaderCandidates.map((c, i) => `
+        <div class="candidate-card">
+          <div class="candidate-avatar">${['👨‍💼','👩‍💼','👨‍💻','👩‍💻','👨‍🎨'][i]}</div>
+          <div class="candidate-name" style="color:${c.color}">${c.name}</div>
+          <div class="candidate-level" style="background:${c.color}">${c.level}</div>
+          <div class="candidate-ability">能力: ${c.ability.toFixed(2)}</div>
+          <div class="candidate-adv">${c.adv.map(a => `<span class="adv-tag">${a}</span>`).join('')}</div>
+          <div class="candidate-cost">¥${c.cost.toLocaleString()}</div>
+          <button class="btn primary sm" onclick="changeLeader(${teamIdx}, ${i})" ${money < c.cost ? 'disabled' : ''}>选择</button>
+        </div>
+      `).join('')}
+    </div>
+    <button class="btn outline" style="margin-top:16px;width:100%" onclick="closeModal()">取消</button>`;
+}
+
+function changeLeader(teamIdx, candidateIdx) {
+  if (history.length >= 16) {
+    alert("考核期间无法更换负责人！");
+    closeModal();
+    return;
+  }
+  let candidate = leaderCandidates[candidateIdx];
+  if (money < candidate.cost) {
+    alert("资金不足！");
+    return;
+  }
+  money -= candidate.cost;
+  let loyaltyDrop = 8 + Math.floor(Math.random() * 8);
+  teams[teamIdx].forEach(s => {
+    s.loyalty = Math.max(20, s.loyalty - loyaltyDrop);
+  });
+  leaders[teamIdx] = {...candidate, dept: TEAMS[teamIdx].name, morale: 0};
+  addLog(`📋 ${TEAMS[teamIdx].name}部门更换负责人为${candidate.name}（${candidate.level}级），部门员工忠诚度-${loyaltyDrop}`);
+  closeModal();
+  refreshAllMorale();
+  render();
+}
+
+function adjustWorkload(teamIdx, staffIdx, delta) {
+  let staff = teams[teamIdx][staffIdx];
+  let oldWorkload = staff.workload;
+  let neww = +(staff.workload + delta).toFixed(2);
+  if (neww < 0.5 || neww > 2) {
+    showToast(delta > 0 ? '工作量已达上限 (2.0)' : '工作量已达下限 (0.5)');
+    return;
+  }
+  
+  // 保存所有员工列表的滚动位置
+  let scrollPositions = [];
+  document.querySelectorAll('.staff-list').forEach((list, idx) => {
+    scrollPositions[idx] = list.scrollTop;
+  });
+  
+  staff.workload = neww;
+  refreshAllMorale();
+  render();
+  
+  // 恢复滚动位置并添加视觉反馈
+  setTimeout(() => {
+    document.querySelectorAll('.staff-list').forEach((list, idx) => {
+      if (scrollPositions[idx] !== undefined) {
+        list.scrollTop = scrollPositions[idx];
+      }
+    });
+    
+    // 添加视觉反馈效果
+    let workloadEl = document.getElementById(`workload-${teamIdx}-${staffIdx}`);
+    if (workloadEl) {
+      workloadEl.classList.add('changed');
+      setTimeout(() => workloadEl.classList.remove('changed'), 300);
+    }
+  }, 0);
+  
+  // 显示提示（仅在显著变化时）
+  if (Math.abs(neww - oldWorkload) >= 0.1) {
+    let changeText = delta > 0 ? '↑ 增加' : '↓ 减少';
+    showToast(`${staff.name} 工作量${changeText}至 ${neww.toFixed(2)}`);
+  }
+}
+
+function fireStaff(teamIdx, sid) {
+  let idx = teams[teamIdx].findIndex(e => e.id === sid);
+  if (idx >= 0) {
+    teams[teamIdx].splice(idx, 1);
+    refreshAllMorale();
+    addLog(`解雇了${TEAMS[teamIdx].name}部门员工`);
+    render();
+  }
+}
+
+function praiseLeader(idx) {
+  if (leaderActionTimes[idx] <= 0 || !leaders[idx]) return;
+  leaderActionTimes[idx]--;
+  leaderPressureFlag[idx] = true;
+  leaders[idx].morale = (leaders[idx].morale || 0) - 4;
+  
+  // 降低每个员工的忠诚度
+  let loyaltyDrop = 5 + Math.floor(Math.random() * 5);
+  teams[idx].forEach(staff => {
+    let personalityMod = staff.personality ? staff.personality.pressureMod : 1;
+    let actualDrop = Math.floor(loyaltyDrop * personalityMod);
+    staff.loyalty = Math.max(20, staff.loyalty - actualDrop);
+  });
+  
+  refreshAllMorale();
+  addLog(`⚡ 你对${TEAMS[idx].name}部门领导${leaders[idx].name}施压，效率提升，员工忠诚度下降${loyaltyDrop}~${loyaltyDrop + 5}`);
+  render();
+}
+
+function encourageLeader(idx) {
+  if (leaderEncourageTimes[idx] <= 0 || !leaders[idx]) return;
+  let cost = 20000;
+  if (money < cost) { alert("资金不足，无法鼓励！"); return; }
+  leaderEncourageTimes[idx]--;
+  leaderEncourageFlag[idx] = true;
+  money -= cost;
+  leaders[idx].morale = (leaders[idx].morale || 0) + 3;
+  refreshAllMorale();
+  addLog(`你鼓励了${leaders[idx].dept}部门领导${leaders[idx].name}，品质提升，花费¥${cost.toLocaleString()}`);
+  render();
+}
+
+function trainTeam(idx) {
+  if (money < TRAINING_COST) { alert("资金不足！"); return; }
+  money -= TRAINING_COST;
+  
+  // 部门整体增益
+  let deptBonus = 0;
+  let upgradedCount = 0;
+  
+  teams[idx].forEach(staff => {
+    // 50%概率小幅提升能力
+    if (Math.random() > 0.5) {
+      staff.effect = Math.min(1.7, staff.effect + 0.05);
+      deptBonus += 0.05;
+    }
+    // 30%概率提升忠诚度
+    if (Math.random() > 0.7) {
+      staff.loyalty = Math.min(100, staff.loyalty + 3);
+    }
+  });
+  
+  // 随机提升一个员工等级
+  if (teams[idx].length > 0) {
+    let staff = teams[idx][Math.floor(Math.random() * teams[idx].length)];
+    let oldEffect = staff.effect;
+    let levels = STAFF_LEVELS.map(l => l.effect);
+    let currentLvIdx = levels.findIndex(l => Math.abs(l - staff.effect) < 0.01);
+    if (currentLvIdx > 0 && Math.random() > 0.4) {
+      staff.effect = levels[currentLvIdx - 1];
+      staff.level = STAFF_LEVELS[currentLvIdx - 1].level;
+      staff.color = STAFF_LEVELS[currentLvIdx - 1].color;
+      upgradedCount++;
+      addLog(`🎯 培训成功！${TEAMS[idx].name}部门${staff.name}晋升为${staff.level}级！部门整体能力+${deptBonus.toFixed(2)}`);
+    } else {
+      staff.effect = Math.min(1.7, staff.effect + 0.1);
+      addLog(`📚 培训完成！${TEAMS[idx].name}部门整体能力+${deptBonus.toFixed(2)}`);
+    }
+  }
+  
+  refreshAllMorale();
+  render();
+}
+
+function doMarketTest(testType) {
+  let testInfo = MARKET_TEST_TYPES.find(t => t.id === testType);
+  if (!testInfo || money < testInfo.cost) { alert("资金不足！"); return; }
+  
+  // 检查本月是否已使用过
+  if (monthlyMarketTestsUsed[testType]) {
+    alert(`⚠️ ${testInfo.name}本月已使用过，请等待下月重置！`);
+    return;
+  }
+  
+  // 先扣款并标记本月已使用
+  money -= testInfo.cost;
+  monthlyMarketTestsUsed[testType] = true;
+  hasDoneMarketResearch[testType] = true;
+  
+  // 显示遮罩
+  let mask = document.getElementById('marketTestMask');
+  mask.classList.add('show');
+  
+  // 设置标题和图标
+  document.getElementById('marketTestIcon').textContent = testInfo.icon;
+  document.getElementById('marketTestTitle').textContent = testInfo.name;
+  document.getElementById('marketTestSubtitle').textContent = `正在${testInfo.name}，花费 ¥${testInfo.cost.toLocaleString()}...`;
+  
+  // 生成测试步骤
+  const steps = [
+    {icon: "📡", text: "数据采集", status: "等待中" },
+    {icon: "🔄", text: "数据清洗", status: "等待中" },
+    {icon: "📊", text: "模型分析", status: "等待中" },
+    {icon: "📈", text: "生成报告", status: "等待中" },
+    {icon: "✅", text: "完成验证", status: "等待中" }
+  ];
+  
+  document.getElementById('marketTestSteps').innerHTML = steps.map((s, i) => `
+    <div class="market-test-step" id="marketTestStep${i}">
+      <div class="market-test-step-icon">${s.icon}</div>
+      <div class="market-test-step-text">${s.text}</div>
+      <div class="market-test-step-status" id="marketTestStatus${i}">${s.status}</div>
+        </div>
+  `).join('');
+  
+  // 隐藏结果区域
+  document.getElementById('marketTestResult').classList.remove('show');
+  
+  // 开始动画
+  let progress = 0;
+  const progressBar = document.getElementById('marketTestProgressBar');
+  
+  const testInterval = setInterval(() => {
+    progress += 1;
+    progressBar.style.width = progress + '%';
+    
+    // 更新步骤状态
+    for (let i = 0; i < steps.length; i++) {
+      let stepEl = document.getElementById(`marketTestStep${i}`);
+      let statusEl = document.getElementById(`marketTestStatus${i}`);
+      
+      let threshold = (i + 1) * 100 / steps.length;
+      
+      if (progress >= threshold && !stepEl.classList.contains('done')) {
+        stepEl.classList.add('done');
+        statusEl.textContent = '✅ 完成';
+        
+        if (i < steps.length - 1) {
+          document.getElementById(`marketTestStep${i + 1}`).classList.add('active');
+        }
+      }
+    }
+    
+    // 完成后生成结果
+    if (progress >= 100) {
+      clearInterval(testInterval);
+      setTimeout(() => {
+        generateMarketTestResult(testType, testInfo);
+      }, 500);
+    }
+  }, 30);
+}
+
+function generateMarketTestResult(testType, testInfo) {
+  let result;
+  
+  if (testType === 'audience') {
+    result = {
+      testType: '用户画像测试',
+      score: 60 + Math.random() * 30 + (project ? project.quality : 5) * 2,
+      insights: [`目标用户年龄集中在${18 + Math.floor(Math.random() * 15)}-${25 + Math.floor(Math.random() * 20)}岁`, `${Math.random() > 0.5 ? '男性' : '女性'}用户占比约${Math.floor(50 + Math.random() * 20)}%`],
+      recommendations: ['建议加强社交功能以提高用户粘性', '可考虑增加每日任务系统']
+    };
+  } else if (testType === 'competitor') {
+    result = {
+      testType: '竞品分析',
+      score: 70 + Math.random() * 20,
+      insights: ['竞品A：评分4.5，下载量100万+', '竞品B：评分4.3，下载量50万+'],
+      recommendations: ['竞品普遍重视社交系统，建议跟进', '差异化可在美术风格或玩法创新上突破']
+    };
+  } else if (testType === 'trend') {
+    result = {
+      testType: '市场趋势分析',
+      score: 65 + Math.random() * 25,
+      insights: ['当前市场偏好轻度化、碎片化游戏体验', '二次元风格持续受欢迎'],
+      recommendations: ['可考虑加入放置元素降低操作门槛', '美术风格可尝试二次元方向']
+    };
+  } else if (testType === 'pricing') {
+    result = {
+      testType: '定价策略测试',
+      score: 55 + Math.random() * 30 + teamMorale[2] * 0.2,
+      insights: [`用户对¥${Math.floor(6 + Math.random() * 18)}的定价接受度最高`, `月卡定价¥${Math.floor(25 + Math.random() * 15)}性价比感知最强`],
+      recommendations: ['建议推出阶梯式定价策略', '可设计限时优惠提高转化']
+    };
+  }
+  
+  marketTests.push(result);
+  addLog(`完成${result.testType}，花费¥${testInfo.cost.toLocaleString()}，得分：${result.score.toFixed(2)}`);
+  
+  // 显示结果
+  showMarketTestResult(result, testInfo);
+  render();
+}
+
+function showMarketTestResult(result, testInfo) {
+  document.getElementById('marketTestResult').classList.add('show');
+  
+  document.getElementById('marketTestResultGrid').innerHTML = `
+    <div class="market-test-result-item">
+      <div class="market-test-result-label">测试得分</div>
+      <div class="market-test-result-value">${result.score.toFixed(1)}</div>
+    </div>
+    <div class="market-test-result-item">
+      <div class="market-test-result-label">花费成本</div>
+      <div class="market-test-result-value" style="color:#fbbf24">¥${testInfo.cost.toLocaleString()}</div>
+    </div>
+  `;
+  
+  document.getElementById('marketTestInsights').innerHTML = `
+    <div style="font-size:13px;color:#94a3b8;margin-bottom:8px;">💡 关键洞察</div>
+    ${result.insights.map(i => `<div style="font-size:13px;color:#e2e8f0;margin-bottom:4px;">• ${i}</div>`).join('')}
+    <div style="font-size:13px;color:#fbbf24;margin:12px 0 8px;">📌 屺议方向</div>
+    ${result.recommendations.map(r => `<div style="font-size:13px;color:#86efac;margin-bottom:4px;">• ${r}</div>`).join('')}
+  `;
+}
+function closeMarketTest() {
+  document.getElementById('marketTestMask').classList.remove('show');
+}
+
+// ====== HR系统功能 ======
+
+// 初始化HR部门
+function initHRDepartment() {
+  if (hrDepartment) return;
+  
+  // 创建HRBP
+  let hrbpNames = ["张伟", "李娜", "王芳", "刘洋", "陈静"];
+  let hrbpName = hrbpNames[Math.floor(Math.random() * hrbpNames.length)];
+  
+  hrDepartment = {
+    hrbp: {
+      name: hrbpName,
+      level: "A",
+      ability: 1.2,
+      avatar: "👩‍💼",
+      salary: 25000
+    },
+    hrs: [
+      {
+        name: getUniqueStaffName(),
+        level: "B",
+        ability: 1.0,
+        avatar: "👨‍💼",
+        salary: 12000
+      },
+      {
+        name: getUniqueStaffName(),
+        level: "B", 
+        ability: 1.0,
+        avatar: "👩‍💼",
+        salary: 12000
+      }
+    ]
+  };
+  
+  addLog(`👥 HR部门成立：HRBP ${hrbp.name} 到任，配置2名HR专员`);
+}
+
+// 根据人事领导建立HR部门（游戏开始时调用）
+function initHRDepartmentFromLeader(hrLeader) {
+  if (hrDepartment) return;
+  
+  // 人事领导成为HRBP
+  hrDepartment = {
+    hrbp: {
+      name: hrLeader.name,
+      level: hrLeader.level,
+      ability: hrLeader.ability,
+      avatar: "👔",
+      salary: hrLeader.level === 'S' ? 35000 : hrLeader.level === 'A' ? 25000 : hrLeader.level === 'B' ? 18000 : 12000,
+      leaderObj: hrLeader
+    },
+    hrs: [
+      {
+        name: getUniqueStaffName(),
+        level: "B",
+        ability: 1.0,
+        avatar: "👨‍💼",
+        salary: 12000
+      },
+      {
+        name: getUniqueStaffName(),
+        level: "B", 
+        ability: 1.0,
+        avatar: "👩‍💼",
+        salary: 12000
+      }
+    ]
+  };
+  
+  addLog(`👥 HR部门成立：人事总监 ${hrLeader.name}（${hrLeader.level}级）到任，配置2名HR专员`);
+}
+
+// HR半月报告 - 检测离职风险
+function generateHRReport() {
+  if (!hrDepartment) {
+    alert("请先建立HR部门！");
+    return;
+  }
+  
+  let currentWeek = history.length;
+  let currentBiweek = Math.floor(currentWeek / 2);
+  
+  // 检查是否已经在这个半月报告过
+  if (lastHRReportWeek === currentBiweek) {
+    alert("本半月已生成过HR报告！");
+    return;
+  }
+  
+  lastHRReportWeek = currentBiweek;
+  
+  // 分析所有员工
+  pendingResignations = [];
+  let riskEmployees = [];
+  
+  for (let i = 0; i < 4; i++) { // 只检查前4个团队（不含HR自己）
+    for (let j = 0; j < teams[i].length; j++) {
+      let staff = teams[i][j];
+      let risk = calculateResignRisk(staff, i);
+      
+      if (risk.level !== 'low') {
+        riskEmployees.push({
+          teamIdx: i,
+          staffIdx: j,
+          staff: staff,
+          risk: risk
+        });
+      }
+    }
+  }
+  
+  // 按风险排序
+  riskEmployees.sort((a, b) => b.risk.score - a.risk.score);
+  
+  // 生成报告
+  let report = {
+    week: currentWeek,
+    riskCount: riskEmployees.length,
+    highRisk: riskEmployees.filter(e => e.risk.level === 'high').length,
+    mediumRisk: riskEmployees.filter(e => e.risk.level === 'medium').length,
+    employees: riskEmployees.slice(0, 10) // 最多显示10个
+  };
+  
+  hrReports.push(report);
+  
+  // 显示报告弹窗
+  showHRReportModal(report);
+}
+
+// 计算离职风险
+function calculateResignRisk(staff, teamIdx) {
+  let score = 0;
+  let reasons = [];
+  
+  // 忠诚度因素
+  if (staff.loyalty < 40) {
+    score += 40;
+    reasons.push("忠诚度过低");
+  } else if (staff.loyalty < 60) {
+    score += 25;
+    reasons.push("忠诚度偏低");
+  } else if (staff.loyalty < 70) {
+    score += 10;
+    reasons.push("忠诚度略低");
+  }
+  
+  // 工作强度因素
+  let sat = calcStaffSaturation(staff);
+  if (sat > 150) {
+    score += 30;
+    reasons.push("工作严重超负荷");
+  } else if (sat > 120) {
+    score += 15;
+    reasons.push("工作强度偏高");
+  }
+  
+  // 性格因素
+  if (staff.personality) {
+    if (staff.personality.name === "野心勃勃" && staff.level === "C") {
+      score += 15;
+      reasons.push("对现状不满");
+    }
+    if (staff.personality.name === "敏感脆弱") {
+      score += 10;
+      reasons.push("心理承受力较弱");
+    }
+  }
+  
+  // 工作时长
+  if (staff.workMonths > 4 && staff.level === "C") {
+    score += 10;
+    reasons.push("长期未晋升");
+  }
+  
+  // 团队士气
+  if (teamMorale[teamIdx] < 40) {
+    score += 15;
+    reasons.push("团队士气低落");
+  }
+  
+  let level = 'low';
+  if (score >= 50) level = 'high';
+  else if (score >= 25) level = 'medium';
+  
+  return { score, level, reasons };
+}
+
+// 显示HR报告弹窗
+function showHRReportModal(report) {
+  document.getElementById('modalMask').classList.add('show');
+  document.getElementById('modalBox').className = 'modal-box';
+  
+  let riskIcon = report.highRisk > 0 ? '🚨' : report.mediumRisk > 0 ? '⚠️' : '✅';
+  let riskColor = report.highRisk > 0 ? '#ef4444' : report.mediumRisk > 0 ? '#f59e0b' : '#10b981';
+  
+  document.getElementById('modalBox').innerHTML = `
+    <div style="background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%); border-radius: 16px; padding: 24px;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div style="font-size: 48px; margin-bottom: 12px;">${riskIcon}</div>
+        <div style="font-size: 20px; font-weight: 700; color: white;">HR半月报告</div>
+        <div style="font-size: 14px; color: #94a3b8;">第 ${report.week + 1} 周</div>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px;">
+        <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; text-align: center;">
+          <div style="font-size: 24px; font-weight: 700; color: #ef4444;">${report.highRisk}</div>
+          <div style="font-size: 12px; color: #94a3b8;">高风险</div>
+        </div>
+        <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; text-align: center;">
+          <div style="font-size: 24px; font-weight: 700; color: #f59e0b;">${report.mediumRisk}</div>
+          <div style="font-size: 12px; color: #94a3b8;">中风险</div>
+        </div>
+        <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; text-align: center;">
+          <div style="font-size: 24px; font-weight: 700; color: #4ade80;">${report.riskCount - report.highRisk - report.mediumRisk}</div>
+          <div style="font-size: 12px; color: #94a3b8;">低风险</div>
+        </div>
+      </div>
+      
+      ${report.employees.length > 0 ? `
+        <div style="font-size: 14px; font-weight: 600; color: #fbbf24; margin-bottom: 12px;">📋 离职风险员工列表</div>
+        <div style="max-height: 250px; overflow-y: auto;">
+          ${report.employees.map(e => `
+            <div class="resign-report-item" style="margin-bottom: 8px;">
+              <div>
+                <span style="font-size: 18px;">${e.staff.avatar}</span>
+                <span style="font-weight: 600; color: #1f2937;">${e.staff.name}</span>
+                <span style="font-size: 12px; color: #6b7280;">(${TEAMS[e.teamIdx].name})</span>
+                <div style="font-size: 12px; color: #6b7280;">${e.risk.reasons.join('、')}</div>
+              </div>
+              <span class="resign-risk-badge resign-risk-${e.risk.level}">${e.risk.level === 'high' ? '高风险' : e.risk.level === 'medium' ? '中风险' : '低风险'}</span>
+            </div>
+          `).join('')}
+        </div>
+      ` : '<div style="text-align: center; color: #10b981; padding: 20px;">✅ 目前没有明显的离职风险</div>'}
+      
+      <div style="margin-top: 16px; display: flex; gap: 10px;">
+        <button class="btn outline" onclick="closeModal()" style="flex: 1;">关闭</button>
+        ${report.employees.length > 0 ? `<button class="btn primary" onclick="showTalkModalFromReport(0)" style="flex: 1;">谈话干预</button>` : ''}
+      </div>
+    </div>
+  `;
+  
+  // 保存当前报告员工列表供谈话使用
+  window.currentHRReportEmployees = report.employees;
+}
+
+// 从报告发起谈话
+function showTalkModalFromReport(idx) {
+  if (!window.currentHRReportEmployees || idx >= window.currentHRReportEmployees.length) {
+    closeModal();
+    return;
+  }
+  
+  let emp = window.currentHRReportEmployees[idx];
+  showTalkModal(emp.teamIdx, emp.staffIdx, idx);
+}
+
+// ====== 员工谈话系统 ======
+
+function showTalkModal(teamIdx, staffIdx, reportIdx = -1) {
+  let staff = teams[teamIdx][staffIdx];
+  if (!staff) return;
+  
+  let currentWeek = history.length;
+  
+  // 检查冷却（每个员工每两周只能谈话一次）
+  if (talkCooldowns[staff.id] && currentWeek - talkCooldowns[staff.id] < 2) {
+    alert(`该员工刚刚谈过话，需要等待冷却！`);
+    return;
+  }
+  
+  // 生成员工反馈
+  let feedback = generateStaffFeedback(staff, teamIdx);
+  
+  document.getElementById('modalMask').classList.add('show');
+  document.getElementById('modalBox').className = 'modal-box';
+  
+  document.getElementById('modalBox').innerHTML = `
+    <div class="talk-modal">
+      <div class="talk-header">
+        <div class="talk-avatar">${staff.avatar}</div>
+        <div class="talk-name">${staff.name}</div>
+        <div style="font-size: 14px; color: #94a3b8;">${TEAMS[teamIdx].name}部门 · ${staff.level}级员工</div>
+      </div>
+      
+      <div class="talk-mood">
+        <div class="talk-mood-title">💭 员工当前心态</div>
+        <div class="talk-mood-content">${feedback.mood}</div>
+      </div>
+      
+      ${feedback.suggestion ? `
+        <div class="talk-feedback">
+          <div class="talk-feedback-title">💡 员工建议</div>
+          <div class="talk-feedback-content">"${feedback.suggestion}"</div>
+        </div>
+      ` : ''}
+      
+      <div style="font-size: 13px; color: #94a3b8; margin: 16px 0;">当前忠诚度: <span style="color: ${staff.loyalty < 60 ? '#ef4444' : staff.loyalty < 80 ? '#f59e0b' : '#10b981'}">${staff.loyalty}%</span></div>
+      
+      <div class="talk-options">
+        <button class="talk-btn talk-btn-comfort" onclick="handleTalkChoice('comfort', ${teamIdx}, ${staffIdx}, ${reportIdx})">
+          🤗 心态安抚
+          <div class="talk-btn-desc">耐心倾听，给予情感支持，忠诚度+8~15</div>
+        </button>
+        ${feedback.suggestion ? `
+          <button class="talk-btn talk-btn-accept" onclick="handleTalkChoice('accept', ${teamIdx}, ${staffIdx}, ${reportIdx})">
+            ✅ 接受建议
+            <div class="talk-btn-desc">采纳员工意见并承诺改进，忠诚度+12~20</div>
+          </button>
+          <button class="talk-btn talk-btn-ignore" onclick="handleTalkChoice('ignore', ${teamIdx}, ${staffIdx}, ${reportIdx})">
+            ❌ 忽视建议
+            <div class="talk-btn-desc">委婉拒绝或转移话题，忠诚度-3~8</div>
+          </button>
+        ` : ''}
+      </div>
+    </div>
+  `;
+}
+
+// 生成员工反馈
+function generateStaffFeedback(staff, teamIdx) {
+  let moods = [];
+  let suggestions = [];
+  
+  // 基于忠诚度的心态
+  if (staff.loyalty < 50) {
+    moods.push("最近感觉压力很大，有点喘不过气来...");
+    moods.push("我觉得自己可能不太适合这份工作...");
+    moods.push("最近经常加班，感觉身心俱疲...");
+  } else if (staff.loyalty < 70) {
+    moods.push("工作还行吧，就是有点累。");
+    moods.push("希望能有更多的发展空间。");
+    moods.push("团队的氛围挺好的，就是项目进度有点紧。");
+  } else {
+    moods.push("我对目前的工作还是比较满意的！");
+    moods.push("团队氛围不错，领导也很关心我们。");
+    moods.push("每天都在进步，感觉很充实！");
+  }
+  
+  // 基于工作强度的反馈
+  let sat = calcStaffSaturation(staff);
+  if (sat > 130) {
+    moods.push("工作量真的太大了，希望能调整一下...");
+    suggestions.push("希望能适当减少一些工作量，我可以保证质量。");
+    suggestions.push("建议团队再招几个人分担工作。");
+  } else if (sat > 110) {
+    moods.push("工作比较忙，但还能应付。");
+  }
+  
+  // 基于性格的建议
+  if (staff.personality) {
+    if (staff.personality.name === "野心勃勃") {
+      suggestions.push("我希望能有晋升的机会，不想一直在基层。");
+      suggestions.push("公司的晋升机制希望能更透明一些。");
+    } else if (staff.personality.name === "积极进取") {
+      suggestions.push("希望能参与更有挑战性的项目。");
+      suggestions.push("建议多组织一些技术分享会。");
+    } else if (staff.personality.name === "敏感脆弱") {
+      suggestions.push("希望能得到更多的认可和鼓励。");
+      suggestions.push("批评的时候能不能温和一点...");
+    }
+  }
+  
+  // 基于等级的建议
+  if (staff.level === "C" && staff.workMonths > 3) {
+    suggestions.push("我在公司工作一段时间了，希望能有机会晋升。");
+    suggestions.push("感觉自己有能力承担更多责任。");
+  }
+  
+  // 基于团队士气的反馈
+  if (teamMorale[teamIdx] < 50) {
+    suggestions.push("团队最近氛围不太好，希望领导能关注一下。");
+    moods.push("团队最近有点低气压...");
+  }
+  
+  let mood = moods[Math.floor(Math.random() * moods.length)];
+  let suggestion = suggestions.length > 0 && Math.random() > 0.3 ? suggestions[Math.floor(Math.random() * suggestions.length)] : null;
+  
+  return { mood, suggestion };
+}
+
+// 处理谈话选择
+function handleTalkChoice(choice, teamIdx, staffIdx, reportIdx) {
+  let staff = teams[teamIdx][staffIdx];
+  if (!staff) {
+    closeModal();
+    return;
+  }
+  
+  let loyaltyChange = 0;
+  let message = "";
+  
+  switch(choice) {
+    case 'comfort':
+      loyaltyChange = 8 + Math.floor(Math.random() * 8);
+      message = `与${staff.name}进行了深入谈话，给予情感支持`;
+      staff.loyalty = Math.min(100, staff.loyalty + loyaltyChange);
+      break;
+      
+    case 'accept':
+      loyaltyChange = 12 + Math.floor(Math.random() * 9);
+      message = `接受了${staff.name}的建议，承诺改进`;
+      staff.loyalty = Math.min(100, staff.loyalty + loyaltyChange);
+      // 接受建议有小概率提升士气
+      if (Math.random() > 0.6) {
+        teamMorale[teamIdx] = Math.min(100, teamMorale[teamIdx] + 3);
+      }
+      break;
+      
+    case 'ignore':
+      loyaltyChange = -3 + Math.floor(Math.random() * 11); // -3到+8
+      if (loyaltyChange > 0) {
+        message = `委婉地向${staff.name}解释了情况`;
+      } else {
+        message = `忽视了${staff.name}的建议，员工有些失望`;
+      }
+      staff.loyalty = Math.max(20, staff.loyalty + loyaltyChange);
+      break;
+  }
+  
+  // 记录谈话冷却
+  talkCooldowns[staff.id] = history.length;
+  
+  addLog(`💬 ${message}，忠诚度${loyaltyChange >= 0 ? '+' : ''}${loyaltyChange}`);
+  
+  closeModal();
+  
+  // 如果是从HR报告进入的，继续下一个员工
+  if (reportIdx >= 0 && window.currentHRReportEmployees && reportIdx < window.currentHRReportEmployees.length - 1) {
+    setTimeout(() => {
+      showTalkModalFromReport(reportIdx + 1);
+    }, 300);
+  }
+  
+  render();
+}
+
+// 员工谈话快捷入口
+function talkToStaff(teamIdx, staffIdx) {
+  showTalkModal(teamIdx, staffIdx, -1);
+}
+
+// ====== PM系统功能 ======
+
+// 根据PM领导建立PM部门（游戏开始时调用）
+function initPMDepartmentFromLeader(pmLeader) {
+  if (pmDepartment) return;
+  
+  pmDepartment = {
+    leader: {
+      name: pmLeader.name,
+      level: pmLeader.level,
+      ability: pmLeader.ability,
+      avatar: "👔",
+      salary: pmLeader.level === 'S' ? 40000 : pmLeader.level === 'A' ? 30000 : pmLeader.level === 'B' ? 22000 : 15000,
+      leaderObj: pmLeader
+    },
+    pms: [
+      {
+        name: getUniqueStaffName(),
+        level: "B",
+        ability: 1.0,
+        avatar: "👨‍💼",
+        salary: 15000
+      },
+      {
+        name: getUniqueStaffName(),
+        level: "B", 
+        ability: 1.0,
+        avatar: "👩‍💼",
+        salary: 15000
+      }
+    ]
+  };
+  
+  addLog(`📋 PM部门成立：项目总监 ${pmLeader.name}（${pmLeader.level}级）到任，配置2名PM专员`);
+}
+
+// PM半月报告 - 分析部门协调和工作压力
+function generatePMReport() {
+  if (!pmDepartment) {
+    alert("请先建立PM部门！");
+    return;
+  }
+  
+  let currentWeek = history.length;
+  let currentBiweek = Math.floor(currentWeek / 2);
+  
+  // 检查是否已经在这个半月报告过
+  if (lastPMReportWeek === currentBiweek) {
+    alert("本半月已生成过PM报告！");
+    return;
+  }
+  
+  lastPMReportWeek = currentBiweek;
+  
+  // 分析各部门工作量和压力
+  let deptAnalysis = [];
+  let coordinationIssues = [];
+  
+  for (let i = 0; i < 4; i++) {
+    let team = teams[i];
+    let totalWorkload = team.reduce((sum, s) => sum + s.workload, 0);
+    let avgWorkload = team.length > 0 ? totalWorkload / team.length : 0;
+    let saturation = team.length > 0 ? totalWorkload / TEAMS[i].base : 0;
+    let morale = teamMorale[i];
+    let efficiency = teamOutputs && teamOutputs[i] ? teamOutputs[i].efficiency : 0.5;
+    
+    // 判断压力状态
+    let pressureStatus = 'normal';
+    let pressureScore = 0;
+    
+    if (avgWorkload > 1.3) {
+      pressureStatus = 'high';
+      pressureScore = 30;
+    } else if (avgWorkload > 1.1) {
+      pressureStatus = 'medium';
+      pressureScore = 15;
+    }
+    
+    if (morale < 50) pressureScore += 20;
+    else if (morale < 70) pressureScore += 10;
+    
+    if (efficiency < 0.6) pressureScore += 15;
+    else if (efficiency < 0.8) pressureScore += 8;
+    
+    deptAnalysis.push({
+      teamIdx: i,
+      name: TEAMS[i].name,
+      icon: TEAMS[i].icon,
+      avgWorkload: avgWorkload,
+      saturation: saturation,
+      morale: morale,
+      efficiency: efficiency,
+      pressureStatus: pressureStatus,
+      pressureScore: pressureScore,
+      staffCount: team.length,
+      baseCount: TEAMS[i].base
+    });
+  }
+  
+  // 检测部门间协调问题
+  // 1. 工作量不平衡
+  let workloads = deptAnalysis.map(d => d.avgWorkload);
+  let maxWorkload = Math.max(...workloads);
+  let minWorkload = Math.min(...workloads);
+  
+  if (maxWorkload - minWorkload > 0.4) {
+    let highTeam = deptAnalysis.find(d => d.avgWorkload === maxWorkload);
+    let lowTeam = deptAnalysis.find(d => d.avgWorkload === minWorkload);
+    coordinationIssues.push({
+      type: 'workload_imbalance',
+      severity: 'high',
+      title: '工作量分配不均',
+      description: `${highTeam.name}部门平均工作量(${highTeam.avgWorkload.toFixed(2)})远高于${lowTeam.name}部门(${lowTeam.avgWorkload.toFixed(2)})`,
+      suggestion: `建议调整${highTeam.name}部门工作量或向其调配人手`,
+      affectedTeams: [highTeam.teamIdx, lowTeam.teamIdx]
+    });
+  }
+  
+  // 2. 士气差异过大
+  let morales = deptAnalysis.map(d => d.morale);
+  let maxMorale = Math.max(...morales);
+  let minMorale = Math.min(...morales);
+  
+  if (maxMorale - minMorale > 30) {
+    let lowTeam = deptAnalysis.find(d => d.morale === minMorale);
+    coordinationIssues.push({
+      type: 'morale_gap',
+      severity: 'medium',
+      title: '部门士气差异明显',
+      description: `${lowTeam.name}部门士气(${lowTeam.morale.toFixed(0)})明显低于其他部门`,
+      suggestion: `建议对${lowTeam.name}部门进行团队建设或调整管理方式`,
+      affectedTeams: [lowTeam.teamIdx]
+    });
+  }
+  
+  // 3. 效率瓶颈
+  let lowEffTeams = deptAnalysis.filter(d => d.efficiency < 0.6);
+  if (lowEffTeams.length > 0) {
+    coordinationIssues.push({
+      type: 'efficiency_bottleneck',
+      severity: 'high',
+      title: '部门效率瓶颈',
+      description: `${lowEffTeams.map(t => t.name).join('、')}部门效率低于60%`,
+      suggestion: '建议检查这些部门的人员配置和工作流程',
+      affectedTeams: lowEffTeams.map(t => t.teamIdx)
+    });
+  }
+  
+  // 4. 人手不足预警
+  let understaffed = deptAnalysis.filter(d => d.staffCount < d.baseCount * 0.8);
+  if (understaffed.length > 0) {
+    coordinationIssues.push({
+      type: 'understaffed',
+      severity: 'medium',
+      title: '人手不足预警',
+      description: `${understaffed.map(t => t.name).join('、')}部门人员不足基准的80%`,
+      suggestion: '建议优先招聘补充人手',
+      affectedTeams: understaffed.map(t => t.teamIdx)
+    });
+  }
+  
+  // 5. 部门配合效率问题（基于历史数据模拟）
+  if (teamOutputs) {
+    let totalEff = deptAnalysis.reduce((sum, d) => sum + d.efficiency, 0);
+    let avgEff = totalEff / 4;
+    let variance = deptAnalysis.reduce((sum, d) => sum + Math.pow(d.efficiency - avgEff, 2), 0) / 4;
+    
+    if (variance > 0.05) {
+      coordinationIssues.push({
+        type: 'coordination_friction',
+        severity: 'medium',
+        title: '部门配合存在摩擦',
+        description: '各部门效率差异较大，可能存在协作不畅',
+        suggestion: '建议召开跨部门协调会议，明确职责分工',
+        affectedTeams: [0, 1, 2, 3]
+      });
+    }
+  }
+  
+  // 生成报告
+  let report = {
+    week: currentWeek,
+    deptAnalysis: deptAnalysis,
+    coordinationIssues: coordinationIssues,
+    issueCount: coordinationIssues.length,
+    highSeverity: coordinationIssues.filter(i => i.severity === 'high').length,
+    mediumSeverity: coordinationIssues.filter(i => i.severity === 'medium').length
+  };
+  
+  pmReports.push(report);
+  
+  // 显示报告弹窗
+  showPMReportModal(report);
+}
+
+// 显示PM报告弹窗
+function showPMReportModal(report) {
+  document.getElementById('modalMask').classList.add('show');
+  document.getElementById('modalBox').className = 'modal-box';
+  
+  let riskIcon = report.highSeverity > 0 ? '🚨' : report.mediumSeverity > 0 ? '⚠️' : '✅';
+  
+  document.getElementById('modalBox').innerHTML = `
+    <div style="background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%); border-radius: 16px; padding: 24px; max-width: 600px;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div style="font-size: 48px; margin-bottom: 12px;">${riskIcon}</div>
+        <div style="font-size: 20px; font-weight: 700; color: white;">PM项目协调报告</div>
+        <div style="font-size: 14px; color: #94a3b8;">第 ${report.week + 1} 周</div>
+      </div>
+      
+      <!-- 部门分析 -->
+      <div style="background: rgba(255,255,255,0.1); border-radius: 10px; padding: 14px; margin-bottom: 16px;">
+        <div style="font-size: 14px; font-weight: 600; color: #fbbf24; margin-bottom: 12px;">📊 部门工作量分析</div>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+          ${report.deptAnalysis.map(d => `
+            <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="font-size: 14px; color: #e2e8f0;">${d.icon} ${d.name}</span>
+                <span style="font-size: 11px; padding: 2px 6px; border-radius: 4px; background: ${d.pressureStatus === 'high' ? '#ef4444' : d.pressureStatus === 'medium' ? '#f59e0b' : '#10b981'}; color: white;">
+                  ${d.pressureStatus === 'high' ? '高压' : d.pressureStatus === 'medium' ? '中等' : '正常'}
+                </span>
+              </div>
+              <div style="font-size: 12px; color: #94a3b8;">
+                工作量: <span style="color: ${d.avgWorkload > 1.2 ? '#f87171' : '#e2e8f0'}">${(d.avgWorkload * 100).toFixed(0)}%</span> |
+                士气: <span style="color: ${d.morale < 50 ? '#f87171' : '#e2e8f0'}">${d.morale.toFixed(0)}</span> |
+                效率: <span style="color: ${d.efficiency < 0.6 ? '#f87171' : '#4ade80'}">${(d.efficiency * 100).toFixed(0)}%</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      
+      <!-- 协调问题 -->
+      ${report.coordinationIssues.length > 0 ? `
+        <div style="background: rgba(239, 68, 68, 0.1); border-radius: 10px; padding: 14px; margin-bottom: 16px;">
+          <div style="font-size: 14px; font-weight: 600; color: #f87171; margin-bottom: 12px;">⚠️ 发现协调问题 (${report.coordinationIssues.length}项)</div>
+          ${report.coordinationIssues.map((issue, idx) => `
+            <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; margin-bottom: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span style="font-size: 13px; font-weight: 600; color: #e2e8f0;">${issue.title}</span>
+                <span style="font-size: 11px; padding: 2px 6px; border-radius: 4px; background: ${issue.severity === 'high' ? '#ef4444' : '#f59e0b'}; color: white;">
+                  ${issue.severity === 'high' ? '严重' : '中等'}
+                </span>
+              </div>
+              <div style="font-size: 12px; color: #94a3b8; margin-bottom: 6px;">${issue.description}</div>
+              <div style="font-size: 12px; color: #4ade80;">💡 ${issue.suggestion}</div>
+            </div>
+          `).join('')}
+        </div>
+      ` : '<div style="text-align: center; color: #10b981; padding: 16px; background: rgba(16, 185, 129, 0.1); border-radius: 10px; margin-bottom: 16px;">✅ 部门协调良好，暂无明显问题</div>'}
+      
+      <!-- 决策选项 -->
+      ${report.coordinationIssues.length > 0 ? `
+        <div style="font-size: 14px; font-weight: 600; color: #fbbf24; margin-bottom: 12px;">🎯 策略决策</div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          ${report.coordinationIssues.map((issue, idx) => `
+            <button onclick="handlePMDecision(${idx}, 'resolve')" style="padding: 12px; border-radius: 8px; border: none; background: linear-gradient(135deg, #10b981 0%, #34d399 100%); color: white; font-weight: 600; cursor: pointer; text-align: left;">
+              🔧 解决「${issue.title}」<br>
+              <span style="font-size: 11px; opacity: 0.8;">${issue.suggestion}</span>
+            </button>
+          `).join('')}
+          <button onclick="handlePMDecision(-1, 'skip')" style="padding: 12px; border-radius: 8px; border: 1px solid #6b7280; background: transparent; color: #94a3b8; cursor: pointer;">
+            暂不处理
+          </button>
+        </div>
+      ` : `
+        <button onclick="closeModal()" style="width: 100%; padding: 12px; border-radius: 8px; border: none; background: linear-gradient(135deg, #10b981 0%, #34d399 100%); color: white; font-weight: 600; cursor: pointer;">
+          确认
+        </button>
+      `}
+    </div>
+  `;
+  
+  // 保存当前报告供决策使用
+  window.currentPMReport = report;
+}
+
+// 处理PM决策
+function handlePMDecision(issueIdx, action) {
+  if (!window.currentPMReport) {
+    closeModal();
+    return;
+  }
+  
+  if (action === 'skip') {
+    addLog(`📋 PM报告：暂不处理协调问题`);
+    closeModal();
+    render();
+    return;
+  }
+  
+  let issue = window.currentPMReport.coordinationIssues[issueIdx];
+  if (!issue) {
+    closeModal();
+    return;
+  }
+  
+  let bonusGain = 0;
+  let message = '';
+  
+  // 根据问题类型给予不同的增益
+  switch (issue.type) {
+    case 'workload_imbalance':
+      bonusGain = 3 + Math.floor(Math.random() * 3);
+      pmBonuses.efficiency += bonusGain;
+      // 自动调整工作量
+      for (let teamIdx of issue.affectedTeams) {
+        teams[teamIdx].forEach(s => {
+          if (s.workload > 1.2) s.workload = Math.max(0.8, s.workload - 0.1);
+        });
+      }
+      message = `平衡了${issue.affectedTeams.map(i => TEAMS[i].name).join('、')}部门工作量`;
+      break;
+      
+    case 'morale_gap':
+      bonusGain = 2 + Math.floor(Math.random() * 2);
+      pmBonuses.coordination += bonusGain;
+      // 提升低士气部门士气
+      for (let teamIdx of issue.affectedTeams) {
+        teamMorale[teamIdx] = Math.min(100, teamMorale[teamIdx] + 10);
+      }
+      message = `改善了${issue.affectedTeams.map(i => TEAMS[i].name).join('、')}部门士气`;
+      break;
+      
+    case 'efficiency_bottleneck':
+      bonusGain = 4 + Math.floor(Math.random() * 3);
+      pmBonuses.efficiency += bonusGain;
+      // 提升效率低下部门的士气
+      for (let teamIdx of issue.affectedTeams) {
+        teamMorale[teamIdx] = Math.min(100, teamMorale[teamIdx] + 5);
+      }
+      message = `优化了${issue.affectedTeams.map(i => TEAMS[i].name).join('、')}部门工作流程`;
+      break;
+      
+    case 'understaffed':
+      bonusGain = 2 + Math.floor(Math.random() * 2);
+      pmBonuses.coordination += bonusGain;
+      message = `已记录人手需求，建议尽快招聘`;
+      break;
+      
+    case 'coordination_friction':
+      bonusGain = 3 + Math.floor(Math.random() * 3);
+      pmBonuses.coordination += bonusGain;
+      pmBonuses.efficiency += 2;
+      // 全部门士气微升
+      for (let i = 0; i < 4; i++) {
+        teamMorale[i] = Math.min(100, teamMorale[i] + 3);
+      }
+      message = `召开跨部门协调会议，改善了部门配合`;
+      break;
+      
+    default:
+      bonusGain = 2;
+      pmBonuses.efficiency += bonusGain;
+      message = `处理了${issue.title}`;
+  }
+  
+  // PM领导能力加成
+  if (pmDepartment && pmDepartment.leader) {
+    let leaderBonus = pmDepartment.leader.ability;
+    bonusGain = Math.floor(bonusGain * leaderBonus);
+  }
+  
+  addLog(`📋 PM决策：${message}，项目增益+${bonusGain}%`);
+  
+  closeModal();
+  render();
+}
+
+function setAdStrategy(strategy) { adStrategy = strategy; refreshAllMorale(); render(); }
+function toggleChannel(id) { let c = adChannels.find(c => c.id === id); if (c) { c.active = !c.active; render(); } }
+function setChannelBudget(id, value) { let c = adChannels.find(c => c.id === id); if (c) { c.budget = Math.max(0, parseInt(value) || 0); render(); } }
+
+function selectProject(idx) {
+  projectTypeIdx = idx;
+  project = { progress: 0, planProgress: 0, quality: 5.0 };
+  history = [];
+  diagnoseArr = [];
+  running = true;
+  teamOutputs = null;
+  addLog(`选择项目类型：${PROJECT_TYPES[idx].name}`);
+  document.getElementById("projectSelectCard").style.display = "none";
+  render();
+}
+
+function restart() {
+  money = INIT_MONEY;
+  teams = [[], [], [], [], [], []]; // 6个团队（美术、程序、发行、策划、人事、PM）
+  logTxt = "公司成立，启动资金500万，6个月内完成游戏Demo并达成各阶段目标！最终成绩取最后8周平均值！";
+  running = false;
+  project = null;
+  history = [];
+  diagnoseArr = [];
+  projectTypeIdx = 0;
+  teamMorale = [60, 60, 60, 60, 60, 60];
+  transferBudget = MONTH_BUDGET_TRANSFER;
+  recruitBudget = MONTH_BUDGET_RECRUIT;
+  leaderBudget = LEADER_SELECT_BUDGET;
+  leaders = [null, null, null, null, null, null];
+  leaderActionTimes = [1, 1, 1, 1, 1, 1];
+  leaderEncourageTimes = [1, 1, 1, 1, 1, 1];
+  leaderPressureFlag = [false, false, false, false, false, false];
+  leaderEncourageFlag = [false, false, false, false, false, false];
+  leaderSelecting = true;
+  leaderSelectIdx = 0;
+  staffNamesUsed = [];
+  adChannels = AD_CHANNELS.map(c => ({...c}));
+  adStrategy = 'balanced';
+  marketTests = [];
+  chartInstance = null;
+  weekResultData = null;
+  teamOutputs = null;
+  lastMonth = -1;
+  hasDoneMarketResearch = {audience:false, competitor:false, trend:false, pricing:false};
+  trainingBonus = [0, 0, 0, 0, 0, 0];
+  resignationQueue = [];
+  
+  // 市场测试月度限制
+  monthlyMarketTestsUsed = {audience:false, competitor:false, trend:false, pricing:false};
+  currentMonth = 0;
+  
+  // HR系统
+  hrDepartment = null;
+  hrReports = [];
+  pendingResignations = [];
+  lastHRReportWeek = -1;
+  
+  // PM系统
+  pmDepartment = null;
+  pmReports = [];
+  lastPMReportWeek = -1;
+  pmBonuses = { efficiency: 0, coordination: 0 };
+  pendingPMDecisions = [];
+  
+  // 员工谈话
+  talkCooldowns = {};
+  
+  showGuide('welcome');
+  render();
+}
+
+restart();
+</script>
+</body>
+</html>
